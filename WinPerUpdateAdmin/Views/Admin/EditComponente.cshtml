@@ -1,0 +1,129 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Detalles de la Componente</h1>
+            <ol class="breadcrumb autoscroll">
+                <li><a href="/Admin#/">Versiones</a></li>
+                <li><a href="/Admin#/EditVersion/{{idVersion}}">Version {{version.Release}}</a></li>
+                <li class="active">{{namecomponente}}</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row" ng-show="msgError != ''">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <strong>Error: </strong> {{msgError}}
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="alert alert-success" id="msgsuccess" tabindex="1" ng-show="msgSuccess != ''">
+                {{msgSuccess}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-toolbar hidden-xs">
+                <div class="btn-group" role="toolbar">
+                    <a ng-click="ShowConfirm()" data-toggle="modal" class="btn btn-danger">
+                        <span class="fa fa-fw fa-trash-o"></span> Eliminar Componente
+                    </a>
+                </div>
+            </div>
+
+            <div class="btn-toolbar visible-xs-block">
+                <div class="btn-group" role="toolbar">
+                    <div class="btn-group" role="group">
+                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                            <span class="fa fa-fw fa-binoculars"></span> Actions <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a ng-click="ShowConfirm()" data-toggle="modal">
+                                    <span class="text-danger"><span class="fa fa-fw fa-trash-o"></span> Eliminar Componente</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{titulo}}</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form name="frmMain" method="post" action="#" novalidate>
+                        <div class="form-group">
+                            <div class="input-group margin-bottom-sm">
+                                <span class="input-group-addon" title="Módulo"><i class="fa fa-tablet fa-fw"></i></span>
+                                <select class="form-control" ng-model="formData.modulo" ng-options="modulo.NomModulo as modulo.NomModulo for modulo in modulos | orderBy:NomModulo">
+                                    <option value="">Módulo</option> <!-- not selected / blank option -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group margin-bottom-sm">
+                                <span class="input-group-addon" title="Comentario"><i class="fa fa-comment-o fa-fw"></i></span>
+                                <textarea class="form-control" rows="5" name="comentario" placeholder="Comentario" ng-model="formData.comentario" ng-maxlength="2048" ng-model-options="{ updateOn: 'blur' }"></textarea>
+                            </div>
+                            <span class="error_ingreso" ng-show="frmMain.comentario.$error.maxlength">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo máximo no debe superar los 2048 carácteres
+                            </span>
+
+                        </div>
+
+                        <hr />
+
+                        <button type="button" class="btn btn-primary btn-block" ng-click="frmMain.$valid && SaveVersion(formData)" ng-disabled="!increate">
+                            <span class="fa fa-pencil-square-o" ng-show="increate"></span>
+                            <span class="fa fa-circle-o-notch fa-spin" ng-hide="increate"></span> {{labelcreate}}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info" ng-repeat="componente in componentes">
+                <div class="panel-heading">
+                    Versión: {{componente.Version}}
+                    Módulo: {{componente.Modulo}}
+                </div>
+                <div class="panel-body">
+                    {{componente.Comentario}}
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <div id="delete-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmar Eliminación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Confirma que desea eliminar el Componente ?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal" ng-click="Eliminar()">Confirmar</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

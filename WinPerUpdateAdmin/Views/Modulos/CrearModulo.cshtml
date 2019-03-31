@@ -1,0 +1,622 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Detalles Módulo</h1>
+            <ol class="breadcrumb autoscroll">
+                <li><a href="/Modulos#/">Módulos</a></li>
+                <li class="active">{{accion}} Módulo</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row" ng-show="msgError != ''">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <strong>Error: </strong> {{msgError}}
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-{{tipoalert}}"  id="tipoalert" tabindex="1" ng-show="tipoalert != ''">
+                <span class="fa fa-exclamation-triangle" ng-show="tipoalert == 'danger'"></span>
+                {{msgalert}}
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" ng-show="accion == 'Modificar'">
+        <div class="col-md-12">
+            <div class="btn-toolbar hidden-xs">
+                <div class="btn-group btn-group-sm" role="toolbar">
+                    <button class="btn btn-labeled btn-danger" data-target="#confelim-modal" data-toggle="modal" ng-hide="formData.estado == 'C'">
+                        <span class="fa fa-fw fa-ban"></span> Dejar No Vigente
+                    </button>
+                    <button class="btn btn-labeled btn-success" data-target="#confvigen-modal" data-toggle="modal" ng-hide="formData.estado == 'V'">
+                        <span class="fa fa-check-square-o"></span> Dejar Vigente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{accion}} Módulo
+                </div>
+                <div class="panel-body">
+                    <form name="frmModulo">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" title="Nombre del Módulo"><i class="fa fa-cube fa-fw"></i></span>
+                                        <input type="text" class="form-control" name="nombre" required="required" placeholder="Nombre del Modulo" ng-model="formData.nombre" />
+                                    </div>
+                                    <span class="error_ingreso" ng-show="frmModulo.nombre.$error.required && frmModulo.nombre.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" title="Directorio del Módulo"><i class="fa fa-file-o fa-fw"></i></span>
+                                        <input type="text" class="form-control" name="directorio" required="required" placeholder="Directorio del Módulo" ng-model="formData.directorio" disabled="disabled" />
+                                        <a href="" class="input-group-addon" ng-click="showMdlDirModulos()" title="Seleccionar Directorio">
+                                            <i class="fa fa-folder-open-o fa-fw"></i>
+                                        </a>
+                                    </div>
+                                    <span class="error_ingreso" ng-show="frmModulo.directorio.$error.required && frmModulo.directorio.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                                    </span>
+                                    <a href="" data-toggle="tooltip" title="Debe seleccionar con click izquierdo en la carpeta el directorio desde el cual se sincronizarán los componentes."><i class="fa fa-question-circle"></i></a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="input-group margin-bottom-sm">
+                                        <span class="input-group-addon" title="Suite"><i class="fa fa-comment-o fa-fw"></i></span>
+                                        <select class="form-control" name="suite" ng-model="formData.suite" required ng-options="suite.idSuite as suite.Nombre for suite in suites | orderBy:Nombre">
+                                            <option value="">Suite</option>
+                                        </select>
+                                    </div>
+                                    <span class="error_ingreso" ng-show="frmModulo.suite.$error.required && frmModulo.suite.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                                    </span>
+                                    <a href="" data-toggle="tooltip" title="Debe seleccionar la suite a la que corresponde el módulo."><i class="fa fa-question-circle"></i></a>
+
+                                </div>
+                        
+                            </div>
+                        
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="input-group margin-bottom-sm">
+                                        <span class="input-group-addon" title="Comentario"><i class="fa fa-comment-o fa-fw"></i></span>
+                                        <textarea class="form-control" rows="5" ng-model="formData.descripcion" placeholder="Descripción"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" ng-checked="accion != 'Modificar' ?? true" ng-model="formData.iscore" ng-true-value="true" ng-false-value="false">Marcar este módulo como parte de los módulos principales del sistema.</label>
+
+                                        </div>
+                                        <b>Si módulo es Ad-Hoc no debe presionar flag “Marca este módulo como parte de los módulos principales del sistema”</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group-sm">
+                                <button type="button" class="btn btn-primary btn-block" ng-click="Accion(formData, frmModulo.$valid)">
+                                    <span class="fa fa-pencil-square-o" aria-hidden="true"></span>{{accion}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Componentes</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group-sm">
+                <button type="button" class="btn btn-success btn-labeled" ng-show="accion == 'Modificar'" ng-click="LimpiarManComp()" data-toggle="modal" data-target="#mancom-modal" data-backdrop="static" data-keyboard="false">
+                    <span class="btn-label"><span class="fa fa-plus"></span></span>
+                    Crear un componente
+                </button>
+                <button type="button" class="btn btn-info btn-labeled" ng-show="accion == 'Modificar'" ng-click="LoadCompDetect()" data-toggle="modal" data-target="#compdetect-modal">
+                    <span class="btn-label"><span class="fa fa-search"></span></span>
+                    Detectar componentes
+                </button>
+                <button type="button" class="btn btn-primary btn-labeled" ng-click="LimpiarManTipCom()" data-toggle="modal" data-target="#mantipcom-modal" data-backdrop="static" data-keyboard="false">
+                    <span class="btn-label"><span class="fa fa-plus"></span></span>
+                    Crear un Tipo de Componente
+                </button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" ng-show="accion == 'Modificar'">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Componentes del Módulo
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" ng-hide="false" ng-controller="inicio">
+                        <table st-table="displayComponentes" st-safe-src="componentes" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="5"><input st-search="" class="form-control" placeholder="Busqueda ..." type="text" /></th>
+                                </tr>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo de Componente</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="componente in displayComponentes" class="row-tabla" style="height: 20px;">
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="form-control input-sm" placeholder="Nombre" ng-model="componente.Nombre" />
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <a href="" ng-hide="componente.VerDescripcion" ng-click="componente.VerDescripcion = true">Ver y Editar Descripción</a>
+                                        <textarea ng-show="componente.VerDescripcion" class="form-control" placeholder="Descripción" rows="3" ng-model="componente.Descripcion"></textarea>
+                                        <a href="" ng-show="componente.VerDescripcion" ng-click="componente.VerDescripcion = false">Ocultar</a>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <div class="input-group margin-bottom-sm">
+                                            <select class="form-control input-sm" ng-model="componente.TipoComponentes.idTipoComponentes" ng-options="tipo.idTipoComponentes as tipo.Nombre for tipo in tipocomponentes">
+                                                <option value="">Tipo de Componente</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-labeled btn-info btn-xs" ng-disabled="componente.LblModificar != 'Modificar'" ng-click="ModificarComponentesModulos(componente)">
+                                                    <span class="btn-label"><span class="fa fa-{{componente.LblModificar != 'Modificar' ? componente.LblModificar == 'Modificando...' ? 'circle-o-notch fa-spin' : 'check' : 'pencil'}}"></span></span>{{componente.LblModificar}}
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-labeled btn-danger btn-xs" ng-click="EliminarComponentesModulos(componente)">
+                                                    <span class="btn-label"><span class="fa fa-{{componente.LblEliminar == 'Eliminar' ? 'trash' : 'spinner fa-pulse'}}"></span></span>{{componente.LblEliminar}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="10" st-template="../../Scripts/smart-table/pagination.custom.html"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary btn-labeled" ng-click="CargarComponentesModulos()">
+                                <span class="btn-label"><span class="fa fa-refresh"></span></span> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confelim-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirme Eliminación</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Confirma que desea dejar <b>No Vigente</b> el módulo?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="Eliminar()">Confirmar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confvigen-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirme Vigencia</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Confirma que desea dejar <b>Vigente</b> el módulo?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="Vigente()">Confirmar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mantipcom-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tipos de Componentes</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmTipoComp">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" title="Nombre del Tipo de Componente"><i class="fa fa-cube fa-fw"></i></span>
+                                    <input type="text" class="form-control" name="nombre" required="required" placeholder="Nombre del Tipo de Componente. EJ: Imagen" ng-model="formTipoComp.nombre" />
+                                </div>
+                                <span class="error_ingreso" ng-show="frmTipoComp.nombre.$error.required && frmTipoComp.nombre.$touched">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido!.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" title="Extensiones que soportará este tipo"><i class="fa fa-cube fa-fw"></i></span>
+                                    <input type="text" class="form-control" name="extension" required="required" placeholder="Extensiones. EJ: .jpg .png .gif" ng-model="formTipoComp.extensiones" />
+                                </div>
+                                <span class="error_ingreso" ng-show="frmTipoComp.extension.$error.required && frmTipoComp.extension.$touched">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido!.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label><input type="checkbox" ng-model="formTipoComp.iscompbd" /> Es componente de Base de Datos. <a href="" data-toggle="tooltip" title="Esta opción hará que el componente sea pre-requisito para poder publicar una versión en un ambiente."><i class="fa fa-question-circle"></i></a></label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label><input type="checkbox" ng-model="formTipoComp.iscompdll" /> Es componente DLL. <a href="" data-toggle="tooltip" title="Esta opción hará que el componente sea pre-requisito para poder publicar una versión en un ambiente."><i class="fa fa-question-circle"></i></a></label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label><input type="checkbox" ng-model="formTipoComp.iscompcambios" /> Es componente de control de cambios. <a href="" data-toggle="tooltip" title="Esta opción hará que el componente al momento de la instalación de Winper, se sitúe en el directorio 'info'."><i class="fa fa-question-circle"></i></a></label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-hide="ModificarTipo != 0">
+                        <div class="col-md-12">
+                            <div class="input-group-sm">
+                                <button type="button" ng-disabled="lblBtnCrearTipoComp == 'Creado!'" class="btn btn-primary btn-block" ng-click="frmTipoComp.$valid && CrearTipoComponente(formTipoComp)">
+                                    {{lblBtnCrearTipoComp}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="ModificarTipo != 0">
+                        <div class="col-md-6">
+                            <div class="input-group-sm">
+                                <button type="button" ng-disabled="lblModificarTipoComponente == 'Modificado!'" class="btn btn-primary btn-block" ng-click="ModificarTipoComponente(formTipoComp)" >
+                                    {{lblModificarTipoComponente}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group-sm">
+                                <button type="button" ng-disabled="lblModificarTipoComponente == 'Modificado!'" class="btn btn-danger btn-block" ng-click="CancelarModificacionTipoComponente()">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <div class="table-responsive" ng-hide="false" ng-controller="inicio">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table st-table="displayTipoComponentes" st-safe-src="tipocomponentes" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Componente Base de Datos</th>
+                                        <th>Componente DLL</th>
+                                        <th>Extensiones</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="tipocomponente in displayTipoComponentes" class="row-tabla" style="height: 20px;">
+                                        <td style="vertical-align: middle;">
+                                            {{tipocomponente.Nombre}}
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{tipocomponente.IsCompBDFmt}}
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{tipocomponente.IsCompDLLFmt}}
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{tipocomponente.Extensiones}}
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-info" ng-click="ModificandoTipoComponente(tipocomponente)">
+                                                <span class="fa fa-pencil"></span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-labeled btn-danger" ng-disabled="editandoTipComp" ng-click="EliminarTipoComponente(tipocomponente)">
+                                                <span class="btn-label"><span class="fa fa-{{tipocomponente.LblEliminarTipo == 'Eliminar' ? 'trash' : 'spinner fa-pulse'}}"></span></span> {{tipocomponente.LblEliminarTipo}}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div st-pagination="" st-items-by-page="3" st-displayed-pages="" st-template="../../Scripts/smart-table/pagination.custom.html"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="CreandoComponentes()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mancom-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="msgErrorManComp = ''">&times;</button>
+                <h4 class="modal-title">Componente</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmComp">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group margin-bottom-sm">
+                                <span class="input-group-addon" title="Nombre del Componente"><i class="fa fa-cube fa-fw"></i></span>
+                                <input type="text" name="nombrecomponente" required="required" class="form-control" ng-model="formComp.nombre" placeholder="Nombre del Componente" />
+                            </div>
+                            <span class="error_ingreso" ng-show="frmComp.nombrecomponente.$error.required && frmComp.nombrecomponente.$touched">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group margin-bottom-sm">
+                                <span class="input-group-addon" title="Tipo de Componente"><i class="fa fa-cube fa-fw"></i></span>
+                                <select class="form-control" name="tipocomponente" required="required" ng-model="formComp.tipocomponente" ng-options="tipo.idTipoComponentes as tipo.Nombre for tipo in tipocomponentes">
+                                    <option value="">Tipo de Componente</option>
+                                </select>
+                            </div>
+                            <span class="error_ingreso" ng-show="frmComp.tipocomponente.$error.required && frmComp.tipocomponente.$touched">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                            </span>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group margin-bottom-sm">
+                                <span class="input-group-addon" title="Descripción"><i class="fa fa-comment-o fa-fw"></i></span>
+                                <textarea class="form-control" rows="5" ng-model="formComp.descripcion" placeholder="Descripción"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="error_ingreso pull-left" ng-show="msgErrorManComp != ''">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{msgErrorManComp}}
+                </span>
+                <button type="button" class="btn btn-primary" ng-click="frmComp.$valid && CrearComponentesModulos(formComp)">Crear</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="msgErrorManComp = ''">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="aviso-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Aviso WinperUpdate</h4>
+            </div>
+            <div class="modal-body">
+                {{lblAvisoWinper}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="compdetect-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Componentes Detectados</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning" ng-show="listaCompsDetect.length == 0">
+                    <strong>!</strong> No se detectaron nuevos componentes.
+                </div>
+                <div class="table-responsive" ng-hide="listaCompsDetect.length == 0">
+                    <table st-table="displayCompDir" st-safe-src="listaCompsDetect" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="3"><input st-search="" class="form-control" placeholder="Busqueda ..." type="text" /></th>
+                            </tr>
+                            <tr>
+                                <th><input type="checkbox" ng-model="SelAll" ng-change="SelectAllCompDir(SelAll)" /></th>
+                                <th>Nombre</th>
+                                <th>Tipo de Componente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="compDir in displayCompDir" class="row-tabla" style="height: 20px;">
+                                <td style="vertical-align: middle;">
+                                    <input type="checkbox" ng-model="compDir.check" />
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    {{compDir.componente.Nombre}}
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    {{compDir.componente.TipoComponentes.Nombre}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="10"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span style="color: red">{{lblAddComponentesDir}}</span>
+                <button type="button" class="btn btn-primary" ng-click="AgregarCompsDir()" ng-hide="listaCompsDetect.length == 0">
+                    Agregar
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mdlDirModulos" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Directorios de Módulos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control btn-block" ng-model="dirModulo"  value="Hola"  disabled="disabled" />
+                                <a href="" class="input-group-addon" ng-click="dirAnterior(dirModulo)" title="Volver al directorio anterior.">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                                    <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-hover" st-table="displayDirs" st-safe-src="dirsModulos">
+                        <thead>
+                            <tr>
+                                <th><input st-search="" class="form-control" placeholder="Busqueda ..." type="text" /></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="isLoadDirs">
+                            <tr><td><h3>Cargando Directorios...</h3></td></tr>
+                        </tbody>
+                        <tbody ng-show="displayDirs.length > 0 && !isLoadDirs">
+                            <tr ng-repeat="dir in displayDirs">
+                                <td>
+                                    <button type="button" class="btn btn-link" ng-click="cargarDirs(dir.FullPath)">{{dir.OriginalPath}}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-center">
+                                    <div st-pagination="" st-items-by-page="10" st-displayed-pages="10"  st-template="../../Scripts/smart-table/pagination.custom.html"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="seleccionarDir(dirModulo)">Seleccionar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

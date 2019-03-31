@@ -1,0 +1,74 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>Soporte</h1>
+        <ol class="breadcrumb autoscroll">
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-3">
+        <select class="form-control" ng-change="Versiones()" ng-model="formData.cliente" ng-options="cliente.Id as cliente.Nombre for cliente in clientes | filtroClientesVigentes">
+            <option value="">Seleccione Cliente</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select class="form-control" ng-change="Ambientes()" ng-model="formData.version" ng-options="version.Version.IdVersion as version.Version.IdVersion for version in versiones">
+            <option value="">Seleccione Version</option>
+        </select>
+    </div>
+
+
+    <div class="col-md-3">
+        <select class="form-control" ng-change="Tareas()" ng-model="formData.ambiente" ng-options="ambiente.idAmbientes as ambiente.Nombre for ambiente in ambientes">
+            <option value="">Seleccione Ambiente</option>
+        </select>
+    </div>
+</div>
+<br />
+            <div class="panel-body" ng-show="tareas.length > 0">
+                    <table st-table="tarea" st-safe-src="tareas" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Error</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tarea in tareas" class="row-tabla" style="height: 20px;">
+                                <td style="vertical-align: middle;">
+                                    {{tarea.NameFile}}
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <textarea  class="form-control" placeholder="Descripción" rows="3" ng-model="tarea.Error"></textarea>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-labeled btn-success btn-xs"  ng-click="updateTarea(tarea.idTareas,1,'')">
+                                                <span class="btn-label"><span class="fa fa-{{Ejecutado != 'Ejecutado' ?  'check' : 'pencil'}}"></span></span>{{Ejecutado}}
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-labeled btn-info btn-xs" ng-click="updateTarea(tarea.idTareas,0,'#OK')">
+                                                <span class="btn-label"><span class="fa fa-{{cola == 'Poner en Cola' ? 'check' : 'spinner fa-pulse'}}"></span></span>{{cola}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="10" st-template="../../Scripts/smart-table/pagination.custom.html"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+

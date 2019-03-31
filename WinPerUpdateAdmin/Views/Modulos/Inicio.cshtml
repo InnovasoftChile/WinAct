@@ -1,0 +1,260 @@
+﻿<style>
+    .my-drop-zone {
+        border: dotted 3px lightgray;
+    }
+
+    .nv-file-over {
+        border: dotted 3px red;
+    }
+    /* Default class applied to drop zones on over */
+    .another-file-over-class {
+        border: dotted 3px green;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{title}}</h1>
+                <ol class="breadcrumb autoscroll">
+                    <li class="active">Módulos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="msgError != ''">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <strong>Error: </strong> {{msgError}}
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="msgSuccess != ''">
+        <div class="col-md-12">
+            <div class="alert alert-success">
+                {{msgSuccess}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/Modulos#/CrearModulo" class="btn btn-labeled btn-success">
+                <span class="btn-label"><span class="fa fa-cube"></span></span> Crear Módulo
+            </a>
+            <a href="" data-toggle="modal" data-target="#export-modal" class="btn btn-labeled btn-warning">
+                <span class="btn-label"><span class="fa fa-file-excel-o"></span></span>Importar Módulos desde Excel
+            </a>
+            <a href="" data-toggle="modal" data-target="#sync-modal" data-backdrop="static" data-keyboard="false" class="btn btn-labeled btn-primary">
+                <span class="btn-label"><span class="fa fa-file-excel-o"></span></span>Sincronizar Componentes de los Módulos
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning" ng-show="modxlsxwarn">
+                <span class="fa fa-exclamation-triangle"></span>
+                ADVERTENCIA: Usted importó módulos desde un Excel. WinAct detectó algunos errores, click
+                <button type="button" class="btn btn-warning btn-sm" ng-click="CargarModXLSX()">AQUÍ</button>
+                para ver el estado.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Módulos del Sistema
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" ng-hide="false" ng-controller="inicio">
+                        <table st-table="displayModulos" st-safe-src="modulos" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="5"><input st-search="" class="form-control" placeholder="Busqueda ..." type="text" /></th>
+                                </tr>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Directorio</th>
+                                    <th>Sistema Principal</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="modulo in displayModulos" class="row-tabla" style="height: 20px;">
+                                    <td style="vertical-align: middle;">
+                                        {{modulo.NomModulo}}
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        {{modulo.Directorio}}
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        {{modulo.isCoreFmt}}
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <label class="btn btn-labeled btn-default btn-xs">{{modulo.EstadoFmt}}</label>
+                                    </td>
+                                    <td>
+                                        <a href="/Modulos#/EditarModulo/{{modulo.idModulo}}" class="btn btn-info btn-xs">
+                                            <span class="fa fa-pencil"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="10" st-template="../../Scripts/smart-table/pagination.custom.html"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="export-modal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="uploader.clearQueue()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Importación de Módulos desde Excel</h4>
+            </div>
+            <div class="modal-body">
+                Aquí usted podrá importar desde una planilla Excel todos sus módulos. Para poder utilizar el formato
+                correcto, puede descargar la planilla de muestra desde la opción <b>Generar Estructura</b>.
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12" nv-file-drop="" uploader="uploader" options="uploadOptions">
+                        Arrastre la planilla Excel a la "Drop Zone" o seleccione manualmente el archivo
+                        <div ng-show="uploader.isHTML5">
+                            <!-- 3. nv-file-over uploader="link" over-class="className" -->
+                            <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+                                Drop zone
+                            </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader" options="uploadOptions" multiple /><br />
+                        <span class="error_ingreso" ng-hide="uploader.queue.length > 0">
+                            No hay ninguna planilla seleccionada.
+                        </span>
+                        <span class="label label-info" ng-show="uploader.queue.length > 0">
+                            {{uploader.queue[0].file.name}}
+                        </span>
+                        <br /><br />
+                        <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <span class="glyphicon glyphicon-upload"></span> Subir
+                        </button>
+                        <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="downloadFile()" class="btn btn-warning">Generar Estructura</button>
+                <button type="button" ng-click="uploader.clearQueue()" class="btn btn-default btn-info" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modxlsx-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Módulos Importados</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive" ng-hide="false">
+                            <table st-table="modulosxlsx" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Sistema Principal</th>
+                                        <th>Directorio</th>
+                                        <th>Error</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="moduloxlsx in modulosxlsx" class="{{moduloxlsx.GetClass}}">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{moduloxlsx.NomModulo}}</td>
+                                        <td>
+                                            <textarea class="form-control" ng-model="moduloxlsx.Descripcion"></textarea>
+                                        </td>
+                                        <td>{{moduloxlsx.isCoreFmt}}</td>
+                                        <td>{{moduloxlsx.Directorio}}</td>
+                                        <td>
+                                            <textarea class="form-control" ng-model="moduloxlsx.ErrorRegistro"></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="10"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="sync-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Aviso WinAct</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="sync == 0">
+                    A continuación se procederá a sincronizar los componentes que se encuentran en el directorio
+                    VersionOficial de WinAct con los que están registrados en la base de datos.
+                    <br /><br />
+                    Tenga en cuenta que el tipo de cada componente sera asignado según los registros que tenga la base
+                    de datos, por lo que al final de este proceso se le entregará un reporte con los componentes que no se pudieron
+                    agregar con éxito.
+                    <br /><br />
+                    <b>NOTA: Los componentes que actualmente se encuentran registrados, serán eliminados.</b>
+                    <br /><br />
+                    Si desea continuar con este proceso oprima <b>Continuar</b>.
+                </div>
+                <div ng-show="sync == 1">
+                    <center>
+                        <h1><i class="fa fa-spinner fa-pulse"></i></h1>
+                        <br />
+                        <h4>Espere un momento...</h4>
+                    </center>
+                </div>
+                <div ng-show="sync == 2">
+                    <textarea class="form-control" ng-model="logSync" rows="8"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-disabled="sync == 1" ng-click="SyncComponentes()">Continuar</button>
+                <button type="button" class="btn btn-default" ng-disabled="sync == 1" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

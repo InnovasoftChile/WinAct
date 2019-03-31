@@ -1,0 +1,266 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>Versiones</h1>
+        <ol class="breadcrumb autoscroll">
+            <li class="active">Versiones Existentes</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row" ng-show="msgError != ''">
+    <div class="col-md-12">
+        <div class="alert alert-danger">
+            <strong>Error: </strong> {{msgError}}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-toolbar" role="toolbar">
+                <form method="POST" style="display:inline-block;" action="/Admin#/CrearVersion">
+                    <div class="btn-toolbar" role="toolbar">
+                        <button type="submit" class="btn btn-labeled btn-success" name="action" value="createchild">
+                            <span class="btn-label"><span class="fa fa-tablet"></span></span> Crear Versi&oacute;n
+                        </button>
+                        <button type="button" data-toggle="modal" data-target="#inicial-modal"  class="btn btn-labeled btn-warning" name="action" ng-show="user == 5">
+                            <span class="btn-label"><span class="fa fa-tablet"></span></span> Crear Versión Full
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="tab-content">
+    <ul class="nav nav-tabs" role="tablist" ng-init="panel=1">
+        <li role="presentation" class="active">
+            <a ng-click="panel = 1" style="cursor: pointer" role="tab" data-toggle="tab">Versiones Nuevas</a>
+        </li>
+        <li role="presentation">
+            <a ng-click="panel = 4" style="cursor: pointer" role="tab" data-toggle="tab">Versiones en Prueba</a>
+        </li>
+        <li role="presentation">
+            <a ng-click="panel = 2" style="cursor: pointer" role="tab" data-toggle="tab">Versiones Publicadas</a>
+        </li>
+        <li role="presentation">
+            <a ng-click="panel = 3" style="cursor: pointer" role="tab" data-toggle="tab">Versiones No Vigentes</a>
+        </li>
+    </ul>
+</div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="misversiones" ng-class="{active:panel==1}">
+            <br />
+            <div class="alert alert-info" ng-show="totales[0]==0">
+                <span class="fa fa-tablet"></span> No existen versiones registradas
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="version in versiones | orderBy:'-IdVersion' | filtroVersionesLiberadas">
+                    <div class="item panel" ng-class="{'panel-success':version.Estado=='N'&&!version.IsVersionInicial, 'panel-primary':version.Estado=='N'&&version.IsVersionInicial, 'panel-info':version.Estado=='P', 'panel-danger':version.Estado=='C'}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title single-line">{{version.Release}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <img src="~/Content/Images/Program.png" alt="" class="avatar img-thumbnail image-foto" />
+                            <div class="pull-right" style="width: 50%">
+                                <ul class="list-unstyled">
+                                    <li class="text-success"><span class="fa fa-fw"></span> {{version.EstadoDisplay}}</li>
+                                    <li><span class="fa fa-fw fa-folder-open"></span> {{version.TotalComponentes}} Componentes</li>
+                                    <li><span class="fa fa-fw fa-calendar"></span> {{version.FechaFmt}}</li>
+                                    <li><span class="fa fa-fw fa-circle"></span> {{version.IsVersionInicialFmt}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <a href="/Admin#/EditVersion/{{version.IdVersion}}" ng-disabled="blockBtn" ng-click="ico_load = 'fa fa-circle-o-notch fa-spin'; blockBtn = true;" ng-init="ico_load = 'fa fa-pencil'; blockBtn= false;" class="btn btn-labeled btn-primary">
+                                <span class="btn-label"><span class="{{ico_load}}"></span></span> Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="misversiones" ng-class="{active:panel==2}">
+            <br />
+            <div class="alert alert-info" ng-show="totales[1]==0">
+                <span class="fa fa-tablet"></span> No existen versiones registradas
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="version in versiones | orderBy:'-IdVersion' | filtroVersionesPub">
+                    <div class="item panel" ng-class="{'panel-success':version.Estado=='N', 'panel-info':version.Estado=='P', 'panel-danger':version.Estado=='C','panel-danger':version.Estado=='Q'}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title single-line">{{version.Release}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <img src="~/Content/Images/Program.png" alt="" class="avatar img-thumbnail image-foto" />
+                            <div class="pull-right" style="width: 50%">
+                                <ul class="list-unstyled">
+                                    <li class="text-success"><span class="fa fa-fw"></span> {{version.EstadoDisplay}}</li>
+                                    <li><span class="fa fa-fw fa-folder-open"></span> {{version.TotalComponentes}} Componentes</li>
+                                    <li><span class="fa fa-fw fa-calendar"></span> {{version.FechaFmt}}</li>
+                                    <li><span class="fa fa-fw fa-circle"></span> {{version.IsVersionInicialFmt}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <a href="/Admin#/EditVersion/{{version.IdVersion}}" ng-disabled="blockBtn" ng-click="ico_load = 'fa fa-circle-o-notch fa-spin'; blockBtn = true;" ng-init="ico_load = 'fa fa-pencil'; blockBtn= false;" class="btn btn-labeled btn-primary">
+                                <span class="btn-label"><span class="{{ico_load}}"></span></span> Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="misversiones" ng-class="{active:panel==3}">
+            <br />
+            <div class="alert alert-info" ng-show="totales[2]==0">
+                <span class="fa fa-tablet"></span> No existen versiones registradas
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="version in versiones | orderBy:'-IdVersion' | filtroVersionesNV">
+                    <div class="item panel" ng-class="{'panel-success':version.Estado=='N', 'panel-info':version.Estado=='P', 'panel-danger':version.Estado=='C'}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title single-line">{{version.Release}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <img src="~/Content/Images/Program.png" alt="" class="avatar img-thumbnail image-foto" />
+                            <div class="pull-right" style="width: 50%">
+                                <ul class="list-unstyled">
+                                    <li class="text-success"><span class="fa fa-fw"></span> {{version.EstadoDisplay}}</li>
+                                    <li><span class="fa fa-fw fa-folder-open"></span> {{version.TotalComponentes}} Componentes</li>
+                                    <li><span class="fa fa-fw fa-calendar"></span> {{version.FechaFmt}}</li>
+                                    <li><span class="fa fa-fw fa-circle"></span> {{version.IsVersionInicialFmt}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <a href="/Admin#/EditVersion/{{version.IdVersion}}" ng-disabled="blockBtn" ng-click="ico_load = 'fa fa-circle-o-notch fa-spin'; blockBtn = true;" ng-init="ico_load = 'fa fa-pencil'; blockBtn= false;" class="btn btn-labeled btn-primary">
+                                <span class="btn-label"><span class="{{ico_load}}"></span></span> Editar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div role="tabpanel" class="tab-pane" id="misversiones" ng-class="{active:panel==4}">
+        <br />
+        <div class="alert alert-info" ng-show="totales[3]==0">
+            <span class="fa fa-tablet"></span> No existen versiones registradas
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="version in versiones | orderBy:'-IdVersion' | filtroVersionesQA">
+                <div class="item panel" ng-class="{'panel-success':version.Estado=='Q' || version.Estado=='R', 'panel-info':version.Estado=='P', 'panel-danger':version.Estado=='C'}">
+                    <div class="panel-heading">
+                        <h3 class="panel-title single-line">{{version.Release}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img src="~/Content/Images/Program.png" alt="" class="avatar img-thumbnail image-foto" />
+                        <div class="pull-right" style="width: 50%">
+                            <ul class="list-unstyled">
+                                <li class="text-success"><span class="fa fa-fw"></span> {{version.EstadoDisplay}}</li>
+                                <li><span class="fa fa-fw fa-folder-open"></span> {{version.TotalComponentes}} Componentes</li>
+                                <li><span class="fa fa-fw fa-calendar"></span> {{version.FechaFmt}}</li>
+                                <li><span class="fa fa-fw fa-circle"></span> {{version.IsVersionInicialFmt}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        <a href="/Admin#/EditVersion/{{version.IdVersion}}" ng-disabled="blockBtn" ng-click="ico_load = 'fa fa-circle-o-notch fa-spin'; blockBtn = true;" ng-init="ico_load = 'fa fa-pencil'; blockBtn= false;" class="btn btn-labeled btn-primary">
+                            <span class="btn-label"><span class="{{ico_load}}"></span></span> Editar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="loading-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <center>
+                    <h1 ng-hide="btnLoadHabilitado" ><i class="fa fa-spinner fa-pulse"></i></h1>
+                    <br />
+                    <h4>{{lblLoad}}</h4>
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-show="btnLoadHabilitado" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="inicial-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generando Versión Inicial</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmMain">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Release</label>
+                            <div class="form-group">
+                                <div class="input-group margin-bottom-sm">
+                                    <span class="input-group-addon" title="Release de la version. Ej: 7.0.0"><i class="fa fa-link fa-fw"></i></span>
+                                    <input class="form-control" type="text" name="release" placeholder="Release de la version. Ej: 7.0.0" ng-model="formData.release" required="required" ng-maxlength="100">
+                                </div>
+                                <span class="error_ingreso" ng-show="frmMain.release.$error.required && frmMain.release.$touched">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Descripción</label>
+                            <div class="form-group">
+                                <div class="input-group margin-bottom-sm">
+                                    <span class="input-group-addon" title="Descripción"><i class="fa fa-comment-o fa-fw"></i></span>
+                                    <textarea class="form-control" rows="5" name="descripcion" required="required" placeholder="Descripción" ng-model="formData.descripcion" ng-maxlength="2048"></textarea>
+                                </div>
+                                <span class="error_ingreso" ng-show="frmMain.descripcion.$error.required && frmMain.descripcion.$touched">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
+                                </span>
+                                <span class="error_ingreso" ng-show="frmMain.descripcion.$error.maxlength">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo máximo no debe superar los 2048 carácteres
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="checkbox" ng-model="formData.hasdeploy" /> No incorporar Deploy31 en esta versión.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="error_ingreso pull-left" ng-show="!frmMain.$valid && msgVersionInicial != ''">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{msgVersionInicial}}
+                </span>
+                <button type="button" class="btn btn-info" ng-click="GenerarVersionInicial(formData, frmMain.$valid)">Generar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

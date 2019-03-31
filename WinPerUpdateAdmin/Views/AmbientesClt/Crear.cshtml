@@ -1,0 +1,209 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Detalles Ambiente</h1>
+            <ol class="breadcrumb autoscroll">
+                <li><a href="/AmbientesClt#/">Ambientes</a></li>
+                <li class="active">Un Ambiente</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row" ng-show="msgError != ''">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <strong>Error: </strong> {{msgError}}
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="msgSuccess != ''">
+        <div class="col-md-12">
+            <div class="alert alert-success" id="msgsuccess" tabindex="1">
+                {{msgSuccess}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-toolbar hidden-xs">
+                <div class="btn-group" role="toolbar">
+                    <a data-toggle="modal" data-target="#delete-modal" class="btn btn-danger" ng-hide="idAmbiente==0">
+                        <span class="fa fa-fw fa-trash-o"></span> Eliminar Ambiente
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{title}}</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="frmAmbiente" method="post" action="#" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nombre del Ambiente</label>
+                                    <div class="input-group-sm">
+                                        <input class="form-control" type="text" name="nombre" placeholder="Nombre" required="required" ng-model="ambiente.Nombre" ng-maxlength="45" ng-minlength="2" />
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Nombre descriptivo del ambiente donde se instalará la versión, se recomienda la utilización de nombres que permitan conocer a qué estación de trabajo corresponde cada ambiente (ejemplo: PC-Pruebas21/Usuario)"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombre.$error.minlength && frmAmbiente.nombre.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo mínimo debe tener 2 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombre.$error.maxlength && frmAmbiente.nombre.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo máximo debe tener 45 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombre.$error.required && frmAmbiente.nombre.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('[data-toggle="tooltip"]').tooltip();
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Tipo de Ambiente</label>
+                                        <select class="form-control" name="tipo" required="required" ng-model="ambiente.Tipo" ng-options="tipo.Codigo as tipo.Descripcion for tipo in tipos"></select>
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Se debe seleccionar si este ambiente corresponde a uno destino a Pruebas o si se trata de un ambiente Productivo"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.tipo.$error.required && frmAmbiente.tipo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Servidor de Base de Datos</label>
+                                        <input class="form-control" type="text" name="serverbd" placeholder="Servidor" required="required" ng-model="ambiente.ServerBd" ng-maxlength="100" ng-minlength="2">
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Ingresar nombre del Servidor Base de Datos"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.serverbd.$error.minlength && frmAmbiente.serverbd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo mínimo debe tener 2 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.serverbd.$error.maxlength && frmAmbiente.serverbd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo maximo debe tener 100 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.serverbd.$error.required && frmAmbiente.serverbd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Instancia</label>
+                                        <input class="form-control" type="text" name="instancia" placeholder="Instancia" ng-model="ambiente.Instancia" ng-maxlength="100">
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Ingresar nombre de Instancia correspondiente (Opcional)"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.instancia.$error.maxlength && frmAmbiente.instancia.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo maximo debe tener 100 caractares
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Nombre de la Base de Datos</label>
+                                        <input class="form-control" type="text" name="nombd" placeholder="Nombre de la BD" required="required" ng-model="ambiente.NomBd" ng-maxlength="100" ng-minlength="2">
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Ingresar el nombre específico de la Base de Datos asociada a WinPer"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombd.$error.minlength && frmAmbiente.nombd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo mínimo debe tener 2 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombd.$error.maxlength && frmAmbiente.nombd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo maximo debe tener 100 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.nombd.$error.required && frmAmbiente.nombd.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Usuario de la Base de Datos</label>
+                                        <input class="form-control" type="text" name="userdbo" placeholder="Usuario de BD" required="required" ng-model="ambiente.UserDbo" ng-maxlength="50" ng-minlength="2" >
+                                    </div>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.userdbo.$error.minlength && frmAmbiente.userdbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo mínimo debe tener 2 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.userdbo.$error.maxlength && frmAmbiente.userdbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo maximo debe tener 50 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.userdbo.$error.required && frmAmbiente.userdbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group-sm">
+                                        <label>Password de Usuario BD</label>
+                                        <input class="form-control" type="password" name="pwddbo" placeholder="Password" required="required" ng-model="ambiente.PwdDbo" ng-maxlength="50" ng-minlength="2">
+                                    </div>
+                                    <a href="" data-toggle="tooltip" title="Ingresar Credenciales de administración de Base de Datos WinPer"><i class="fa fa-question-circle"></i></a>
+
+                                    <span class="error_ingreso" ng-show="frmAmbiente.pwddbo.$error.minlength && frmAmbiente.pwddbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo mínimo debe tener 2 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.pwddbo.$error.maxlength && frmAmbiente.pwddbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Largo maximo debe tener 50 caractares
+                                    </span>
+                                    <span class="error_ingreso" ng-show="frmAmbiente.pwddbo.$error.required && frmAmbiente.pwddbo.$touched">
+                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo obligatorio
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" ng-click="frmAmbiente.$valid && SaveAmbiente(ambiente)" ng-disabled="">
+                            <i class="fa fa-pencil-square-o" ng-show="idAmbiente != 0" aria-hidden="true"></i>
+                            <i class="fa fa-check" ng-show="idAmbiente == 0" aria-hidden="true"></i>
+                            <span class="fa fa-circle-o-notch fa-spin" ng-hide="increate"></span> {{labelcreate}}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmar Eliminación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que desea eliminar el ambiente?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" ng-click="Eliminar()">Confirmar</button>
+                    <button class="btn btn-default " data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
