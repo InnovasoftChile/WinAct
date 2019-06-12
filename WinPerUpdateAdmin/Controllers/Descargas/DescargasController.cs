@@ -29,10 +29,10 @@ namespace WinPerUpdateAdmin.Controllers.Descargas
                 if (menus.Exists(x => x.Link.Contains(ViewBag.Menu)))
                 {
                     var perfil = ProcessMsg.Perfiles.GetPerfil(usuario.CodPrf);
-                    if (TipoPerfil == perfil.Tipo)
-                    {
+                    //if (TipoPerfil == perfil.Tipo)
+                    //{
                         return View();
-                    }
+                    //}
                 }
                 return RedirectToAction("Error", "Home");
             }

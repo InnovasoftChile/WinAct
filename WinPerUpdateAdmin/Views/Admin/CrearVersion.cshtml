@@ -38,7 +38,7 @@
                     <button ng-click="showMdlPublicaQAModal()" ng-disabled="formData.estado=='C' || formData.estado=='P' || formData.estado=='R'|| TipoComponentes.length == 0 || version.IsVersionInicial || user != 2 " class="btn btn-success" ng-hide="idversion==0 || formData.estado !='Q'">
                         <span class="fa-fw" ng-show="formData.estado=='Q'"></span> Publicar QA
                     </button>
-                    <button ng-click="showMdlPublicaQAModal()" ng-disabled="formData.estado=='C' || formData.estado=='P'||formData.estado=='N'|| TipoComponentes.length == 0 || version.IsVersionInicial || user != 14  " class="btn btn-default" ng-hide="idversion==0">
+                    <button ng-click="showMdlPublicaQAModal()" ng-disabled="formData.estado=='C' || formData.estado=='P'||formData.estado=='N'|| formData.estado == 'R' ||TipoComponentes.length == 0 || version.IsVersionInicial || user != 14  " class="btn btn-default" ng-hide="idversion==0">
                         <span class="fa fa-fw fa-square-o" ng-show="formData.estado=='N'"></span><span class="fa fa-fw fa-check-square-o" ng-show="formData.estado=='R'"></span>  QA OK
                     </button>
 
@@ -102,7 +102,7 @@
                             <div class="input-group margin-bottom-sm">
                                 <span class="input-group-addon" title="Release"><i class="fa fa-tablet fa-fw"></i></span>
                                 <input class="form-control" type="text" name="name" ng-disabled="btnBlock" placeholder="Release" ng-model="formData.release" required="required" ng-maxlength="100" >
-                                <!---<a href="" class="input-group-addon" ng-click="btnBlock = !btnBlock"><i class="fa fa-pencil fa-fw"></i></a>--->
+                                <a href="" class="input-group-addon" ng-click="btnBlock = !btnBlock"><i class="fa fa-pencil fa-fw"></i></a>
                                 <a href="" class="input-group-addon" ng-click="AumentarRelease(formData)"><i class="fa fa-plus fa-fw"></i></a>
                             </div>
                             <span class="error_ingreso" ng-show="frmMain.name.$error.required && frmMain.name.$touched">
@@ -263,7 +263,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                N° Tips: {{cc.Tips}}
+                                                N° Ticket: {{cc.Tips}}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -325,7 +325,7 @@
                 </div>
                 <div class="modal-body" ng-show="user == 5">
                     Esta opci&oacute;n permite indicar que la versi&oacute;n ya se encuentra lista para ser distribuida
-                    a los clientes. Una vez confimada la publicacaci&oacute;n, WinPer Update tomar&aacute; esta acci&oacute;n
+                    a los clientes. Una vez confimada la publicaci&oacute;n, WinPer Update tomar&aacute; esta acci&oacute;n
                     como una orden para empezar a informar a los clientes que se ha liberado una nueva versi&oacute;n de Winper
                     y que pueden (si lo desean), instalarla en sus estaciones de trabajo.<br /><br />
                     Confirma que desea publicar la Versi&oacute;n ?
@@ -350,7 +350,7 @@
                     <button class="btn btn-success" ng-disabled="formData.estado=='P' || publicando" ng-show="user == 5" ng-click="Publicar()">Confirmar</button>
                     <button class="btn btn-success" ng-disabled="formData.estado=='P' || publicando" ng-show="user == 2 && formData.estado == 'N'" ng-click="PublicarQA()">Confirmar</button>
                     <button class="btn btn-success" ng-disabled="formData.estado=='P' || publicando" ng-show="user == 2 && formData.estado == 'Q'" ng-click="PublicarQAN()">Confirmar</button>
-                    <button class="btn btn-success" ng-disabled="formData.estado=='P' || publicando" ng-show="user == 14" ng-click="PublicarQAOK()">Confirmar</button>
+                    <button class="btn btn-success" ng-disabled="formData.estado=='P' || publicando || formData.estado == 'R'" ng-show="user == 14" ng-click="PublicarQAOK()">Confirmar</button>
 
                     <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>

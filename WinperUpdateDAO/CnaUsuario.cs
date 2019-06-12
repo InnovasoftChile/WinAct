@@ -32,8 +32,7 @@ namespace WinperUpdateDAO
         {
             SpName = @"select a1.idUsuarios, a1.idPersonas, a1.CodPrf, a1.EstUsr, a2.Apellidos, a2.Nombres, a2.Mail 
                        from   Usuarios a1, Personas a2 
-                       Where  a1.CodPrf < 10
-                       And    a2.idPersonas = a1.idPersonas";
+                       Where  a2.idPersonas = a1.idPersonas";
             try
             {
                 return Connector.ExecuteQuery(SpName, ParmsDictionary);

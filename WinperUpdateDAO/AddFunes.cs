@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinperUpdateDAO 
+namespace WinperUpdateDAO
 {
     public class AddFunes : SpDao
     {
-        public int Execute(string IdSolicitud, DateTime FechaSolicitud, int Estado, string Comentario, string Token)
+        public int Execute(string IdSolicitud, string FechaSolicitud, int Estado, string Comentario, string Token)
         {
             SpName = @"INSERT INTO Funes (  idSolicitud
                                            ,fecha
@@ -38,7 +38,7 @@ namespace WinperUpdateDAO
             }
         }
 
-        public int Execute(string IdSolicitud, DateTime FechaSolicitud, string rutEmpresa, string codGestion, string glosaGestion)
+        public int Execute(string IdSolicitud, string FechaSolicitud, string rutEmpresa, string codGestion, string glosaGestion)
         {
             SpName = @"INSERT INTO EmpresaFunes (   idSolicitud
                                                    ,fecha
@@ -65,6 +65,22 @@ namespace WinperUpdateDAO
             catch (Exception ex)
             {
                 var msg = string.Format("Error al ejecutar {0}: {1}", "Execute", ex.Message);
+                throw new Exception(msg, ex);
+            }
+        }
+
+        public System.Data.SqlClient.SqlDataReader Execute(string xml)
+        {
+            SpName = @"EXEC sp_AddFunes @xml";
+            try
+            {
+                ParmsDictionary.Add("@xml", xml);
+
+                return Connector.ExecuteQuery(SpName, ParmsDictionary);
+            }
+            catch (Exception ex)
+            {
+                var msg = string.Format("Error al ejecutar {0}: {1}", "Execute(string xml)", ex.Message);
                 throw new Exception(msg, ex);
             }
         }

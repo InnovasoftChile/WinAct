@@ -287,7 +287,7 @@ namespace WinPerUpdateAdmin.Controllers.Admin
                                         {
                                             Script = "Query";
                                         }
-                                        else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp")
+                                        else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp"|| TipoScript[0] == "spliq")
                                         {
                                             Script = "Sp";
                                         }

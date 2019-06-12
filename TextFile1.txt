@@ -1,0 +1,35 @@
+                beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
+                    if (jqXHR.status == 200) {
+                        //console.log(JSON.stringify(data));
+                        console.log('OK services getClientesPDF');
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(data);
+                        link.download = "Dossier_" + new Date() + ".pdf";
+                        link.click();
+
+                        //var file = new Blob([data], { type: 'application/pdf' });
+                        //var fileURL = URL.createObjectURL(data);
+                        deferred.resolve(link);
+                        
+                    }   
+                    else {
+                        deferred.reject('No existen clientes');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.error('error = ' + xhr.status + " msg = " + xhr.responseText);
+                    deferred.reject('No existen clientes');
+                }
+            });
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+
+            return promise;

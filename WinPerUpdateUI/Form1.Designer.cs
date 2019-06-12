@@ -47,6 +47,8 @@
             this.LblPorcentaje.Size = new System.Drawing.Size(21, 13);
             this.LblPorcentaje.TabIndex = 1;
             this.LblPorcentaje.Text = "0%";
+
+
             // 
             // Form1
             // 

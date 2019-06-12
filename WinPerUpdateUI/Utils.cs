@@ -66,13 +66,16 @@ namespace WinPerUpdateUI
             System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox() { Left = 50, Top = 50, Width = 400 };
             if (isPassword) textBox.PasswordChar = 'X';
             System.Windows.Forms.Button confirmation = new System.Windows.Forms.Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = System.Windows.Forms.DialogResult.OK };
+            System.Windows.Forms.Button nvp = new System.Windows.Forms.Button() { Text = "No Volver a Preguntar", Left = 200, Width = 150, Top = 70, DialogResult = System.Windows.Forms.DialogResult.No };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(textBox);
+            prompt.Controls.Add(nvp);
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(textLabel);
             prompt.AcceptButton = confirmation;
 
-            return prompt.ShowDialog() == System.Windows.Forms.DialogResult.OK ? textBox.Text : "";
+            var result = prompt.ShowDialog();
+            return result == System.Windows.Forms.DialogResult.OK ? textBox.Text : result == System.Windows.Forms.DialogResult.No? "NVP": "";
         }
         static string BytesToStringConverted(byte[] bytes)
         {

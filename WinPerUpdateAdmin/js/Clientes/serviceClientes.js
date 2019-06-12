@@ -966,7 +966,7 @@
             return promise;
         }
 
-        function addCliente(rut, dv, nombre, direccion, idCmn, NroLicencia, NumFolio, estmtc, mesini, nrotrbc, nrotrbh, nrousr, mescon, correlativo) {
+        function addCliente(rut, dv, nombre, direccion, idCmn, NroLicencia, NumFolio, estmtc, mesini, nrotrbc, nrotrbh, nrousr, mescon, correlativo,funes) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
@@ -986,7 +986,8 @@
                 "NroTrbh":nrotrbh,
                 "NroUsr": nrousr,
                 "MesCon": mescon,
-                "Correlativo": correlativo
+                "Correlativo": correlativo,
+                "Funes":funes
             };
             console.debug(JSON.stringify(cliente));
 
@@ -1071,7 +1072,7 @@
             return promise;
         }
 
-        function updCliente(id, rut, dv, nombre, direccion, idCmn, NroLicencia, NumFolio, estmtc, mesini, nrotrbc, nrotrbh, nrousr, mescon, correlativo) {
+        function updCliente(id, rut, dv, nombre, direccion, idCmn, NroLicencia, NumFolio, estmtc, mesini, nrotrbc, nrotrbh, nrousr, mescon, correlativo,funes) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
@@ -1091,7 +1092,9 @@
                 "NroTrbh": nrotrbh,
                 "NroUsr": nrousr,
                 "MesCon": mescon,
-                "Correlativo": correlativo
+                "Correlativo": correlativo,
+                "Funes": funes
+
             };
             console.debug(JSON.stringify(cliente));
 

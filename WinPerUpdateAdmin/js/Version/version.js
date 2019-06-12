@@ -417,6 +417,9 @@
                                                 console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
                                             });
                                         }
+                                        $timeout(function () {
+                                            $("#publish-modal").modal('toggle');
+                                        }, 3000);
                                         $scope.mensaje = "Notificaciones Enviadas satisfactoriamente";
                                     }).error(function (err) {
                                         $scope.publicando = false;
@@ -474,6 +477,9 @@
                                                 $scope.msgError = "";
                                             })
                                         }
+                                        $timeout(function () {
+                                            $("#publish-modal").modal('toggle');
+                                        }, 3000);
                                     }).error(function (err) {
                                         $scope.publicando = false;
                                         $scope.mensaje = "Hubo errores al publicar la version. Ver consola del navegador.";
@@ -514,6 +520,9 @@
                 serviceAdmin.genVersion($scope.idversion).success(function (data) {
                     if (data.CodErr == 0) {
                         $scope.mensaje = "Publicando Versión";
+                        $timeout(function () {
+                            $("#publish-modal").modal('toggle');
+                        }, 3000);
                         
                     } else {
                         $scope.publicando = false;
@@ -541,6 +550,9 @@
                                 $scope.formData.estado = data2.Estado;
                                 $scope.msgError = "";
                                 $scope.publicando = false;
+                                $timeout(function () {
+                                    $("#publish-modal").modal('toggle');
+                                }, 3000);
                             }).error(function (err) {
                                 $scope.publicando = false;
                                 $scope.mensaje = "Hubo errores al actualizar los datos de la version. Ver consola del navegador.";

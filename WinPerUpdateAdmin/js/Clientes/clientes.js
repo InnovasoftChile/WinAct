@@ -183,6 +183,13 @@
                     $scope.formData.nrousr = data.NroUsr;
                     $scope.formData.correlativo = data.Correlativo;
                     $scope.formData.estado = data.Estado;
+                    console.log(data.Funes);
+                    if (data.Funes) {
+                        document.getElementById("checkbox1").checked = true;
+                    } else {
+                        document.getElementById("checkbox1").checked = false;
+
+                    }
 
                     $scope.CargarModulosCliente($scope.idCliente);
 
@@ -265,9 +272,9 @@
                             $scope.increate = false;
                             $scope.labelcreate = "Enviando";
                             $scope.msgSuccess = "";
-                            console.log($scope.idCliente);
                             if ($scope.idCliente == 0) {
-                                serviceClientes.addCliente(arrRut[0], arrRut[1], formData.nombre, formData.direccion, formData.comuna, formData.licencia, formData.folio, formData.estmtc, formData.mesini, formData.nrotrbc, formData.nrotrbh, formData.nrousr, formData.mescon, formData.correlativo).success(function (data) {
+                                console.log(formData.funes);
+                                serviceClientes.addCliente(arrRut[0], arrRut[1], formData.nombre, formData.direccion, formData.comuna, formData.licencia, formData.folio, formData.estmtc, formData.mesini, formData.nrotrbc, formData.nrotrbh, formData.nrousr, formData.mescon, formData.correlativo, formData.funes).success(function (data) {
                                     $scope.increate = true;
                                     $scope.labelcreate = "Modificar";
                                     $scope.idCliente = data.Id;
@@ -286,7 +293,7 @@
                             }
                             else {
                                 console.log(formData);
-                                serviceClientes.updCliente($scope.idCliente, arrRut[0], arrRut[1], formData.nombre, formData.direccion, formData.comuna, formData.licencia, formData.folio, formData.estmtc, formData.mesini, formData.nrotrbc, formData.nrotrbh, formData.nrousr, formData.mescon, formData.correlativo).success(function (data) {
+                                serviceClientes.updCliente($scope.idCliente, arrRut[0], arrRut[1], formData.nombre, formData.direccion, formData.comuna, formData.licencia, formData.folio, formData.estmtc, formData.mesini, formData.nrotrbc, formData.nrotrbh, formData.nrousr, formData.mescon, formData.correlativo, formData.funes).success(function (data) {
                                     $scope.increate = true;
                                     $scope.labelcreate = "Modificar";
                                     serviceClientes.addModuloCliente($scope.idCliente, $scope.formData.modulos).success(function (data) {

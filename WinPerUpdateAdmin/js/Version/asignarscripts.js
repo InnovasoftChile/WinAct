@@ -223,7 +223,7 @@
                     $scope.msgError2 = "El archivo debe ser un archivo .SQL.";
                     window.scrollTo(0, 0);
                 }
-                if (!fileItem.file.name.startsWith("Sp_") && !fileItem.file.name.startsWith("sp_")
+                if (!fileItem.file.name.startsWith("Sp_") && !fileItem.file.name.startsWith("sp_") && !fileItem.file.name.startsWith("spliq_")
                     &&!fileItem.file.name.startsWith("Fn_") && !fileItem.file.name.startsWith("fn_")
                     &&!fileItem.file.name.startsWith("Tr_") && !fileItem.file.name.startsWith("tr_")) {
                     fileItem.remove();
@@ -243,7 +243,7 @@
                 $timeout(function () {
                     $scope.msgError2 = "";
                 }, $scope.tiempoMsgError2);
-                if (fileItem.file.name.startsWith("Sp_") || fileItem.file.name.startsWith("sp_")) {
+                if (fileItem.file.name.startsWith("Sp_") || fileItem.file.name.startsWith("sp_") || fileItem.file.name.startsWith("spliq_")) {
                     $scope.Script = "Sp";
                 } else if (fileItem.file.name.startsWith("Fn_") || fileItem.file.name.startsWith("fn_")) {
                     $scope.Script = "Funciones";

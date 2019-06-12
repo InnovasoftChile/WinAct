@@ -29,7 +29,7 @@
             $scope.DetalleCambio = "";
 
             $scope.TipoComponentes = [];
-
+            $scope.codPrf = "";
             $scope.idAmbienteExSQL = -1;
             $scope.nombreambienteExSQL = "";
             $scope.moduloExSQL = "";
@@ -113,6 +113,7 @@
 
             $scope.EjecutadoEnPruebas = function (idAmbientes, paso)
             {
+                console.log(paso);
                 var existePruebas = false;
                 var ex = true;
                 if (!$scope.isAmbientePrueba(idAmbientes)) {
@@ -121,15 +122,18 @@
                             existePruebas = true;
                         }
                     }
+                    console.log(existePruebas);
                     if (existePruebas) {
+                        console.log($scope.ambientes);
                         for (var i = 0; i < $scope.ambientes.length; i++) {
+                            console.log("Ambiente " + i + "Tipo: " + $scope.ambientes[i].Tipo + "Estado : " + $scope.ambientes[i].Estado);
                             if ($scope.ambientes[i].Tipo != 1 && $scope.ambientes[i].Estado  != 'V') {
                                 ex = false;
                             }
                         }
                     }
                 }
-            
+                console.log("EX:" + ex);
                 if (!paso) ex = true;
                 return ex;
             }
@@ -248,8 +252,68 @@
                 
             }
 
+            $scope.publish2 = function (idVersion, idCliente, idAmbiente, paso, nombreAmbiente, codPrf, AmbienteSel) {
+                $scope.idAmbiente = idAmbiente;
+                $scope.codPrf = codPrf;
+                $scope.AmbienteSel = AmbienteSel;
+                
+                if ($scope.hasSql) {
+                    serviceAdmin.getScriptsOk(idVersion, idCliente, idAmbiente).success(function (data) {
+                        console.log("Data dentro: " + data);
+                        if (data == 1) {
+                            $("#mdlAvisoScriptPendiente").modal('show');
+                        } else if (data == 3) {
+                            $scope.ambienteSel = AmbienteSel;
+                            $scope.ambienteSel.EstadoEjecucionSql = 3;
+                            $scope.ambienteSel.ColorEstadoEjecucionSql = "danger";
+                            $scope.ShowDetalleTarea(idCliente, idVersion);
+                        } else if (data == 2) {
+                            $scope.idAmbiente = idAmbiente;
+                            $scope.ambienteSel = AmbienteSel;
+                            $("#opcion-modal").modal('show');
+                        } else if (data == 0) {
+                            if ($scope.EjecutadoEnPruebas(idAmbiente, paso)) {
+                                $scope.nombreambiente = nombreAmbiente;
+                                $scope.idAmbiente = idAmbiente;
+                                $scope.ambienteSel = AmbienteSel;
+                                $scope.estaVigente = false;
+                                $("#publish-modal").modal('show');
+                                $scope.msgError = "";
+                            } else {
+                                $scope.nombreambiente = nombreAmbiente;
+                                $scope.idAmbiente = idAmbiente;
+                                $scope.ambienteSel = AmbienteSel;
+                                $scope.msgAvisoExSQL = "Se ha detectado que usted tiene un ambiente de pruebas, WinAct debe validar primero que la versión tiene que ser publicada con exito en un ambiente de pruebas.";
+                                $("#confpub-modal").modal('show');
+                            }               
+                        }
+                    }).error(function (err) {
+                        console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
+                    });
+                } else {
+                    if ($scope.EjecutadoEnPruebas(idAmbiente, paso)) {
+                        $scope.nombreambiente = nombreAmbiente;
+                        $scope.idAmbiente = idAmbiente;
+                        $scope.ambienteSel = AmbienteSel;
+                        $scope.estaVigente = false;
+                        $("#publish-modal").modal('show');
+                        $scope.msgError = "";
+                    } else {
+                        $scope.nombreambiente = nombreAmbiente;
+                        $scope.idAmbiente = idAmbiente;
+                        $scope.ambienteSel = AmbienteSel;
+                        $scope.msgAvisoExSQL = "Se ha detectado que usted tiene un ambiente de pruebas, WinAct debe validar primero que la versión tiene que ser publicada con exito en un ambiente de pruebas.";
+                        $("#confpub-modal").modal('show');
+                    }
+                }
+
+            }
+
             $scope.publish = function (idVersion, idCliente, idAmbiente, paso, nombreAmbiente, codPrf, AmbienteSel) {
                 if ($scope.version.Estado == 'P') {
+                    console.log("idVersion:" + idVersion);
+                    console.log("idCliente:" + idCliente);
+                    console.log("AmbienteSel " + AmbienteSel);
                     serviceAdmin.getCheckInstall(idVersion, idCliente, idAmbiente).success(function (dataCheck) {
                         console.log("GetCheckInstall");
                         console.log(dataCheck);
@@ -257,6 +321,7 @@
                             console.log("Tiene sql");
                             console.log($scope.hasSql);
                             if ($scope.hasSql) {
+                                $("#opcion-modal").modal('toggle'); 
                                 serviceAdmin.getScriptsOk(idVersion, idCliente, idAmbiente).success(function (data) {
                                     console.log(data);
                                     if (data == 0) {
@@ -271,7 +336,7 @@
                                             $scope.nombreambiente = nombreAmbiente;
                                             $scope.idAmbiente = idAmbiente;
                                             $scope.ambienteSel = AmbienteSel;
-                                            $scope.z = "Se ha detectado que usted tiene un ambiente de pruebas, WinAct debe validar primero que la versión tiene que ser publicada con exito en un ambiente de pruebas.";
+                                            $scope.msgAvisoExSQL = "Se ha detectado que usted tiene un ambiente de pruebas, WinAct debe validar primero que la versión tiene que ser publicada con exito en un ambiente de pruebas.";
                                             $("#confpub-modal").modal('show');
                                         }
                                     } else if (data == 1) {
@@ -337,6 +402,7 @@
                 if ($scope.version.Estado == 'P') {
                     serviceAdmin.getCheckInstall(idVersion, $scope.idUsuario, id).success(function (dataCheck) {
                         if (dataCheck) {
+                            console.log($scope.EjecutadoEnPruebas(id, paso));
                             if ($scope.EjecutadoEnPruebas(id, paso)) {
                                 serviceAdmin.ambienteOK(id, idVersion).success(function (data) {
                                     if (data) {
@@ -433,6 +499,36 @@
 
             $scope.downloadFile = function (idVersion, NameFile) {
                 window.location = '/api/Version/' + idVersion + '/Componentes/' + NameFile + '/script';
+            }
+
+            
+            $scope.Publicar2 = function (idVersion, idCliente, idAmbiente, codPrf) {
+                if ($scope.hasSql) {
+                    serviceAdmin.addTareas(idVersion, idCliente, idAmbiente, $scope.codPrf).success(function (data) {
+                        console.log("funciono");
+                    });
+                }
+                serviceAdmin.getCliente($scope.idUsuario).success(function (cliente) {
+                    serviceAdmin.addVersion(idVersion, cliente.Id,$scope.idAmbiente, 'S').success(function () {
+                        $scope.mensaje = "Versión agregada exitosamente";
+                        $scope.ambienteSel.EstadoEjecucionSql = 0;
+                        $scope.ambienteSel.ColorEstadoEjecucionSql = "default";
+                        angular.forEach($scope.ambientes, function (item) {
+                            if (item.idAmbientes == $scope.idAmbiente) {
+                                item.Estado = 'S';
+                                $scope.estaVigente = true;
+                            }
+                        });
+                        $scope.msgError = "";
+                        $('#opcion-modal').modal('toggle');
+                    }).
+                        error(function (err) {
+                            console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
+                        });
+                })
+                    .error(function (err) {
+                        console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
+                    });
             }
 
             $scope.Publicar = function () {

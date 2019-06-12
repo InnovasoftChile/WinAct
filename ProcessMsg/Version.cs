@@ -635,7 +635,7 @@ namespace ProcessMsg
                                 "*****************************************************************"
                             };
                                     List<string> bufferFinal = new List<string>();
-                                    var buffer = File.ReadAllLines(pathtx, Encoding.GetEncoding("ISO-8859-1")).ToList();
+                                    var buffer = File.ReadAllLines(pathtx).ToList();
                                     bufferFinal.AddRange(info);
                                     bufferFinal.AddRange(buffer);
 
@@ -657,7 +657,8 @@ namespace ProcessMsg
                                 "*****************************************************************"
                                         };
                                         List<string> bufferFinal = new List<string>();
-                                        var buffer = File.ReadAllLines(pathTxt, Encoding.GetEncoding("ISO-8859-1")).ToList();
+                                        var buffer = File.ReadAllLines(pathTxt).ToList();
+                                        //var buffer = File.ReadAllLines(pathTxt, Encoding.GetEncoding("ISO-8859-1")).ToList();
                                         bufferFinal.AddRange(info);
                                         bufferFinal.AddRange(buffer);
 
@@ -696,8 +697,9 @@ namespace ProcessMsg
                     file.WriteLine("#define MyOutputBaseFilename \"" + fileVersion + "\"");
                     file.WriteLine(@"");
                     file.WriteLine(@"[Setup]");
-                    file.WriteLine(@"AppId={{" + idVersion + "}}");
+                    file.WriteLine(@"AppId={{429EB8E5-0AE7-4173-A36D-88836F0ECA18}}");
                     file.WriteLine(@"AppName={#MyAppName}");
+                    file.WriteLine(@"PrivilegesRequired=lowest");
                     file.WriteLine(@"AppVersion={#MyAppVersion}");
                     file.WriteLine(@"AppPublisher={#MyAppPublisher}");
                     file.WriteLine(@"AppPublisherURL={#MyAppURL}");
@@ -738,7 +740,7 @@ namespace ProcessMsg
                             {
                                 Script = "Query";
                             }
-                            else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp")
+                            else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp"|| TipoScript[0] == "spliq")
                             {
                                 Script = "Sp";
                             }
@@ -752,12 +754,12 @@ namespace ProcessMsg
                             }
                             if (version.IsVersionInicial)
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", dirSource + componente.Name));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", dirSource + componente.Name));
 
                             }
                             else
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", dirSource + componente.Modulo + "\\" + Script + "\\" + componente.Name));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", dirSource + componente.Modulo + "\\" + Script + "\\" + componente.Name));
                             }
 
                         }
@@ -765,12 +767,12 @@ namespace ProcessMsg
                         {
                             if (version.IsVersionInicial)
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", dirSource + componente.Name));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", dirSource + componente.Name));
 
                             }
                             else
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", dirSource + componente.Modulo + "\\" + componente.Name));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", dirSource + componente.Modulo + "\\" + componente.Name));
                             }
                         }
                     }
@@ -787,7 +789,7 @@ namespace ProcessMsg
                         {
                             foreach(var cambio in listaCtrlCambios)
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", Path.Combine(dirN1, cambio.ModuloFmt.NomModulo , cambio.Tips.ToString()+".txt")));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", Path.Combine(dirN1, cambio.ModuloFmt.NomModulo , cambio.Tips.ToString()+".txt")));
 
                             }
 
@@ -796,14 +798,14 @@ namespace ProcessMsg
                         {
                             foreach (var txt in compMod)
                             {
-                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", Path.Combine(dirN1, mods.SingleOrDefault(x => x.idModulo == txt.Modulo).Directorio, txt.Nombre)));
+                                file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", Path.Combine(dirN1, mods.SingleOrDefault(x => x.idModulo == txt.Modulo).Directorio, txt.Nombre)));
 
                             }
                         }
                     }
                     if (version.HasDeploy31)
                     {
-                        file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"", Path.Combine(dirFuentes, "Utils", "Deploy31.exe")));
+                        file.WriteLine(string.Format("Source: \"{0}\"; DestDir: \"{{app}}\"; Flags: ignoreversion", Path.Combine(dirFuentes, "Utils", "Deploy31.exe")));
                     }
                     file.WriteLine(@"");
                     file.WriteLine(@"[Icons]");
@@ -968,7 +970,7 @@ namespace ProcessMsg
                     {
                         Script = "Query";
                     }
-                    else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp")
+                    else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp" || TipoScript[0] == "spliq")
                     {
                         Script = "Sp";
                     }

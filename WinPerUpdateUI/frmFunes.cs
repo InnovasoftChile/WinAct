@@ -218,12 +218,22 @@ namespace WinPerUpdateUI
                         json = Utils.StrSendMsg(server, int.Parse(port), "getfunesup#" + cliente.Rut + "#" + cliente.Id + "#E#E#");
                         trabajadores = new List<FunesTrabajadorBo>();
                         trabajadores = JsonConvert.DeserializeObject<List<FunesTrabajadorBo>>(json);
+                        //string xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?><root>";
                         foreach (var trabajador in trabajadores)
                         {
+                            
                             var comm = conn.CreateCommand();
                             comm.CommandType = CommandType.Text;
                             comm.CommandText = Query;
                             comm.Parameters.Clear();
+                            /*
+                            xml += string.Format("<parametro idSolicitud=\"{0}\" fecha=\"{1}\" rutEmpresa=\"{2}\" rut_trabajador=\"{3}\" folio_fun=\"{4}\" tipo_modificacion=\"{5}\" codigoIsapre=\"{6}\" ppPeso=\"{7}\" ppUF=\"{8}\" ppPorcentaje=\"{9}\" estadoFUN=\"{10}\" motivoRechazo=\"{11}\" fechaMotivo=\"{12}\" observacionRechazo=\"{13}\" mesPrimerDescuento=\"{14}\" añoPrimerDescuento=\"{15}\" enviadoFun=\"{16}\" EtapaFUN=\"{17}\"/>",
+                            trabajador.idSolicitud, trabajador.fecha.ToString(), trabajador.rut, trabajador.rutEmpleado,
+                            trabajador.folioFUN.ToString(), trabajador.tipoNotificacion[0], trabajador.codigoIsapre.ToString(), trabajador.ppPeso.ToString(),
+                            trabajador.ppUF.ToString(), trabajador.ppPorcentaje.ToString(), trabajador.estadoFUN.ToString(), trabajador.motivoRechazo.ToString(),
+                            trabajador.fechaMotivo.ToString(), trabajador.observacionRechazo.ToString(), trabajador.mesPrimerDescuento.ToString(),
+                            trabajador.añoPrimerDescuento.ToString(), trabajador.enviadoFun ? '1' : '0');*/
+                            
                             comm.Parameters.Add(new SqlParameter("@idsolicitud",trabajador.idSolicitud));
                             comm.Parameters.Add(new SqlParameter("@fecha",trabajador.fecha));
                             comm.Parameters.Add(new SqlParameter("@rutempresa",trabajador.rut));
@@ -251,6 +261,7 @@ namespace WinPerUpdateUI
                                 throw new Exception(msg, ex);
                             }
                         }
+                       // xml += "</root>";
                         var ans = Utils.StrSendMsg(server, int.Parse(port), "funesinstalled#" + cliente.Id + "#E#T#");
                         conn.Close();
                         MessageBox.Show("Funes Fueron traspasados con Exito", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);

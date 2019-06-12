@@ -44,7 +44,7 @@
         <div class="col-md-12">
             <div class="btn-toolbar hidden-xs">
                 <div class="btn-group" role="toolbar" ng-controller="controllerHome">
-                    <button ng-repeat="ambiente in ambientes" ng-click="publish(version.IdVersion, cliente.Id, ambiente.idAmbientes, true, ambiente.Nombre, userSession.CodPrf, ambiente)" ng-disabled="ambiente.Estado=='V' || ambiente.Estado=='I'" data-toggle="modal" class="btn btn-{{ambiente.ColorEstadoEjecucionSql}}">
+                    <button ng-repeat="ambiente in ambientes" ng-click="publish2(version.IdVersion, cliente.Id, ambiente.idAmbientes, true, ambiente.Nombre, userSession.CodPrf, ambiente)" ng-disabled="ambiente.Estado=='V' || ambiente.Estado=='I' || (ambiente.Estado == 'S' && ambiente.EstadoEjecucionSql == 0)" data-toggle="modal" class="btn btn-{{ambiente.ColorEstadoEjecucionSql}}">
                         Publicar en {{ambiente.Nombre}}
                     </button>
                 </div>
@@ -168,7 +168,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div id="avisocaduca-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -205,6 +205,32 @@
                         <span style="color: red">{{mensaje}}</span>
                     </div>
                     <button class="btn btn-success" ng-click="Publicar()" ng-disabled="estaVigente">Confirmar</button>
+                    <button class="btn btn-default" data-dismiss="modal" ng-click="mensaje = ''">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="opcion-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirmar Publicaci&oacute;n</h4>
+                </div>
+                <div class="modal-body">
+                    La instalaci&oacute;n se puede realizar de dos maneras: 
+                    Manual: Se consultara si quiere instalar scripts y modulos ingresando al portal cada vez para habilitar la instalacion.
+                    Automatica: Al momento de seleccionar esta opcion, todo se ejecutara por detras y solo se notificara cuando haya ocurrido un error
+                    o haya finalizado alguna instalacion.
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <span style="color: red">{{mensaje}}</span>
+                    </div>
+                    <button class="btn btn-success" ng-click="publish(version.IdVersion, cliente.Id, idAmbiente, true, ambiente.Nombre, userSession.CodPrf, AmbienteSel)" ng-disabled="estaVigente">Instalacion Manual</button>
+                    <button class="btn btn-success" ng-click="Publicar2(version.IdVersion, cliente.Id, idAmbiente,userSession.CodPrf)" ng-disabled="estaVigente">Instalacion Silenciosa</button>
+                    
                     <button class="btn btn-default" data-dismiss="modal" ng-click="mensaje = ''">Cerrar</button>
                 </div>
             </div>
@@ -443,13 +469,17 @@
                     <h4 class="modal-title">Aviso WinAct</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Esta versión tiene script SQL que no han sido ejecutados en el ambiente seleccionado. WinAct procederá
-                    a ejecutarlos de forma automática. Posteriormente instalará los componentes en las estaciones de trabajo donde se encuentra
-                    WinAct configurado para este ambiente.</p><br />
-                    <b>NOTAS 
-                    <br />-Para la ejecución de los script SQL, debe estar WinAct instalado y configurado como perfil DBA o Administrador
-                    con permisos para ejecución de scripts.
-                    <br />-Asegúrese que los datos de base de datos del ambientes estén correctamente ingresados.</b>
+                    <p>
+                        Esta versión tiene script SQL que no han sido ejecutados en el ambiente seleccionado. WinAct procederá
+                        a ejecutarlos de forma automática. Posteriormente instalará los componentes en las estaciones de trabajo donde se encuentra
+                        WinAct configurado para este ambiente.
+                    </p><br />
+                    <b>
+                        NOTAS
+                        <br />-Para la ejecución de los script SQL, debe estar WinAct instalado y configurado como perfil DBA o Administrador
+                        con permisos para ejecución de scripts.
+                        <br />-Asegúrese que los datos de base de datos del ambientes estén correctamente ingresados.
+                    </b>
                 </div>
                 <div class="modal-footer" ng-controller="controllerHome">
                     <button type="button" class="btn btn-success" ng-click="EjecutarSqls(version.IdVersion, cliente.Id, idAmbiente,userSession.CodPrf)">Ejecutar Scripts</button>

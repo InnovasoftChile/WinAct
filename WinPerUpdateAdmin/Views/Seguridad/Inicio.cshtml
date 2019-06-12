@@ -34,7 +34,7 @@
         <li role="presentation" class="active"><a ng-click="panel = 1" style="cursor: pointer" role="tab" data-toggle="tab">Administrador</a></li>
         <li role="presentation"><a ng-click="panel = 2" style="cursor: pointer" role="tab" data-toggle="tab">Desarrollador</a></li>
         <li role="presentation"><a ng-click="panel = 3" style="cursor: pointer" role="tab" data-toggle="tab">Soporte</a></li>
-        <li role="presentation"><a ng-click="panel = 4" style="cursor: pointer" role="tab" data-toggle="tab">Gesti&oacute;n</a></li>
+        <li role="presentation"><a ng-click="panel = 4" style="cursor: pointer" role="tab" data-toggle="tab">QA</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane" ng-class="{active:panel==1}">
@@ -119,7 +119,7 @@
         <div role="tabpanel" class="tab-pane" ng-class="{active:panel==4}">
             <br />
             <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="usuario in usuarios | filtroPerfil:4">
+                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="usuario in usuarios | filtroPerfil:14">
                     <div class="item panel" ng-class="{'panel-success':usuario.EstUsr=='V', 'panel-danger':usuario.EstUsr=='C'}">
                         <div class="panel-heading">
                             <h3 class="panel-title single-line">{{usuario.Persona.NomFmt}}</h3>

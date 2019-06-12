@@ -452,7 +452,27 @@ namespace WinPerUpdateAdmin.Controllers.api
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
             }
         }
+        [Route("api/ClientesMobile")]
+        [HttpGet]
+        public Object Get2()
+        {
+            try
+            {
+                var u = HttpContext.Current.Request.Url;
+                if (HttpContext.Current.Session["token"] == null) return Redirect(Request.RequestUri.GetLeftPart(UriPartial.Authority));
+                var obj = ProcessMsg.Cliente.GetClientes();
+                if (obj == null)
+                {
+                    return Content(HttpStatusCode.BadRequest, (ProcessMsg.Model.RegionBo)null);
+                }
 
+                return obj.OrderBy(x => x.Nombre);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+            }
+        }
         [Route("api/Clientes/{idCliente:int}")]
         [HttpGet][Authorize]
         public Object GetCliente(int idCliente)

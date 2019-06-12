@@ -5,14 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
-
-
+using log4net;
+using Newtonsoft.Json;
 
 namespace WinPerUpdateAdmin.Controllers.api
 {
     public class FunesController : ApiController
     {
+        private static readonly ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [Route("api/TestToken")]
         [HttpGet]
@@ -50,8 +50,11 @@ namespace WinPerUpdateAdmin.Controllers.api
                 string[] lines = System.IO.File.ReadAllLines(@"C:\inetpub\wwwroot\portal_winact\Controllers\api\ruts10k.txt");
                 var trabajadores = new List<object>();
                 int i = 0;
+
                 foreach(var trabajador in lines)
                 {
+                    Random estado = new Random();
+                    var valor = estado.Next(1, 4);
                     trabajadores.Add(new
                     {
                         rut = trabajador,
@@ -61,7 +64,7 @@ namespace WinPerUpdateAdmin.Controllers.api
                         ppPesos = 0,
                         ppUF = 5.123,
                         ppPorcentaje = 0,
-                        estadoFUN = 2,
+                        estadoFUN = valor,
                         motivoRechazo = 28,
                         fechaMotivo = DateTime.Now,
                         observacionRechazo = "Trabajador afiliado a Isapre Cruz Blanca",
@@ -104,7 +107,7 @@ namespace WinPerUpdateAdmin.Controllers.api
             try
             {
                 var header = Request.Headers;
-
+                Log.Debug("Entrada Funes: "+JsonConvert.SerializeObject(funes));
                 HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
                 string tokenMaster = ConfigurationManager.AppSettings["token"].ToString().Trim();
 
@@ -127,6 +130,7 @@ namespace WinPerUpdateAdmin.Controllers.api
             }
             catch (Exception ex)
             {
+                Log.Error("Excepcion en Agregar Notifcacion " + ex.Message);
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
             }
         }

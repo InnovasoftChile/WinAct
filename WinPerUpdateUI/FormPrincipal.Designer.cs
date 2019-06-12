@@ -39,6 +39,9 @@
             this.workerPing = new System.ComponentModel.BackgroundWorker();
             this.BwUpdate = new System.ComponentModel.BackgroundWorker();
             this.BwQuery = new System.ComponentModel.BackgroundWorker();
+            this.BwProgress = new System.ComponentModel.BackgroundWorker();
+            this.ETime = new System.Windows.Forms.Timer();
+
             this.SuspendLayout();
             // 
             // notifyIcon2
@@ -53,6 +56,11 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 60000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            //
+            //timer.timer
+            //
+            this.ETime.Interval = 1000;
+            this.ETime.Tick += new System.EventHandler(this.ETime_Tick);
             // 
             // worker
             // 
@@ -77,6 +85,7 @@
             this.timerPing.Enabled = true;
             this.timerPing.Interval = 120000;
             this.timerPing.Tick += new System.EventHandler(this.timerPing_Tick);
+
             // 
             // workerPing
             // 
@@ -87,10 +96,20 @@
             this.BwUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BwUpdate_DoWork);
             // 
             // BwQuery
-            // 
+            //
+            /*
             this.BwQuery.WorkerReportsProgress = true;
             this.BwQuery.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BwQuery_DoWork);
             this.BwQuery.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BwQuery_RunWorkerCompleted);
+            */
+            //
+            // BwProgress
+            //
+            this.BwProgress.WorkerReportsProgress = true;
+            this.BwProgress.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BwProgress_DoWork);
+            this.BwProgress.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BwProgress_ProgressChanged);
+            this.BwProgress.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BwProgress_RunWorkerCompleted);
+
             // 
             // FormPrincipal
             // 
@@ -114,6 +133,7 @@
 
         #endregion
 
+
         private System.Windows.Forms.NotifyIcon notifyIcon2;
         private System.Windows.Forms.Timer timer1;
         private System.ComponentModel.BackgroundWorker worker;
@@ -123,7 +143,8 @@
         private System.ComponentModel.BackgroundWorker workerPing;
         private System.ComponentModel.BackgroundWorker BwUpdate;
         private System.ComponentModel.BackgroundWorker BwQuery;
-        private System.ComponentModel.BackgroundWorker workerFunes;
+        private System.ComponentModel.BackgroundWorker BwProgress;
+        private System.Windows.Forms.Timer ETime;
     }
 }
 

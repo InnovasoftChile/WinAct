@@ -49,7 +49,7 @@ namespace WinPerUpdateUI
                 string[] token = vactual.Split(new Char[] { ' ' });
                 if (token.Length < 2)
                 {
-                    MessageBox.Show(string.Format("Tiene clickeado en el lugar incorrecto, por favor haga click en Winper V y no en un modulo"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format("Tiene seleccionado en el lugar incorrecto, por favor seleccione Winper V y no en un modulo"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 else
@@ -303,8 +303,9 @@ namespace WinPerUpdateUI
                                             }
                                         }
                                     }
+                                    pos++;
+
                                 }
-                                pos++;
 
                             }
                         }
@@ -394,8 +395,23 @@ namespace WinPerUpdateUI
                         }
                         else
                         {
-                            Utils.RegistrarLog("InstallFile.log", x.Name + " ES UN ARCHIVO UNINS000 O .SQL, FUE ELIMINADO");
-                            x.Delete();
+
+                            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\WinperUpdate");
+                            string nroLicencia = key.GetValue("Licencia").ToString();
+                            key.Close();
+                            string server = Utils.GetSetting("server");
+                            string port = Utils.GetSetting("port");
+                            string json = Utils.StrSendMsg(server, int.Parse(port), "checklicencia#" + nroLicencia + "#");
+                            var cliente = JsonConvert.DeserializeObject<ClienteBo>(json);
+                            if (cliente.Nombre== "innovasoftQA" && !x.Extension.ToUpper().Equals(".SQL")){
+                                Utils.RegistrarLog("InstallFile.log", x.Name + " ES UN ARCHIVO UNINS000 O .SQL, FUE ELIMINADO");
+                                x.Delete();
+                            }
+                            else
+                            {
+                                Utils.RegistrarLog("InstallFile.log", x.Name + " ES UN ARCHIVO UNINS000 O .SQL, FUE ELIMINADO");
+                                x.Delete();
+                            }
                         }
                         progress++;
                         bwCopia.ReportProgress((progress*100)/cont);

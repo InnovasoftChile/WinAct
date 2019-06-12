@@ -693,28 +693,28 @@ namespace WinPerUpdateAdmin.Controllers.api
                 }
                 String[] TipoScript = obj.Name.Split('_');
                 String Script = "";
-                if(TipoScript[0] == "Alt" && TipoScript[0] == "alt")
+                if(TipoScript[0] == "Alt" || TipoScript[0] == "alt")
                 {
                     Script = "Alters";
-                } else if (TipoScript[0] == "Vw" && TipoScript[0] == "vw" ){
+                } else if (TipoScript[0] == "Vw" || TipoScript[0] == "vw" ){
                     Script = "Views";
-                }else if (TipoScript[0] == "Qr" && TipoScript[0] == "qr")
+                }else if (TipoScript[0] == "Qr" || TipoScript[0] == "qr")
                 {
                     Script = "Query";
-                } else if (TipoScript[0] == "Sp" && TipoScript[0] == "sp")
+                } else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp"|| TipoScript[0] == "spliq")
                 {
                     Script = "Sp";
-                } else if (TipoScript[0] == "Fn" && TipoScript[0] == "fn")
+                } else if (TipoScript[0] == "Fn" || TipoScript[0] == "fn")
                 {
                     Script = "Funciones";
-                } else if (TipoScript [0] == "Tr" && TipoScript[0] == "tr")
+                } else if (TipoScript [0] == "Tr" || TipoScript[0] == "tr")
                 {
                     Script = "Triggers";
                 }
                 string dirfmt = string.Format("{0}{1}/{2}/{3}", ProcessMsg.Utils.GetPathSetting(HttpContext.Current.Server.MapPath("~/QAtest/")), obj.Modulo,Script, obj.Name);
                 var contenidoSQL = System.IO.File.ReadAllText(dirfmt);
 
-                return contenidoSQL;
+                return contenidoSQL;    
             }
             catch (Exception ex)
             {

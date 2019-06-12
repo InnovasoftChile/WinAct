@@ -222,7 +222,7 @@ namespace WinperUpdateServer
                                         {
                                             Script = "Query";
                                         }
-                                        else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp")
+                                        else if (TipoScript[0] == "Sp" || TipoScript[0] == "sp" || TipoScript[0] == "spliq")
                                         {
                                             Script = "Sp";
                                         }
@@ -314,10 +314,32 @@ namespace WinperUpdateServer
                                 Send(handler, json);
                                 break;
 
+                            case "getversionS":
+                                idCliente = int.Parse(token[1]);
+                                int idAmbientes = int.Parse(token[2]);
+                                var listas = new List<ProcessMsg.Model.VersionBo>();
+                                listas = ProcessMsg.Cliente.GetVersionesAmbiente3(idCliente, idAmbientes, eventLog1);
+
+                                foreach (var item in listas)
+                                {
+                                    if (!String.IsNullOrEmpty(item.Instalador))
+                                    {
+                                        string fileName = dirVersiones + "\\Output\\" + item.Instalador;
+                                        System.IO.FileInfo info = new System.IO.FileInfo(fileName);
+                                        item.Length = info.Length;
+
+                                    }
+                                }
+
+                          
+                                json = JsonConvert.SerializeObject(listas);
+                                Send(handler, json);
+                                break;
+
 
                             case "getfunes": // getfunes#idCliente
                                 idCliente = int.Parse(token[1]);
-                                var listafunes = ProcessMsg.Funes.GetFunes(idCliente, eventLog1);
+                                var listafunes = ProcessMsg.Funes.GetFunes(idCliente);
 
                                 json = JsonConvert.SerializeObject(listafunes);
                                 Send(handler, json);
@@ -435,7 +457,7 @@ namespace WinperUpdateServer
                                 var isfunes = ProcessMsg.Cliente.GetClientebyRut(int.Parse(token[1]),eventLog1).Funes;
                                 if (isfunes)
                                 {
-                                    var funes = ProcessMsg.Funes.GetFunes(int.Parse(token[2]), eventLog1);
+                                    var funes = ProcessMsg.Funes.GetFunes(int.Parse(token[2]),token[3]);
                                     json = JsonConvert.SerializeObject(funes);
                                     Send(handler, json);
                                     if (token[3] == "R")

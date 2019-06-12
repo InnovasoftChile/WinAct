@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinPerUpdateUI", "WinPerUpd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinperUpdateStrCon", "WinperUpdateStrCon\WinperUpdateStrCon.csproj", "{1CEE3559-0063-4433-9A14-DE1A16E5F75C}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{7A7BE6F7-3189-42A6-98BC-D4520E10A3BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instalador", "WindowsFormsApp1\Instalador.csproj", "{64D370DA-535E-4B40-BE53-2A401559FDC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,8 +53,10 @@ Global
 		{1CEE3559-0063-4433-9A14-DE1A16E5F75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CEE3559-0063-4433-9A14-DE1A16E5F75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CEE3559-0063-4433-9A14-DE1A16E5F75C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A7BE6F7-3189-42A6-98BC-D4520E10A3BD}.Debug|Any CPU.ActiveCfg = Debug
-		{7A7BE6F7-3189-42A6-98BC-D4520E10A3BD}.Release|Any CPU.ActiveCfg = Release
+		{64D370DA-535E-4B40-BE53-2A401559FDC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D370DA-535E-4B40-BE53-2A401559FDC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D370DA-535E-4B40-BE53-2A401559FDC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D370DA-535E-4B40-BE53-2A401559FDC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
