@@ -34,7 +34,7 @@ namespace ConnectorDB
             try
             {
                 ConnectionStr = DesEncriptar(ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString);
-               
+
                 if (!String.IsNullOrEmpty(ConnectionStr)) return;
                 throw new NullReferenceException(msg);
             }
@@ -139,7 +139,7 @@ namespace ConnectorDB
             var comm = conn.CreateCommand();
             comm.CommandType = CommandType.Text;
             comm.CommandText = query;
-            
+
             if (parmsDictionary != null)
             {
                 var iterator = parmsDictionary.GetValues();
@@ -396,10 +396,10 @@ namespace ConnectorDB
             var comm = conn.CreateCommand();
             try
             {
-                
+
                 comm.Transaction = tran;
                 comm.CommandType = CommandType.Text;
-                
+
                 for (int i = 0; i < query.GetLength(0); i++)
                 {
                     comm.CommandText = query[i, 0].ToString();
@@ -428,7 +428,7 @@ namespace ConnectorDB
                 tran.Commit();
                 return true;
             }
-            catch(SqlException sqlex)
+            catch (SqlException sqlex)
             {
                 tran.Rollback();
                 var msg = "Error al ejecutar comando: " + comm + " -> " + sqlex.Message;
@@ -438,7 +438,7 @@ namespace ConnectorDB
             catch (Exception ex)
             {
                 tran.Rollback();
-                var msg = "Error en transaccion: "+ ex.Message;
+                var msg = "Error en transaccion: " + ex.Message;
                 // Todo Implementar tipo correcto de excepción.
                 throw new Exception(msg, ex);
             }

@@ -19,6 +19,7 @@ namespace Instalador
     {
         private Form2 ProgBar;
         private DateTime timepre;
+        private int fallo = 0;
 
 
         public Form1()
@@ -78,6 +79,14 @@ namespace Instalador
                         Application.DoEvents();
                     }
 
+                }
+                if(fallo == 0)
+                {
+                    MessageBox.Show("Se Ejecutaron todos los Scripts sin errores", "Ejecucion Terminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Durante la ejecucion hubieron algunos problemas,revisar log", "Ejecucion Terminada", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 Application.Exit();
             }
@@ -151,6 +160,7 @@ namespace Instalador
             }
             catch (Exception ex)
             {
+                fallo++;
                 RegistrarLog("EjecutarQuery.log", ex.ToString() +" Fallo en : " + comando+ " En el Script the nombre : " + nombre);
             }
 
@@ -160,7 +170,6 @@ namespace Instalador
         {
             if (e.Error != null)
             {
-                MessageBox.Show(string.Format("Ocurrió un error durante el proceso de instalación del Script, revise el portal", e.Error.Message), "ERROR WinperUpdate", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (e.Cancelled)
             {
@@ -174,13 +183,11 @@ namespace Instalador
 
                     var args = (object[])e.Result;
                     var File = args[0].ToString();
-                    MessageBox.Show(string.Format("El Script {0} se ha ejecutado con exito.", File), "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format("Ocurrió un error inesperado."), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
@@ -197,9 +204,10 @@ namespace Instalador
             if (!Directory.Exists(dirLog))
             {
                 Directory.CreateDirectory(dirLog);
-            }
+
+            }            
             var log = Path.Combine(dirLog, string.Format("{0}", NombreLog));
-            StreamWriter writer = new StreamWriter(log, true);
+            StreamWriter writer = new StreamWriter(log, false);
             writer.WriteLine(string.Format("{0:dd/MM/yyyy HH:mm:ss} | {1}", DateTime.Now, Text));
             writer.Close();
         }
