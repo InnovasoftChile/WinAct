@@ -14,6 +14,7 @@
         activate();
 
         function activate() {
+            svcBitacora.seturi(Uri());
             $scope.registrosBitacora = [];
             $scope.msgError = "";
             $scope.msgSuccess = "";

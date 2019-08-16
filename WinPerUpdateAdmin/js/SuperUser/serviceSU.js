@@ -5,22 +5,26 @@
         .module('app')
         .factory('serviceSU', serviceSU);
 
-    serviceSU.$inject = ['$http', '$q', '$window'];
+    serviceSU.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceSU($http, $q, $window) {
+    function serviceSU($http, $q, $window,$rootScope) {
         var service = {
             LoadWebConf: LoadWebConf,
-            Guardar: Guardar
+            Guardar: Guardar,
+            seturi: seturi
         };
 
         return service;
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function LoadWebConf(){
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Config',
+                url: $rootScope.baseUri + '/api/Config',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -74,7 +78,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/GuardarConfig',
+                url: $rootScope.baseUri + '/api/GuardarConfig',
                 type: "PUT",
                 dataType: 'Json',
                 data: webConfig,

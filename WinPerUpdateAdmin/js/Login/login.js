@@ -15,6 +15,7 @@
 
         function activate() {
             $scope.msgError = "";
+            serviceLogin.seturi(Uri());
 
             $scope.inlogin = true;
             $scope.inenvioclave = true;

@@ -631,10 +631,11 @@ namespace WinPerUpdateUI
                     #region 3- Se ve si hay actualizaciones en Funes
 
                     Microsoft.Win32.RegistryKey keyp = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\WinperUpdate\");
-                    
 
 
-                    if(keyp.GetValue("Perfil").ToString() == "RR.HH")
+
+
+                    if (keyp.GetValue("Perfil").ToString() == "RR.HH")
                     {
                         var jsonf = Utils.StrSendMsg(server, int.Parse(port), "getfunes#" + cliente.Id.ToString() + "#");
                         var fun = JsonConvert.DeserializeObject<List<FunesTrabajadorBo>>(jsonf);

@@ -521,15 +521,13 @@ namespace ProcessMsg
             }
         }
 
-        public static Model.ClienteBo GetClientebyRut(int Rut, EventLog log)
+        public static Model.ClienteBo GetClientebyRut(int Rut)
         {
             var consulta = new CnaClientes();
-            log.WriteEntry(String.Format("En Get Cleinte by RUT con Rut: {0}\n", Rut), EventLogEntryType.Information, 0);
             try
             {
                 var dr = consulta.Execute();
                 
-                log.WriteEntry(String.Format("Consulta Realizada \n"), EventLogEntryType.Information, 0);
                 var lista = new List<Model.ClienteBo>();
                 while (dr.Read())
                 {
@@ -559,7 +557,6 @@ namespace ProcessMsg
                 }
 
                 var clienteconsul = lista.SingleOrDefault(x => x.Rut == Rut);
-                log.WriteEntry(String.Format("Rut de Cliente obtenido {0} \n" , clienteconsul.Rut), EventLogEntryType.Information, 0);
                 return clienteconsul;
 
 

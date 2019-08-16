@@ -5,9 +5,9 @@
         .module('app')
         .factory('serviceSeguridad', serviceSeguridad);
 
-    serviceSeguridad.$inject = ['$http', '$q', '$window'];
+    serviceSeguridad.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceSeguridad($http, $q, $window) {
+    function serviceSeguridad($http, $q, $window,$rootScope) {
         var service = {
             getUsuario: getUsuario,
             addUsuario: addUsuario,
@@ -15,18 +15,22 @@
             DelUsuario: DelUsuario,
 
             getUsuarios: getUsuarios,
-            getPerfiles: getPerfiles
+            getPerfiles: getPerfiles,
+            seturi: seturi
         };
 
         return service;
 
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function getPerfiles() {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Perfiles/Internos',
+                url: $rootScope.baseUri + '/api/Perfiles/Internos',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -66,7 +70,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Usuarios/' + id,
+                url: $rootScope.baseUri + '/api/Usuarios/' + id,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -108,7 +112,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Usuarios',
+                url: $rootScope.baseUri + '/api/Usuarios',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -159,7 +163,7 @@
             console.debug(JSON.stringify(usuario));
 
             $.ajax({
-                url: '/api/Usuarios',
+                url: $rootScope.baseUri + '/api/Usuarios',
                 type: "POST",
                 dataType: 'Json',
                 data: usuario,
@@ -199,7 +203,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Perfil/DeletePerfil/' + idUsuario,
+                url: $rootScope.baseUri + '/api/Perfil/DeletePerfil/' + idUsuario,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -250,7 +254,7 @@
             //console.debug(JSON.stringify(usuario));
 
             $.ajax({
-                url: '/api/Usuarios/' + id,
+                url: $rootScope.baseUri + '/api/Usuarios/' + id,
                 type: "PUT",
                 dataType: 'Json',
                 data: usuario,

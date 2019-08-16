@@ -42,7 +42,7 @@ namespace WinperUpdateDAO
                             from	Clientes a3,
                                     TrabajadorEmpresaFunes a1,
 		                            Funes a2		
-                            where	a3.idClientes = 431
+                            where	a3.idClientes = @id
                             and     a1.rutEmpresa = convert(varchar(10), a3.rut) + '-' + a3.Dv
                             and		a2.idSolicitud = a1.idSolicitud
                             and		a2.fecha = a1.fecha

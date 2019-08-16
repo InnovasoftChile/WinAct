@@ -14,6 +14,7 @@
 
         function activate() {
             $scope.msgError = "";
+            serviceDescargas.seturi(Uri());
 
             $scope.descargas = [];
 

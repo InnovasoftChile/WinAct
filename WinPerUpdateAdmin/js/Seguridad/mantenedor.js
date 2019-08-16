@@ -14,6 +14,7 @@
 
         function activate() {
             $scope.emailFormat = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/;
+            serviceSeguridad.seturi(Uri());
 
             $scope.msgError = "";
             $scope.saveUser = "";

@@ -17,7 +17,8 @@
             $scope.emailFormat = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/;
             $scope.msgError = "";
             $scope.msgSuccess = "";
-
+            serviceClientes.seturi(Uri());
+            serviceSeguridad.seturi(Uri());
             $scope.idUsuario = 0;
             $scope.Usuario = null;
             $scope.titulo = "Crear Usuario";

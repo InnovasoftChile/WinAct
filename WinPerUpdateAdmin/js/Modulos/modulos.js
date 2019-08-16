@@ -17,7 +17,7 @@
 
             $scope.msgErrorManComp = "";
             $scope.lblBtnCrearTipoComp = "Crear Tipo de Componente";
-
+            serviceModulos.seturi(Uri());
             $scope.title = 'modulos';
             $scope.formData = {};
             $scope.formComp = {};

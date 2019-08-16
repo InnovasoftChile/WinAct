@@ -143,7 +143,7 @@ namespace WinPerUpdateUI
             }
             
             this.Close();
-            MessageBox.Show("WinAct se reiniciará para conservar los cambios.", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("WinAct se cerrara para conservar los cambios, por favor inicie WinAct nuevamente.", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Restart();
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using log4net;
 using Newtonsoft.Json;
 
@@ -80,7 +81,7 @@ namespace WinPerUpdateAdmin.Controllers.api
 
                 var resultado = new
                 {
-                    rutEmpresa = "76003482-7",
+                    rutEmpresa = "93281000-K",
                     unidadGestion = new
                     {
                         codigo = "01",
@@ -99,7 +100,76 @@ namespace WinPerUpdateAdmin.Controllers.api
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
             }
         }
-
+        [Route("api/GetFunes")]
+        [HttpGet]
+        public Object GetFunes()
+        {
+            try
+            {
+                string decript = "";
+                var header = Request.Headers;
+                foreach (var head in header)
+                {
+                    if (head.Key.ToString() == "Token")
+                    {
+                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), "semilla");
+                        break;
+                    }
+                }
+                var spliteo = decript.Split('=');
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Id == int.Parse(spliteo[1]));
+                if (cliente != null)
+                {
+                    return ProcessMsg.Funes.GetFunes(cliente.Id, "R");
+                }
+                else
+                {
+                    return null;
+                }
+            }catch ( Exception ex)
+            {
+                return ex.Message;
+            }
+            
+        }
+        [Route("api/PutFunes")]
+        [HttpPut]
+        public Object PutFunes()
+        {
+            try
+            {
+                string decript = "";
+                var header = Request.Headers;
+                foreach (var head in header)
+                {
+                    if (head.Key.ToString() == "Token")
+                    {
+                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), "semilla");
+                        break;
+                    }
+                }
+                var spliteo = decript.Split('=');
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Id == int.Parse(spliteo[1]));
+                if (cliente != null)
+                {
+                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'E') > 0)
+                    {
+                        return HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        return HttpStatusCode.Accepted;
+                    }
+                }
+                else
+                {
+                    return HttpStatusCode.InternalServerError;
+                }
+            } catch ( Exception ex)
+            {
+                return ex.Message;
+            }
+        }
         [Route("api/AgregarNotificacion")]
         [HttpPost]
         public Object AgregarNotificacion([FromBody]ProcessMsg.Model.FunesNotificacionBo funes)

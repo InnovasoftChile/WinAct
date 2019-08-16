@@ -24,6 +24,7 @@
             $scope.msgError2 = "";
             $scope.formData = {};
             $scope.Script = "";
+            serviceAdmin.seturi(Uri());
 
             $scope.tiempoMsgError2 = 10000;
 

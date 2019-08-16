@@ -5,9 +5,9 @@
         .module('app')
         .factory('serviceModulos', serviceModulos);
 
-    serviceModulos.$inject = ['$http', '$q', '$window'];
+    serviceModulos.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceModulos($http, $q, $window) {
+    function serviceModulos($http, $q, $window,$rootScope) {
         var service = {
             listarModulos: listarModulos,
             getModulosXlsx: getModulosXlsx,
@@ -35,18 +35,22 @@
             getSuites: getSuites,
             ExistDirModulo: ExistDirModulo,
             GetComponentesDirectorio: GetComponentesDirectorio,
-            addComponentesDir: addComponentesDir
+            addComponentesDir: addComponentesDir,
+            seturi: seturi
         };
 
         return service;
 
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function getExisteComponenteEnDir(comp, dir) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/ExisteComponenteEnDir?nombreComp=' + comp + ' &dir= ' + dir,
+                url: $rootScope.baseUri + '/api/ExisteComponenteEnDir?nombreComp=' + comp + ' &dir= ' + dir,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -87,7 +91,7 @@
                 "Directorio": dir
             };
             $.ajax({
-                url: '/api/getDir',
+                url: $rootScope.baseUri + '/api/getDir',
                 type: "POST",
                 dataType: 'Json',
                 data: DirModulos,
@@ -127,7 +131,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/ComponentesDir/'+idModulo,
+                url: $rootScope.baseUri + '/api/Modulo/ComponentesDir/'+idModulo,
                 type: "POST",
                 dataType: 'text',
                 contentType: "application/json",
@@ -168,7 +172,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/'+idModulo+'/ComponentesDir',
+                url: $rootScope.baseUri + '/api/Modulo/'+idModulo+'/ComponentesDir',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -211,7 +215,7 @@
             };
 
             $.ajax({
-                url: '/api/ExistDir/Modulo',
+                url: $rootScope.baseUri + '/api/ExistDir/Modulo',
                 type: "POST",
                 dataType: 'Json',
                 data: DirModulos,
@@ -251,7 +255,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Suites',
+                url: $rootScope.baseUri + '/api/Suites',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -290,7 +294,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Componentes/Sync',
+                url: $rootScope.baseUri + '/api/Componentes/Sync',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -337,7 +341,7 @@
                 isCompCambios: cambios
             };
             $.ajax({
-                url: '/api/TipoComponentes/' + idtipocomponente,
+                url: $rootScope.baseUri + '/api/TipoComponentes/' + idtipocomponente,
                 type: "PUT",
                 dataType: 'Json',
                 data: tipoComp,
@@ -376,7 +380,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/'+idModulo+'/Vigente',
+                url: $rootScope.baseUri + '/api/Modulo/'+idModulo+'/Vigente',
                 type: "PUT",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -414,7 +418,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/TipoComponentes',
+                url: $rootScope.baseUri + '/api/TipoComponentes',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -452,7 +456,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/' + idModulo+'/Componentes',
+                url: $rootScope.baseUri + '/api/Modulo/' + idModulo+'/Componentes',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -498,7 +502,7 @@
 
             console.debug(JSON.stringify(ComponentesModulos));
             $.ajax({
-                url: '/api/ComponentesModulos/' + idModulo,
+                url: $rootScope.baseUri + '/api/ComponentesModulos/' + idModulo,
                 type: "POST",
                 dataType: 'Json',
                 data: ComponentesModulos,
@@ -537,7 +541,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/ComponentesModulos/' + idComponentesModulos,
+                url: $rootScope.baseUri + '/api/ComponentesModulos/' + idComponentesModulos,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -582,7 +586,7 @@
             };
 
             $.ajax({
-                url: '/api/ComponentesModulos/' + idComponentesModulos,
+                url: $rootScope.baseUri + '/api/ComponentesModulos/' + idComponentesModulos,
                 type: "PUT",
                 dataType: 'Json',
                 data: ComponentesModulos,
@@ -627,7 +631,7 @@
                 "isCompCambios": iscompcambios
             };
             $.ajax({
-                url: '/api/TipoComponentes',
+                url: $rootScope.baseUri + '/api/TipoComponentes',
                 type: "POST",
                 dataType: 'Json',
                 data: TipoComponentes,
@@ -666,7 +670,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/TipoComponentes/' + idTipoComponentes,
+                url: $rootScope.baseUri + '/api/TipoComponentes/' + idTipoComponentes,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -704,7 +708,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/' + idModulo,
+                url: $rootScope.baseUri + '/api/Modulo/' + idModulo,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -742,7 +746,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/ModulosXlsx/'+idUsuario,
+                url: $rootScope.baseUri + '/api/ModulosXlsx/'+idUsuario,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -781,7 +785,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/' + idmodulo + '/' + tipocomponente + '/Componente?Comp=' + comp,
+                url: $rootScope.baseUri + '/api/Modulo/' + idmodulo + '/' + tipocomponente + '/Componente?Comp=' + comp,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -821,7 +825,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulos',
+                url: $rootScope.baseUri + '/api/Modulos',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -866,7 +870,7 @@
             }
 
             $.ajax({
-                url: '/api/Modulo',
+                url: $rootScope.baseUri + '/api/Modulo',
                 type: "POST",
                 dataType: 'Json',
                 data: modulo,
@@ -912,7 +916,7 @@
             }
 
             $.ajax({
-                url: '/api/Modulo/'+id,
+                url: $rootScope.baseUri + '/api/Modulo/'+id,
                 type: "PUT",
                 dataType: 'Json',
                 data: modulo,
@@ -951,7 +955,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulo/'+idModulo,
+                url: $rootScope.baseUri + '/api/Modulo/'+idModulo,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) {

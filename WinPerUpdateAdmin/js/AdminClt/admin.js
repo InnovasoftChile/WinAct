@@ -5,9 +5,9 @@
         .module('app')
         .controller('admin', admin);
 
-    admin.$inject = ['$scope', '$routeParams', 'serviceAdmin', 'serviceAmbientes', '$timeout', '$window'];
+    admin.$inject = ['$scope', '$routeParams', 'serviceAdmin', 'serviceAmbientes', '$timeout', '$window','$rootScope'];
 
-    function admin($scope, $routeParams, serviceAdmin, serviceAmbientes, $timeout, $window) {
+    function admin($scope, $routeParams, serviceAdmin, serviceAmbientes, $timeout, $window, $rootScope) {
         $scope.title = 'admin';
 
         activate();
@@ -16,7 +16,8 @@
             
             $scope.msgError = "";
             $scope.msgSuccess = "";
-
+            serviceAmbientes.seturi(Uri());
+            serviceAdmin.seturi(Uri());
             $scope.version = {};
             $scope.versiones = [];
             $scope.ambientes = [];

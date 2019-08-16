@@ -14,6 +14,7 @@
 
         function activate() {
             $scope.msgError = "";
+            serviceSeguridad.seturi(Uri());
 
             $scope.usuarios = [];
             $scope.totales = [0, 0, 0, 0, 0];

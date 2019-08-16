@@ -57,9 +57,7 @@ namespace Instalador
                 var applicationSettings = ConfigurationManager.GetSection("ApplicationSettings") as NameValueCollection;
                 foreach(var key in applicationSettings.AllKeys)
                 {
-                    var sr = File.OpenText("./"+ applicationSettings[key]);
-                    string query = sr.ReadToEnd();
-                    sr.Close();
+                    var query = File.ReadAllText("./"+ applicationSettings[key], Encoding.GetEncoding("iso-8859-1"));
                     ProgBar.LblPorcentaje.Text = "0/0";
                     ProgBar.PbProgreso.Value = 0;
                     ProgBar.LblTime.Text = "Tiempo Transcurrido : 000";
@@ -98,6 +96,22 @@ namespace Instalador
 
         private void CheckAdmin_Load(object sender, EventArgs e)
         {
+            var NombreLog = "EjecutarQuery.log";
+            var dirTemp = Directory.GetCurrentDirectory();
+            string dir = Path.Combine(dirTemp, string.Format("{0:ddMMyyyy}", DateTime.Now));
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            var dirLog = Path.Combine(dir, NombreLog.Replace(".log", ""));
+            if (!Directory.Exists(dirLog))
+            {
+                Directory.CreateDirectory(dirLog);
+
+            }
+            var log = Path.Combine(dirLog, string.Format("{0}", NombreLog));
+            File.WriteAllText(log, String.Empty);
+            
 
         }
         private void ETime_Tick(object sender, EventArgs e)
@@ -125,7 +139,6 @@ namespace Instalador
                 var query = args[0].ToString();
                 var ConnectionStr = args[1].ToString();
                 nombre = args[2].ToString();
-
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
                 IEnumerable<string> commandStrings = Regex.Split(query, @"^\s*GO\s*$",
@@ -207,7 +220,7 @@ namespace Instalador
 
             }            
             var log = Path.Combine(dirLog, string.Format("{0}", NombreLog));
-            StreamWriter writer = new StreamWriter(log, false);
+            StreamWriter writer = new StreamWriter(log, true);
             writer.WriteLine(string.Format("{0:dd/MM/yyyy HH:mm:ss} | {1}", DateTime.Now, Text));
             writer.Close();
         }

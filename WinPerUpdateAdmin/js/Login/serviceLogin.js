@@ -5,19 +5,22 @@
         .module('app')
         .factory('serviceLogin', serviceLogin);
 
-    serviceLogin.$inject = ['$http', '$q', '$window'];
+    serviceLogin.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceLogin($http, $q, $window) {
+    function serviceLogin($http, $q, $window,$rootScope) {
         var service = {
             getLogin: getLogin,
             sendMail: sendMail,
             CrearBD: CrearBD,
             CrearSuper: CrearSuper,
-            GuardarConfig: GuardarConfig
+            GuardarConfig: GuardarConfig,
+            seturi: seturi
         };
 
         return service;
-
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
         function CrearBD(userbd, passbd, svbd, nombrebd, nombreuser, apellidouser, mailuser, passsu) {
             var deferred = $q.defer();
             var promise = deferred.promise;
@@ -40,7 +43,7 @@
             };
 
             $.ajax({
-                url: '/api/CrearBD',
+                url: $rootScope.baseUri + '/api/CrearBD',
                 type: "POST",
                 dataType: 'Json',
                 data: bddata,
@@ -88,7 +91,7 @@
             };
 
             $.ajax({
-                url: '/api/Usuarios',
+                url: $rootScope.baseUri + '/api/Usuarios',
                 type: "POST",
                 dataType: 'Json',
                 data: usuario,
@@ -138,7 +141,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/GuardarConfig',
+                url: $rootScope.baseUri + '/api/GuardarConfig',
                 type: "PUT",
                 dataType: 'Json',
                 data: webConfig,
@@ -176,7 +179,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Seguridad?mail=' + mail + '&password='+clave,
+                url: $rootScope.baseUri + '/api/Seguridad?mail=' + mail + '&password='+clave,
                 type: "GET",
                 dataType: 'Json',
                 success: function (data, textStatus, jqXHR) {

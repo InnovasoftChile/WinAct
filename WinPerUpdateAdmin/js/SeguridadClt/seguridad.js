@@ -16,7 +16,8 @@
             $scope.msgError = "";
 
             console.log("id User = " + $("#idToken").val());
-
+            serviceSeguridad.seturi(Uri());
+            serviceClientes.seturi(Uri());
             $scope.idCliente = $routeParams.idCliente > 0 ? $routeParams.idCliente : 0;
             $scope.idUsuario = 0;
             $scope.titulo = "Crear Usuario";

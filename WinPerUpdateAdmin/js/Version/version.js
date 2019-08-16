@@ -18,7 +18,9 @@
             $scope.msgError = "";
             $scope.msgSuccess = "";
             $scope.publicando = false;
-            $scope.idversion = 0;     
+            $scope.idversion = 0;    
+            serviceAdmin.seturi(Uri());
+
 
             $scope.user = "";
 

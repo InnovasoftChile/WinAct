@@ -22,7 +22,7 @@
             $scope.version = null;
             $scope.modulos = [];
             $scope.chkimpacta = false;
-            
+            serviceAdmin.seturi(Uri());
             $scope.DocCambiosEliminar = "";
             $scope.controlCambios = null;
 

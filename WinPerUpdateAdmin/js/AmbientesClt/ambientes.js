@@ -3,28 +3,28 @@
 
     angular
         .module('app')
-        .controller('ambientes', ambientes);
+        .controller('ambientes',  ambientes);
 
-    ambientes.$inject = ['$scope', 'serviceAmbientes', 'serviceSeguridad', 'FileUploader', '$window'];
+    ambientes.$inject = ['$scope', 'serviceAmbientes', 'serviceSeguridad', 'FileUploader', '$window','$rootScope'];
 
-    function ambientes($scope, serviceAmbientes, serviceSeguridad, FileUploader, $window) {
+    function ambientes($scope, serviceAmbientes, serviceSeguridad, FileUploader, $window, $rootScope) {
         $scope.title = 'Ambientes';
 
         activate();
 
         function activate() {
+            serviceAmbientes.seturi(Uri());
+            serviceSeguridad.seturi(Uri());
             $scope.msgError = "";
             $scope.msgSuccess = "";
             $scope.ambientes = [];
             $scope.ambientesxlsx = [];
-            console.log("id User = " + $("#idToken").val());
             $scope.idUsuario = $("#idToken").val()
             $scope.ambxlsxwarn = false;
 
             serviceSeguridad.getUsuario($scope.idUsuario).success(function (data) {
                 $scope.idCliente = data.Cliente.Id;
                 serviceAmbientes.getAmbientes($scope.idCliente).success(function (ambientes) {
-                    console.log(JSON.stringify(ambientes));
                     $scope.ambientes = ambientes;
                     $scope.msgError = "";
                 }).error(function (err) {

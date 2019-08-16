@@ -22,6 +22,7 @@
         function activate() {
             $scope.msgError = "";
             $scope.id = $("#idToken").val();
+            serviceSeguridad.seturi(Uri());
             
 
             serviceSeguridad.getUsuario($scope.id).success(function (data) {

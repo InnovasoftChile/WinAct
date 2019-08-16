@@ -5,21 +5,26 @@
         .module('app')
         .factory('serviceSeguridad', serviceSeguridad);
 
-    serviceSeguridad.$inject = ['$http', '$q', '$window'];
+    serviceSeguridad.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceSeguridad($http, $q, $window) {
+    function serviceSeguridad($http, $q, $window,$rootScope) {
         var service = {
-            getUsuario: getUsuario
+            getUsuario: getUsuario,
+            seturi: seturi
         };
 
         return service;
+
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function getUsuario(id) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Usuarios/' + id,
+                url: $rootScope.baseUri + '/api/Usuarios/' + id,
                 type: "GET",
                 dataType: 'Json',
                 success: function (data, textStatus, jqXHR) {

@@ -37,6 +37,7 @@ namespace ProcessMsg
                             resultado = query.Execute(funes.IdSolicitud, fecha , empresa.rutEmpresa, empresa.unidadGestion.codigo, empresa.unidadGestion.glosa);
                         }
                         Log.Info("Inserto Empresa :" + resultado);
+                        Log.Info("Funes Recibidos : " + funes.Funes[0].trabajadores.Count);
                         if (resultado > 0)
                         {
                             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -80,6 +81,7 @@ namespace ProcessMsg
                             
                             xml += "</root>";
 
+                            Log.Info("Tamaño XML: " + xml.Length);
                             object[] respuesta = new object[2];
                             Log.Info("XML: " + xml);
                             var reader = new AddFunes().Execute(xml);
@@ -201,7 +203,7 @@ namespace ProcessMsg
             }
         }
 
-        public static int Actualizar(int idCliente,char etapaini,char etapafin, EventLog log)
+        public static int Actualizar(int idCliente,char etapaini,char etapafin)
         {
             var query = new UpdFunes();
             try
@@ -211,7 +213,6 @@ namespace ProcessMsg
             catch (Exception ex)
             {
                 var msg = "Excepcion Controlada: " + ex.Message;
-                if (log != null) log.WriteEntry(msg, EventLogEntryType.Error);
                 throw new Exception(msg, ex);
             }
         }

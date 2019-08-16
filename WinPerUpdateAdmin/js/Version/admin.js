@@ -23,6 +23,7 @@
         function activate() {
             $scope.versiones = [];
             $scope.msgVersionInicial = "";
+            serviceAdmin.seturi(Uri());
 
             serviceAdmin.getUsuario($scope.idUsuario).success(function (data) {
                 $scope.user = data.CodPrf;

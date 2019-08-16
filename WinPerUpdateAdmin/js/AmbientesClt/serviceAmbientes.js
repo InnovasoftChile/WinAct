@@ -5,9 +5,9 @@
         .module('app')
         .service('serviceAmbientes', serviceAmbientes);
 
-    serviceAmbientes.$inject = ['$http','$q', '$window'];
+    serviceAmbientes.$inject = ['$http','$q', '$window','$rootScope'];
 
-    function serviceAmbientes($http, $q, $window) {
+    function serviceAmbientes($http, $q, $window,$rootScope) {
         var service = {
             getAmbientes: getAmbientes,
             getAmbientesXlsx: getAmbientesXlsx,
@@ -15,17 +15,21 @@
 
             addAmbiente: addAmbiente,
             updAmbiente: updAmbiente,
-            delAmbiente: delAmbiente
+            delAmbiente: delAmbiente,
+            seturi: seturi
         };
 
         return service;
-
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
         function getAmbientesXlsx(idCliente) {
             var deferred = $q.defer();
             var promise = deferred.promise;
+            
 
             $.ajax({
-                url: '/api/Cliente/' + idCliente + '/AmbientesXLSX',
+                url: $rootScope.baseUri + '/api/Cliente/' + idCliente + '/AmbientesXLSX',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
@@ -60,9 +64,11 @@
         function getAmbiente(idCliente, idAmbiente) {
             var deferred = $q.defer();
             var promise = deferred.promise;
+            console.log($rootScope.baseUri);
+
 
             $.ajax({
-                url: '/api/Cliente/' + idCliente + '/Ambiente/'+idAmbiente,
+                url: $rootScope.baseUri + '/api/Cliente/' + idCliente + '/Ambiente/'+idAmbiente,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
@@ -100,7 +106,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Cliente/'+idCliente+'/Ambiente',
+                url: $rootScope.baseUri + '/api/Cliente/'+idCliente+'/Ambiente',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
@@ -148,7 +154,7 @@
             };
 
             $.ajax({
-                url: "api/Cliente/"+idCliente+"/Ambiente",
+                url: $rootScope.baseUri + "/api/Cliente/"+idCliente+"/Ambiente",
                 type: "POST",
                 dataType: 'Json',
                 data: ambiente,
@@ -195,7 +201,7 @@
             };
             console.log(JSON.stringify(ambiente));
             $.ajax({
-                url: "api/Cliente/" + idCliente + "/Ambiente/" + idAmbiente,
+                url: $rootScope.baseUri + "/api/Cliente/" + idCliente + "/Ambiente/" + idAmbiente,
                 type: "PUT",
                 dataType: 'Json',
                 data: ambiente,
@@ -232,7 +238,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: "api/Cliente/" + idCliente + "/Ambiente/" + idAmbiente,
+                url: $rootScope.baseUri + "/api/Cliente/" + idCliente + "/Ambiente/" + idAmbiente,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {

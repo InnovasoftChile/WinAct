@@ -31,7 +31,7 @@
                     console.error(err);
                 });
             }, 60000);*/
-
+            factoryHome.seturi(Uri());
             factoryHome.getUsuarioSession($scope.id).success(function (data) {
                 $scope.userSession = data;
                 $scope.msgError = "";

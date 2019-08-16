@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html ng-app="app">
 <head>
+
     <title>WinAct - Control de Versiones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,6 +17,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @Scripts.Render("~/bundles/wowl2")
     <script>
         new WOW().init();
+        function Uri() {
+            return '@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()';
+        }
     </script>
     <!----webfonts--->
     <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -26,7 +30,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     @Scripts.Render("~/bundles/bootstrapl2")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/angular")
-
 </head>
 
 @{try

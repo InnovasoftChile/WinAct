@@ -20,6 +20,8 @@
             $scope.idVersion = $routeParams.idVersion;
             $scope.componentesOficiales = [];
             $scope.modulos = [];
+            serviceAdmin.seturi(Uri());
+
 
 
             serviceAdmin.getVersion($scope.idVersion).success(function (data) {

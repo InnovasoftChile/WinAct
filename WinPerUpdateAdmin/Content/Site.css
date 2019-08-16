@@ -1,4 +1,13 @@
-﻿body {
+﻿.fondo-login {
+    background-image: url(../Img/Fotolia_141905807_M.jpg);
+    background-repeat:no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 90px;
+    bottom: 70px;
+    width: 100%;
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }

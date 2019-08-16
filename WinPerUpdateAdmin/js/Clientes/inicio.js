@@ -14,7 +14,7 @@
 
         function activate() {
             $scope.msgError = "";
-
+            serviceClientes.seturi(Uri());
             $scope.clientes = [];
             $scope.all = false;
             $scope.clienteNoVigente = null;

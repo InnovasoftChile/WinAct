@@ -1,4 +1,6 @@
-﻿namespace Instalador
+﻿using System.Drawing;
+
+namespace Instalador
 {
     partial class Form2
     {

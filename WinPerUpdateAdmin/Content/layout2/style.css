@@ -9,7 +9,15 @@ h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}
 p {margin: 0;}
 
-
+.fondo-login {
+    background-image: url(../../Img/Fotolia_141905807_M.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 90px;
+    bottom: 70px;
+    width: 100%;
+}
 
 html, body{
   	font-family: Calibri;

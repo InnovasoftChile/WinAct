@@ -139,6 +139,7 @@ namespace ConnectorDB
             var comm = conn.CreateCommand();
             comm.CommandType = CommandType.Text;
             comm.CommandText = query;
+            comm.CommandTimeout = 0;
 
             if (parmsDictionary != null)
             {

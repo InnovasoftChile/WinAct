@@ -20,6 +20,7 @@
             $scope.msgError = "";
             $scope.msgSuccess = "";
             $scope.msgAdvertencia = "";
+            serviceClientes.seturi(Uri());
 
             $scope.msgSeleccionSuite = "";
 

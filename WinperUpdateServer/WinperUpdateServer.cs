@@ -454,25 +454,33 @@ namespace WinperUpdateServer
 
 
                             case "getfunesup": //getfunesup#rutcliente#idcliente#etapaini#etapafin#
-                                var isfunes = ProcessMsg.Cliente.GetClientebyRut(int.Parse(token[1]),eventLog1).Funes;
+                                var isfunes = ProcessMsg.Cliente.GetClientebyRut(int.Parse(token[1])).Funes;
                                 if (isfunes)
                                 {
+                                    eventLog1.WriteEntry(String.Format("Antes funes\n"), EventLogEntryType.Information, 0);
                                     var funes = ProcessMsg.Funes.GetFunes(int.Parse(token[2]),token[3]);
+                                    eventLog1.WriteEntry(String.Format("Obtuve funes\n"), EventLogEntryType.Information, 0);
                                     json = JsonConvert.SerializeObject(funes);
                                     Send(handler, json);
                                     if (token[3] == "R")
                                     {
 
-                                        ProcessMsg.Funes.Actualizar(int.Parse(token[2]), char.Parse(token[3]),char.Parse(token[4]), eventLog1);
+                                        ProcessMsg.Funes.Actualizar(int.Parse(token[2]), char.Parse(token[3]),char.Parse(token[4]));
+                                        eventLog1.WriteEntry(String.Format("Acualizado\n"), EventLogEntryType.Information, 0);
+
 
                                     }
+                                }
+                                else
+                                {
+                                    Send(handler, "0");
                                 }
 
 
                                 break;
 
                             case "funesinstalled": //funesinstalled#idcliente#etapaini#etapafin#
-                                var lines = ProcessMsg.Funes.Actualizar(int.Parse(token[1]), char.Parse(token[2]),char.Parse(token[3]), eventLog1);
+                                var lines = ProcessMsg.Funes.Actualizar(int.Parse(token[1]), char.Parse(token[2]),char.Parse(token[3]));
                                 if(lines > 0)
                                 {
                                     Send(handler, "1");

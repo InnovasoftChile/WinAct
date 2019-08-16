@@ -19,6 +19,7 @@
         activate();
 
         function activate() {
+            serviceModulos.seturi(Uri());
             serviceModulos.listarModulos().success(function (data) {
                 $scope.modulos = data;
                 $scope.msgError = "";

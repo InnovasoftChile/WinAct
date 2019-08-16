@@ -19,6 +19,7 @@
             $scope.msgError = "";
             $scope.saveUser = "";
             $scope.msgCamposRequeridos = false;
+            serviceSoporte.seturi(Uri());
 
             $scope.idUsuario = 0;
             $scope.increate = true;

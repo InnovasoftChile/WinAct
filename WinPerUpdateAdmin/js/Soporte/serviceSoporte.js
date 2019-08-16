@@ -5,27 +5,31 @@
         .module('app')
         .factory('serviceSoporte', serviceSoporte);
 
-    serviceSoporte.$inject = ['$http', '$q', '$window'];
+    serviceSoporte.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceSoporte($http, $q, $window) {
+    function serviceSoporte($http, $q, $window,$rootScope) {
         var service = {
             getUsuario: getUsuario,
             getClientes: getClientes,
             getVersiones: getVersiones,
             getAmbientes: getAmbientes,
             getTareas: getTareas,
-            updTarea: updTarea
+            updTarea: updTarea,
+            seturi: seturi
         };
 
         return service;
 
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function getClientes() {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Soporte/Clientes',
+                url: $rootScope.baseUri + '/api/Soporte/Clientes',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -65,7 +69,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Usuarios/' + id,
+                url: $rootScope.baseUri + '/api/Usuarios/' + id,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -105,7 +109,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Soporte/Versiones/' + id,
+                url: $rootScope.baseUri + '/api/Soporte/Versiones/' + id,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -144,7 +148,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Soporte/Cliente/'+ idCliente +'/Version/'+ idVersion + '/Ambiente',
+                url: $rootScope.baseUri + '/api/Soporte/Cliente/'+ idCliente +'/Version/'+ idVersion + '/Ambiente',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -183,7 +187,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Soporte/Tareas/Cliente/' + idCliente + '/Version/' + idVersion,
+                url: $rootScope.baseUri + '/api/Soporte/Tareas/Cliente/' + idCliente + '/Version/' + idVersion,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -227,7 +231,7 @@
             };
 
             $.ajax({
-                url: '/api/UpdateTarea',
+                url: $rootScope.baseUri + '/api/UpdateTarea',
                 type: "PUT",
                 dataType: 'Json',
                 data: obj,

@@ -6,24 +6,29 @@
         .module('app')
         .factory('svcBitacora', svcBitacora);
 
-    svcBitacora.$inject = ['$http', '$q', '$window'];
+    svcBitacora.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function svcBitacora($http, $q, $window) {
+    function svcBitacora($http, $q, $window,$rootScope) {
         var service = {
             getBitacoraByMenu: getBitacoraByMenu,
-            getUsuarioBitacora: getUsuarioBitacora
+            getUsuarioBitacora: getUsuarioBitacora,
+            seturi: seturi
         };
 
         return service;
 
         //Funciones API
 
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
+
         function getBitacoraByMenu(menu) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Bitacora/Menu?menu='+menu,
+                url: $rootScope.baseUri + $rootScope.baseUri + '/api/Bitacora/Menu?menu='+menu,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
@@ -62,7 +67,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Usuarios/'+usuario,
+                url: $rootScope.baseUri + '/api/Usuarios/'+usuario,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {

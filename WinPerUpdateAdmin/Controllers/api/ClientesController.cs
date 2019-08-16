@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
+using System.Web.Http.Cors;
 
 namespace WinPerUpdateAdmin.Controllers.api
 {
@@ -33,6 +34,73 @@ namespace WinPerUpdateAdmin.Controllers.api
         #endregion
 
         #region get
+
+        [Route("api/ClientesMobile")]
+        [HttpGet]
+        public Object ClientesMobile(int sizepage, int page, string patron)
+        {
+            try
+            {
+                var obj = ProcessMsg.Cliente.GetClientes();
+                if (obj == null)
+                {
+                    return Content(HttpStatusCode.BadRequest, (ProcessMsg.Model.RegionBo)null);
+                }
+
+                int desde = (page - 1) * sizepage;
+                int i = 0;
+                var lista = new List<ProcessMsg.Model.ClienteBo>();
+                foreach (var cliente in obj.OrderBy(x => x.Nombre))
+                {
+                    if (!string.IsNullOrEmpty(patron))
+                    {
+                        if (cliente.Nombre.Contains(patron))
+                        {
+                            if (++i > desde)
+                            {
+                                lista.Add(cliente);
+                                if (lista.Count >= sizepage) break;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (++i > desde)
+                        {
+                            lista.Add(cliente);
+                            if (lista.Count >= sizepage) break;
+                        }
+                    }
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+            }
+        }
+
+        [Route("api/ClientesMobile/{id:int}")]
+        [HttpGet]
+        public Object ClientesMobileById(int id)
+        {
+            try
+            {
+                var obj = ProcessMsg.Cliente.GetClientes();
+                if (obj == null)
+                {
+                    return Content(HttpStatusCode.BadRequest, (ProcessMsg.Model.RegionBo)null);
+                }
+
+                return obj.SingleOrDefault(x => x.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+            }
+        }   
 
         [Route("api/getClienteNoVigente/{id:int}")]
         [HttpGet]

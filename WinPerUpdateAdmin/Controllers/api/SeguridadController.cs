@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Http.Cors;
 
 namespace WinPerUpdateAdmin.Controllers.api
 {

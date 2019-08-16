@@ -17,6 +17,7 @@
             
             $scope.lblButton = "Guardar";
             $scope.formData = {};
+            serviceSU.seturi(Uri());
 
             serviceSU.LoadWebConf().success(function (data) {
                 $scope.formData.innosetup = data.pathGenSetup;

@@ -5,9 +5,9 @@
         .module('app')
         .factory('serviceClientes', serviceClientes);
 
-    serviceClientes.$inject = ['$http', '$q', '$window'];
+    serviceClientes.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceClientes($http, $q, $window) {
+    function serviceClientes($http, $q, $window,$rootScope) {
         var service = {
             getRegiones: getRegiones,
             getComunas: getComunas,
@@ -44,18 +44,22 @@
             addModuloCliente: addModuloCliente,
             getClienteNoVigente: getClienteNoVigente,
             getModulosDesdeSuite: getModulosDesdeSuite,
-            getClientesPDF: getClientesPDF
+            getClientesPDF: getClientesPDF,
+            seturi: seturi
         };
 
         return service;
 
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function getModulosDesdeSuite(suite) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/getModulosDesdeSuite/'+suite,
+                url: $rootScope.baseUri + '/api/getModulosDesdeSuite/'+suite,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -91,7 +95,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/getClienteNoVigente/'+id,
+                url: $rootScope.baseUri + '/api/getClienteNoVigente/'+id,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -127,7 +131,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/ExisteMail?mail='+mail,
+                url: $rootScope.baseUri + '/api/ExisteMail?mail='+mail,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -163,7 +167,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Bienvenida/Usuario/' + idUsuario,
+                url: $rootScope.baseUri + '/api/Bienvenida/Usuario/' + idUsuario,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -198,7 +202,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/ExisteVersionInicial/Cliente/' + idCliente,
+                url: $rootScope.baseUri + '/api/ExisteVersionInicial/Cliente/' + idCliente,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -233,7 +237,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/VersionInicial/' + idVersion + '/Cliente',
+                url: $rootScope.baseUri + '/api/VersionInicial/' + idVersion + '/Cliente',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -279,7 +283,7 @@
             };
 
             $.ajax({
-                url: '/api/Version',
+                url: $rootScope.baseUri + '/api/Version',
                 type: "POST",
                 dataType: 'Json',
                 data: version,
@@ -316,7 +320,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Version/' + id + '/Cliente/' + idCliente,
+                url: $rootScope.baseUri + '/api/Version/' + id + '/Cliente/' + idCliente,
                 type: "POST",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -352,7 +356,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/GenCorrelativo/'+mescon+'/'+folio,
+                url: $rootScope.baseUri + '/api/GenCorrelativo/'+mescon+'/'+folio,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -388,7 +392,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/GetAnios',
+                url: $rootScope.baseUri + '/api/GetAnios',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -424,7 +428,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Suites',
+                url: $rootScope.baseUri + '/api/Suites',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -460,7 +464,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/TrabPlantas',
+                url: $rootScope.baseUri + '/api/TrabPlantas',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -496,7 +500,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/TrabHonorarios',
+                url: $rootScope.baseUri + '/api/TrabHonorarios',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -532,7 +536,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Cliente/' + idCliente + '/VersionesInstaladas',
+                url: $rootScope.baseUri + '/api/Cliente/' + idCliente + '/VersionesInstaladas',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -567,7 +571,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Cliente/' + idCliente + '/VersionesPublicadas',
+                url: $rootScope.baseUri + '/api/Cliente/' + idCliente + '/VersionesPublicadas',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
@@ -602,7 +606,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Cliente/' + idCliente + '/ModulosWinper',
+                url: $rootScope.baseUri + '/api/Cliente/' + idCliente + '/ModulosWinper',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -638,7 +642,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Modulos/Suite/'+idsuite,
+                url: $rootScope.baseUri + '/api/Modulos/Suite/'+idsuite,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -675,7 +679,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Region',
+                url: $rootScope.baseUri + '/api/Region',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -712,7 +716,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Region/' + idRgn + '/Comunas',
+                url: $rootScope.baseUri + '/api/Region/' + idRgn + '/Comunas',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -748,7 +752,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes',
+                url: $rootScope.baseUri + '/api/Clientes',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -785,7 +789,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes/' + id,
+                url: $rootScope.baseUri + '/api/Clientes/' + id,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -822,7 +826,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Version/' + idVersion + '/Clientes',
+                url: $rootScope.baseUri + '/api/Version/' + idVersion + '/Clientes',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -859,7 +863,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes/' + id + '/Usuarios',
+                url: $rootScope.baseUri + '/api/Clientes/' + id + '/Usuarios',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -896,7 +900,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes/' + id + '/Usuarios/' + idUsuario,
+                url: $rootScope.baseUri + '/api/Clientes/' + id + '/Usuarios/' + idUsuario,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -933,7 +937,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Cliente/'+idCliente+'/Modulos',
+                url: $rootScope.baseUri + '/api/Cliente/'+idCliente+'/Modulos',
                 type: "POST",
                 dataType: 'text',
                 contentType: "application/json",
@@ -992,7 +996,7 @@
             console.debug(JSON.stringify(cliente));
 
             $.ajax({
-                url: '/api/Clientes',
+                url: $rootScope.baseUri + '/api/Clientes',
                 type: "POST",
                 dataType: 'Json',
                 data: cliente,
@@ -1040,7 +1044,7 @@
             //console.debug(JSON.stringify(usuario));
 
             $.ajax({
-                url: '/api/Clientes/' + idCliente + '/Usuarios',
+                url: $rootScope.baseUri + '/api/Clientes/' + idCliente + '/Usuarios',
                 type: "POST",
                 dataType: 'Json',
                 data: usuario,
@@ -1099,7 +1103,7 @@
             console.debug(JSON.stringify(cliente));
 
             $.ajax({
-                url: '/api/Clientes/' + id,
+                url: $rootScope.baseUri + '/api/Clientes/' + id,
                 type: "PUT",
                 dataType: 'Json',
                 data: cliente,
@@ -1148,7 +1152,7 @@
             console.debug(JSON.stringify(usuario));
 
             $.ajax({
-                url: '/api/Clientes/' + id + '/Usuarios/' + idUsuario,
+                url: $rootScope.baseUri + '/api/Clientes/' + id + '/Usuarios/' + idUsuario,
                 type: "PUT",
                 dataType: 'Json',
                 data: usuario,
@@ -1185,7 +1189,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes/Vigente?id=' + id + '&est=' + est+'&motivo='+motivo,
+                url: $rootScope.baseUri + '/api/Clientes/Vigente?id=' + id + '&est=' + est+'&motivo='+motivo,
                 type: "DELETE",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -1221,7 +1225,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Key/'+folio+'/'+mescon+'/'+correlativo+'/'+estmtc+'/'+mesini+'/'+nrotrbc+'/'+nrotrbh+'/'+nrousr,
+                url: $rootScope.baseUri + '/api/Key/'+folio+'/'+mescon+'/'+correlativo+'/'+estmtc+'/'+mesini+'/'+nrotrbc+'/'+nrotrbh+'/'+nrousr,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -1257,7 +1261,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Clientes/Key',
+                url: $rootScope.baseUri + '/api/Clientes/Key',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);},success: function (data, textStatus, jqXHR) {
@@ -1293,7 +1297,7 @@
             //var promise = deferred.promise;
 
             var req = new XMLHttpRequest();
-            req.open("GET", "/api/Clientes/PDF", true);
+            req.open("GET", $rootScope.baseUri + "/api/Clientes/PDF", true);
             req.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token);
             req.responseType = "blob";
 
@@ -1317,7 +1321,7 @@
 
             /*
             $.ajax({
-                url: '/api/Clientes/PDF',
+                url: $rootScope.baseUri + '/api/Clientes/PDF',
                 type: "GET",
                 xhrFields: {
                     responseType: 'arraybuffer'

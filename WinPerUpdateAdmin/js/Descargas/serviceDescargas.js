@@ -5,23 +5,27 @@
         .module('app')
         .factory('serviceDescargas', serviceDescargas);
 
-    serviceDescargas.$inject = ['$http', '$q', '$window'];
+    serviceDescargas.$inject = ['$http', '$q', '$window', '$rootScope'];
 
-    function serviceDescargas($http, $q, $window) {
+    function serviceDescargas($http, $q, $window,$rootScope) {
         var service = {
-            LoadDescargas: LoadDescargas
+            LoadDescargas: LoadDescargas,
+            seturi: seturi
         };
 
         return service;
 
         //funciones
+        function seturi(uri) {
+            $rootScope.baseUri = uri;
+        }
 
         function LoadDescargas() {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             $.ajax({
-                url: '/api/Descargas',
+                url: $rootScope.baseUri + '/api/Descargas',
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {

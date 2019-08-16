@@ -23,6 +23,8 @@
             $scope.modulos = [];
             $scope.formData = {};
             $scope.componentes = [];
+            serviceAdmin.seturi(Uri());
+
 
             serviceAdmin.getVersion($scope.idVersion).success(function (data) {
                 $scope.version = data;

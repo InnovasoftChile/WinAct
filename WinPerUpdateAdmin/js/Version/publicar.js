@@ -19,6 +19,8 @@
             $scope.clientesVersion = [];
             $scope.mensaje = "";
             $scope.totclientes = 0;
+            serviceAdmin.seturi(Uri());
+            serviceClientes.seturi(Uri());
 
             if (!jQuery.isEmptyObject($routeParams)) {
                 $scope.idVersion = $routeParams.idVersion;
