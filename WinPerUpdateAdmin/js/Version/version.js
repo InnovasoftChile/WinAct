@@ -282,7 +282,7 @@
                     $('.close').click();
 
                     $window.setTimeout(function () {
-                        $window.location.href = "/Admin#/";
+                        $window.location.href = Uri() + "/Admin#/";
                     }, 2000);
                     $scope.msgError = "";
                 }).error(function (err) {
@@ -304,7 +304,7 @@
                         $("#confirma-cambio").modal('hide');
 
                         $window.setTimeout(function () {
-                            $window.location.href = "/Admin#/";
+                            $window.location.href = Uri() +"/Admin#/";
                         }, 2000);
                     }).error(function (err) {
                         console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
@@ -316,7 +316,7 @@
                                 $scope.msgSuccess = "Version eliminada Satisfactoriamente";
                                 $("#confirma-cambio").modal('hide');
                                 $window.setTimeout(function () {
-                                    $window.location.href = "/Admin#/";
+                                    $window.location.href = Uri() +"/Admin#/";
                                 }, 2000);
                             }).error(function (err) {
                                 console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);
@@ -355,7 +355,7 @@
                                 window.scrollTo(0, 0);
                                 $scope.msgError = "";
                                 $timeout(function () {
-                                    $window.location.href = "/Admin#/EditVersion/" + data.IdVersion;
+                                    $window.location.href = Uri() + "/Admin#/EditVersion/" + data.IdVersion;
                                 }, 3000);
                             }).error(function (err) {
                                 console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);

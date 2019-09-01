@@ -14,19 +14,19 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/SeguridadClt/Usuarios',
+            templateUrl: Uri() +'/SeguridadClt/Usuarios',
             controller: 'seguridad'
         }).
         when('/EditCliente/:idCliente/Usuario', {
-            templateUrl: '/SeguridadClt/Usuario',
+            templateUrl: Uri() +'/SeguridadClt/Usuario',
             controller: 'seguridad'
         }).
         when('/EditCliente/:idCliente/Usuario/:idUsuario', {
-            templateUrl: '/SeguridadClt/Usuario',
+            templateUrl: Uri() +'/SeguridadClt/Usuario',
             controller: 'seguridad'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     })

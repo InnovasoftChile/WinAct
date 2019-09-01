@@ -577,11 +577,7 @@ namespace ProcessMsg
                 var dr = consulta.Execute();
                 while (dr.Read())
                 {
-                    if (int.Parse(dr["IdClientes"].ToString()) == 439)
-                    {
-                        var test = bool.Parse(dr["Funes"].ToString());
 
-                    }
                     var obj = new Model.ClienteBo
                     {
                         Id = int.Parse(dr["IdClientes"].ToString()),

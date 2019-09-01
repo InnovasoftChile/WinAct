@@ -2,6 +2,7 @@
     'use strict';
 
     angular.module('app', [
+
         // Angular modules 
          'ngRoute'
         ,'angularFileUpload'
@@ -15,43 +16,43 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/Admin/Versiones',
+            templateUrl: Uri() + '/Admin/Versiones',
             controller: 'admin'
         }).
         when('/CrearVersion', {
-            templateUrl: '/Admin/CrearVersion',
+            templateUrl: Uri() +'/Admin/CrearVersion',
             controller: 'version'
         }).
         when('/EditVersion/:idVersion', {
-            templateUrl: '/Admin/CrearVersion',
+            templateUrl: Uri() +'/Admin/CrearVersion',
             controller: 'version'
         }).
         when('/PublicarParcial/:idVersion', {
-            templateUrl: '/Admin/PubParcial',
+            templateUrl: Uri() +'/Admin/PubParcial',
             controller: 'publicar'
         }).
         when('/CrearComponente/:idVersion', {
-            templateUrl: '/Admin/CrearComponente',
+            templateUrl: Uri() +'/Admin/CrearComponente',
             controller: 'componente'
         }).
         when('/EditComponente/:idVersion/:name', {
-            templateUrl: '/Admin/EditComponente',
+            templateUrl: Uri() +'/Admin/EditComponente',
             controller: 'editcomponente'
         }).
         when('/ControlCambios/:idVersion', {
-            templateUrl: '/Admin/ControlCambios',
+            templateUrl: Uri() +'/Admin/ControlCambios',
             controller: 'controlcambios'
         }).
         when('/ControlCambios/:idVersion/:tips/:modulo', {
-            templateUrl: '/Admin/ControlCambios',
+            templateUrl: Uri() +'/Admin/ControlCambios',
             controller: 'controlcambios'
         }).
         when('/AsignarScripts/:idVersion', {
-            templateUrl: '/Admin/AsignarScripts',
+            templateUrl: Uri() +'/Admin/AsignarScripts',
             controller: 'asignarscripts'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     })

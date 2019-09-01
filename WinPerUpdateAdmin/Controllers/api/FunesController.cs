@@ -100,6 +100,12 @@ namespace WinPerUpdateAdmin.Controllers.api
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
             }
         }
+        [Route("api/GetSemilla")]
+        [HttpGet]
+        public string GetSemilla()
+        {
+            return ProcessMsg.Utils.Encriptar(ConfigurationManager.AppSettings["semilla"].ToString().Trim());
+        }
         [Route("api/GetFunes")]
         [HttpGet]
         public Object GetFunes()
@@ -112,15 +118,17 @@ namespace WinPerUpdateAdmin.Controllers.api
                 {
                     if (head.Key.ToString() == "Token")
                     {
-                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), "semilla");
+                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), ConfigurationManager.AppSettings["semilla"].ToString().Trim());
                         break;
                     }
                 }
                 var spliteo = decript.Split('=');
-                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Id == int.Parse(spliteo[1]));
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(spliteo[1]));
                 if (cliente != null)
                 {
-                    return ProcessMsg.Funes.GetFunes(cliente.Id, "R");
+                    var funes = ProcessMsg.Funes.GetFunes(cliente.Id, "R");
+                    ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'E');
+                    return funes;
                 }
                 else
                 {
@@ -144,15 +152,15 @@ namespace WinPerUpdateAdmin.Controllers.api
                 {
                     if (head.Key.ToString() == "Token")
                     {
-                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), "semilla");
+                        decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), ConfigurationManager.AppSettings["semilla"].ToString().Trim());
                         break;
                     }
                 }
                 var spliteo = decript.Split('=');
-                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Id == int.Parse(spliteo[1]));
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(spliteo[1]));
                 if (cliente != null)
                 {
-                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'E') > 0)
+                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'E', 'T') > 0)
                     {
                         return HttpStatusCode.OK;
                     }

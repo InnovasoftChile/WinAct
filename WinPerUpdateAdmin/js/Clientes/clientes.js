@@ -76,7 +76,7 @@
             });
 
             $scope.GenerarPDFCliente = function (idCliente) {
-                $window.location.href = '/api/Clientes/'+idCliente+'/PDF';
+                $window.location.href = Uri() +'/api/Clientes/'+idCliente+'/PDF';
             }
 
             $scope.GenCantUserPerm = function (data) {

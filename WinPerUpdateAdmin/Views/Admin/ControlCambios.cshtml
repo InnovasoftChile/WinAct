@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <h1>Control de Cambios</h1>
             <ol class="breadcrumb autoscroll">
-                <li><a href="/Admin#/">Versiones</a></li>
-                <li><a href="/Admin#/EditVersion/{{idVersion}}">Versión {{version.Release}}</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/">Versiones</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/EditVersion/{{idVersion}}">Versión {{version.Release}}</a></li>
                 <li class="active">Control de Cambios</li>
             </ol>
         </div>

@@ -108,7 +108,7 @@
                                                     $('.close').click();
 
                                                     $window.setTimeout(function () {
-                                                        $window.location.href = "/SeguridadClt#/Usuarios/";
+                                                        $window.location.href = Uri() +"/SeguridadClt#/Usuarios/";
                                                     }, 2000);
                                                     $scope.msgError = "";
                                                 }).error(function (err) {

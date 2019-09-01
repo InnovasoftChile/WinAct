@@ -40,7 +40,7 @@
         <div class="col-md-12">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-toolbar" role="toolbar">
-                    <a href="/AmbientesClt#/Crear/{{idCliente}}" class="btn btn-labeled btn-success">
+                    <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()AmbientesClt#/Crear/{{idCliente}}" class="btn btn-labeled btn-success">
                         <span class="btn-label"><span class="fa fa-cube"></span></span> Crear Ambiente
                     </a>
                     <a data-toggle="modal" data-target="#export-modal" class="btn btn-labeled btn-warning">
@@ -104,7 +104,7 @@
                                         {{ambiente.UserDbo}}
                                     </td>
                                     <td>
-                                        <a href="/AmbientesClt#/EditAmbiente/{{idCliente}}/{{ambiente.idAmbientes}}" class="btn btn-info btn-xs">
+                                        <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()AmbientesClt#/EditAmbiente/{{idCliente}}/{{ambiente.idAmbientes}}" class="btn btn-info btn-xs">
                                             <span class="fa fa-pencil"></span>
                                         </a>
                                     </td>

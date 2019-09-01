@@ -31,7 +31,7 @@ ViewBag.Title = "Index";
         </div>
     </a>
     <ul class="dropdown-menu drp-mnu">
-        <li> <a href="/Home/Perfil/"><i class="fa fa-cog"></i> Perfil</a> </li>
+        <li> <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Home/Perfil/"><i class="fa fa-cog"></i> Perfil</a> </li>
         <li> <a href="" data-toggle="modal" data-target="#modalCambioPwd"><i class="fa fa-user"></i>Cambio Clave</a> </li>
         <li> <a href="" data-toggle="modal" data-target="#modalLogout"><i class="fa fa-sign-out"></i> Logout</a> </li>
     </ul>

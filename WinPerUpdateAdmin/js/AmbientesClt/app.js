@@ -17,19 +17,19 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/AmbientesClt/Ambientes',
+            templateUrl: Uri() +'/AmbientesClt/Ambientes',
             controller: 'ambientes'
         }).
         when('/EditAmbiente/:idCliente/:idAmbiente', {
-            templateUrl: '/AmbientesClt/Crear',
+            templateUrl: Uri() +'/AmbientesClt/Crear',
             controller: 'mantenedor'
         }).
         when('/Crear/:idCliente', {
-            templateUrl: '/AmbientesClt/Crear',
+            templateUrl: Uri() + '/AmbientesClt/Crear',
             controller: 'mantenedor'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() + '/'
         });
 
     })

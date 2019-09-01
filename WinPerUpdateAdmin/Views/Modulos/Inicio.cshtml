@@ -39,7 +39,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <a href="/Modulos#/CrearModulo" class="btn btn-labeled btn-success">
+            <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Modulos#/CrearModulo" class="btn btn-labeled btn-success">
                 <span class="btn-label"><span class="fa fa-cube"></span></span> Crear Módulo
             </a>
             <a href="" data-toggle="modal" data-target="#export-modal" class="btn btn-labeled btn-warning">
@@ -97,7 +97,7 @@
                                         <label class="btn btn-labeled btn-default btn-xs">{{modulo.EstadoFmt}}</label>
                                     </td>
                                     <td>
-                                        <a href="/Modulos#/EditarModulo/{{modulo.idModulo}}" class="btn btn-info btn-xs">
+                                        <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Modulos#/EditarModulo/{{modulo.idModulo}}" class="btn btn-info btn-xs">
                                             <span class="fa fa-pencil"></span>
                                         </a>
                                     </td>

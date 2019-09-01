@@ -15,11 +15,11 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/Descargas/Descargas',
+            templateUrl: Uri() +'/Descargas/Descargas',
             controller: 'descargas'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     })

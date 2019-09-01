@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <h1>Detalles Usuario Cliente</h1>
             <ol class="breadcrumb autoscroll">
-                <li><a href="/Clientes#/">Clientes</a></li>
-                <li><a href="/Clientes#/EditCliente/{{idCliente}}">{{cliente.Nombre}}</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/">Clientes</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/EditCliente/{{idCliente}}">{{cliente.Nombre}}</a></li>
                 <li class="active">Un Usuario</li>
             </ol>
         </div>

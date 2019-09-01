@@ -16,27 +16,27 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/Clientes/Inicio',
+            templateUrl: Uri() +'/Clientes/Inicio',
             controller: 'inicio'
         }).
         when('/CrearCliente', {
-            templateUrl: '/Clientes/Crear',
+            templateUrl: Uri() +'/Clientes/Crear',
             controller: 'clientes'
         }).
         when('/EditCliente/:idCliente/Usuario', {
-            templateUrl: '/Clientes/Usuario',
+            templateUrl: Uri() +'/Clientes/Usuario',
             controller: 'usuarios'
         }).
         when('/EditCliente/:idCliente', {
-            templateUrl: '/Clientes/Crear',
+            templateUrl: Uri() +'/Clientes/Crear',
             controller: 'clientes'
         }).
         when('/EditCliente/:idCliente/Usuario/:idUsuario', {
-            templateUrl: '/Clientes/Usuario',
+            templateUrl: Uri() +'/Clientes/Usuario',
             controller: 'usuarios'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     })

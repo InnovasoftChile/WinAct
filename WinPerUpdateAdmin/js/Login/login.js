@@ -46,7 +46,7 @@
                     }
                     else {
                         $window.sessionStorage.token = window.btoa(data.GetToken);
-                        $window.location.href = "/Home/AutorizarIngreso?idUser=" + formData.username;
+                        $window.location.href = Uri() + "/Home/AutorizarIngreso?idUser=" + formData.username;
                     }
                 }).error(function (err) {
                     $scope.errorlogin = true;
@@ -91,7 +91,7 @@
                 serviceLogin.CrearBD(formData.userbd, formData.passbd, formData.svbd, formData.nombrebd, formData.nombreuser, formData.apellidouser, formData.mailuser, formData.passsu).success(function (dataCrearBD) {
                     $scope.lblLoad = "Redireccionando...";
                     $timeout(function () {
-                        $window.location.href = "/Home";
+                        $window.location.href = Uri() +"/Home";
                     }, 3000);
                     $scope.msgError = "";
                 }).error(function (err) {

@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <h1>Detalles de la Versi&oacute;n</h1>
             <ol class="breadcrumb autoscroll">
-                <li><a href="/Admin#/">Versiones</a></li>
+                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/">Versiones</a></li>
                 <li class="active">Una Versi&oacute;n</li>
             </ol>
         </div>
@@ -162,10 +162,10 @@
                     <div class="col-md-12">
                         <div class="btn-toolbar" role="toolbar">
                             <div class="btn-toolbar" role="toolbar">
-                                <a href="/Admin#/CrearComponente/{{idversion}}" ng-disabled="formData.estado=='C' || formData.estado=='P'" class="btn btn-labeled btn-success">
+                                <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/CrearComponente/{{idversion}}" ng-disabled="formData.estado=='C' || formData.estado=='P'" class="btn btn-labeled btn-success">
                                     <span class="btn-label"><span class="fa fa-cubes"></span></span> Asignar Componente
                                 </a>
-                                <a href="/Admin#/AsignarScripts/{{idversion}}" ng-disabled="formData.estado=='C' || formData.estado=='P'" class="btn btn-labeled btn-success">
+                                <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/AsignarScripts/{{idversion}}" ng-disabled="formData.estado=='C' || formData.estado=='P'" class="btn btn-labeled btn-success">
                                     <span class="btn-label"><span class="fa fa-cubes"></span></span> Asignar Scripts
                                 </a>
                             </div>

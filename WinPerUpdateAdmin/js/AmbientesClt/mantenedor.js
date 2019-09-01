@@ -48,7 +48,7 @@
                         $scope.idAmbiente = data.idAmbientes;
                         window.scrollTo(0, 0);
                         $timeout(function () {
-                            $window.location.href = "/AmbientesClt#/";
+                            $window.location.href = Uri() +"/AmbientesClt#/";
                         }, 2000);
                     }).error(function (err) {
                         console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio.";window.scrollTo(0,0);
@@ -61,7 +61,7 @@
                         $scope.msgError = "";
                         window.scrollTo(0, 0);
                         $timeout(function () {
-                            $window.location.href = "/AmbientesClt#/";
+                            $window.location.href = Uri() +"/AmbientesClt#/";
                         }, 2000);
                     }).error(function (err) {
                         console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio.";window.scrollTo(0,0);
@@ -75,7 +75,7 @@
                     $scope.msgSuccess = "Ambiente eliminado exitosamente!.";
                     window.scrollTo(0, 0);
                     $window.setTimeout(function () {
-                        $window.location.href = "/AmbientesClt#/";
+                        $window.location.href = Uri() +"/AmbientesClt#/";
                     }, 2000);
                     $scope.msgError = "";
                 }).error(function (err) {

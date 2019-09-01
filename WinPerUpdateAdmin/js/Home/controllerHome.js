@@ -65,7 +65,7 @@
                         formDataU.pwdNuevaR = "";
                         $scope.showAlerta = false;
                         $scope.blockBoton = false;
-                        $window.location.href = "/Home/Logout/";
+                        $window.location.href = Uri() +"/Home/Logout/";
                     }, 3000);
                 }).error(function (err) {
                     $scope.showAlerta = true;

@@ -2,8 +2,8 @@
     <div class="col-md-12">
         <h1>Publicar Parcialmente</h1>
         <ol class="breadcrumb autoscroll">
-            <li><a href="/Admin#/">Versiones</a></li>
-            <li><a href="/Admin#/EditVersion/{{idVersion}}">Version {{version.Release}}</a></li>
+            <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/">Versiones</a></li>
+            <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Admin#/EditVersion/{{idVersion}}">Version {{version.Release}}</a></li>
             <li class="active">Publicar</li>
         </ol>
     </div>

@@ -106,7 +106,7 @@
             $scope.DelUsuario = function () {
                 serviceSeguridad.DelUsuario($scope.formData.idPersona).success(function (data) {
                     $timeout(function () {
-                        $window.location.href = "/Seguridad#/";
+                        $window.location.href = Uri() + "/Seguridad#/";
                     },100);
                 }).error(function (err) {
                         console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0);

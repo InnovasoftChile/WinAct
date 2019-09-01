@@ -94,7 +94,7 @@
                     $('.close').click();
 
                     $window.setTimeout(function () {
-                        $window.location.href = "/Admin#/EditVersion/" + $scope.idVersion;
+                        $window.location.href = Uri() + "/Admin#/EditVersion/" + $scope.idVersion;
                     }, 3000);
                     $scope.msgError = "";
                 }).error(function (err) {

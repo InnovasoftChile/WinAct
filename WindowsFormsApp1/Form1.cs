@@ -57,7 +57,7 @@ namespace Instalador
                 var applicationSettings = ConfigurationManager.GetSection("ApplicationSettings") as NameValueCollection;
                 foreach(var key in applicationSettings.AllKeys)
                 {
-                    var query = File.ReadAllText("./"+ applicationSettings[key], Encoding.GetEncoding("iso-8859-1"));
+                    var query = File.ReadAllText("./"+ applicationSettings[key], Encoding.ASCII);
                     ProgBar.LblPorcentaje.Text = "0/0";
                     ProgBar.PbProgreso.Value = 0;
                     ProgBar.LblTime.Text = "Tiempo Transcurrido : 000";

@@ -14,11 +14,11 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/SuperUser/Configuracion',
+            templateUrl: Uri() + '/SuperUser/Configuracion',
             controller: 'superUser'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() + '/'
         });
 
     })

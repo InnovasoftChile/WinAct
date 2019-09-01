@@ -61,7 +61,7 @@
                         $scope.formData.sslmail = dataLoad.sslMail;
                         $scope.lblButton = "Guardar";
                         $timeout(function () {
-                            $window.location.href = "/Home/Logout/";
+                            $window.location.href = Uri() +"/Home/Logout/";
                         }, 1500);
                         $scope.msgError = "";
                     }).error(function (err) {

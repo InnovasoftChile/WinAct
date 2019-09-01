@@ -13,11 +13,11 @@
         .config(function ($routeProvider) {
             $routeProvider.
                 when('/', {
-                    templateUrl: '/Soporte/Soporte',
+                    templateUrl: Uri() +'/Soporte/Soporte',
                     controller: 'soporte'
                 }).
                 otherwise({
-                    redirectTo: '/'
+                    redirectTo: Uri() +'/'
                 });
 
         })

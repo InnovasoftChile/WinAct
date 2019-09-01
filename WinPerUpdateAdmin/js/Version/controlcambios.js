@@ -93,7 +93,7 @@
                     $scope.formData.impacto = data.Impacto;
                     $scope.msgSuccess = "Control de cambios agregado correctamente!.";
                     $timeout(function () {
-                        $window.location.href = "/Admin/#/EditVersion/" + $scope.idVersion;
+                        $window.location.href = Uri() +"/Admin/#/EditVersion/" + $scope.idVersion;
                     }, 2000);
                 }).error(function (err) {
                     console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio."; window.scrollTo(0, 0); window.scrollTo(0, 0);
@@ -125,7 +125,7 @@
                 serviceAdmin.delControlCambios($scope.idVersion, $scope.controlCambios.Tips, $scope.controlCambios.Modulo).success(function (data) {
                     $("#mdlDeleteControlCambios").modal('toggle');
                     $timeout(function () {
-                        $window.location.href = "/Admin/#/EditVersion/" + $scope.idVersion;
+                        $window.location.href = Uri() +"/Admin/#/EditVersion/" + $scope.idVersion;
                     }, 2000);
                 }).error(function (err) {
                     console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio.";window.scrollTo(0,0); window.scrollTo(0, 0);

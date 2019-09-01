@@ -26,7 +26,7 @@
             });
             
             $scope.Descargar = function (file) {
-                $window.location.href = '/api/Descargar/' + file.NombreArchivo + '/Directorio/' + file.Nombre + '/Down';
+                $window.location.href = Uri() +'/api/Descargar/' + file.NombreArchivo + '/Directorio/' + file.Nombre + '/Down';
             }
             
         }

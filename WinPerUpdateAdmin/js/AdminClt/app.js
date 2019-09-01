@@ -11,15 +11,15 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/AdminClt/Versiones',
+            templateUrl: Uri() +'/AdminClt/Versiones',
             controller: 'admin'
         }).
         when('/EditVersion/:idVersion', {
-            templateUrl: '/AdminClt/Componentes',
+            templateUrl: Uri() +'/AdminClt/Componentes',
             controller: 'admin'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     })

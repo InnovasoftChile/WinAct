@@ -15,23 +15,23 @@
     ]).config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/Modulos/Inicio',
+            templateUrl: Uri() +'/Modulos/Inicio',
             controller: 'inicio'
         }).
         when('/CrearModulo', {
-            templateUrl: '/Modulos/CrearModulo',
+            templateUrl: Uri() +'/Modulos/CrearModulo',
             controller: 'modulos'
         }).
         when('/EditarModulo/:idModulo', {
-            templateUrl: '/Modulos/CrearModulo',
+            templateUrl: Uri() +'/Modulos/CrearModulo',
             controller: 'modulos'
         }).
         when('/EditarModulo/:idModulo/Componente/:idComponente', {
-            templateUrl: '/Modulos/EditarComponente',
+            templateUrl: Uri() +'/Modulos/EditarComponente',
             controller: 'componentes'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: Uri() +'/'
         });
 
     });

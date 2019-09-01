@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="btn-toolbar hidden-xs">
                 <div class="btn-group" role="toolbar">
-                    <a href="/Clientes#/CrearCliente" class="btn btn-labeled btn-success">
+                    <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/CrearCliente" class="btn btn-labeled btn-success">
                         <span class="btn-label"><span class="fa fa-user"></span></span> Crear Cliente
                     </a>
                 </div>
@@ -68,7 +68,7 @@
                                         <label ng-hide="cliente.Estado == 'C'" class="btn btn-labeled btn-default btn-xs">{{cliente.EstadoFmt}}</label>
                                     </td>
                                     <td>
-                                        <a href="/Clientes#/EditCliente/{{cliente.Id}}" class="btn btn-info btn-xs" title="Modificar Cliente">
+                                        <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/EditCliente/{{cliente.Id}}" class="btn btn-info btn-xs" title="Modificar Cliente">
                                             <span class="fa fa-pencil"></span>
                                         </a>
                                     </td>
