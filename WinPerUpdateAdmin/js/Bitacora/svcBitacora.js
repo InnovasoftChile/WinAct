@@ -28,7 +28,7 @@
             var promise = deferred.promise;
 
             $.ajax({
-                url: $rootScope.baseUri + $rootScope.baseUri + '/api/Bitacora/Menu?menu='+menu,
+                url: $rootScope.baseUri + '/api/Bitacora/Menu?menu='+menu,
                 type: "GET",
                 dataType: 'Json',
                 beforeSend: function (xhr) {
