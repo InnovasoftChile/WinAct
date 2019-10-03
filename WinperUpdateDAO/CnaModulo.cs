@@ -74,6 +74,7 @@ namespace WinperUpdateDAO
                 int rowCount = xlRange.Rows.Count;
                 int colCount = xlRange.Columns.Count;
                 object[] row = null;
+                int breakl  = 0;
                 for (int i = 0; i < colCount; i++) dt.Columns.Add(i.ToString());
                 for (int i = 2; i <= rowCount; i++)
                 {
@@ -81,7 +82,18 @@ namespace WinperUpdateDAO
                     for (int j = 1; j <= colCount; j++)
                     {
                         if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+                        {
                             row[j - 1] = xlRange.Cells[i, j].Value2;
+                        }
+                        else
+                        {
+                            breakl = 1;
+                            break;
+                        }
+                    }
+                    if (breakl == 1)
+                    {
+                        break;
                     }
                     dt.Rows.Add(row);
                 }

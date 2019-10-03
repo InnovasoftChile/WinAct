@@ -264,7 +264,7 @@ namespace ProcessMsg
             var query = new AddUsuario();
             try
             {
-                if (query.Execute(usuario.Persona.Id, usuario.CodPrf, usuario.Clave, usuario.EstUsr) > 0)
+                if (query.Execute(usuario.Persona.Id, usuario.CodPrf, usuario.Clave, usuario.EstUsr,usuario.WinperWeb) > 0)
                 {
                     var list = GetUsuarios().OrderBy(x => x.Id).ToList();
                     return list.ElementAt(list.Count - 1); 
@@ -286,7 +286,7 @@ namespace ProcessMsg
             var query = new AddUsuario();
             try
             {
-                if (query.Execute(usuario.Persona.Id, usuario.CodPrf, usuario.Clave, usuario.EstUsr) > 0)
+                if (query.Execute(usuario.Persona.Id, usuario.CodPrf, usuario.Clave, usuario.EstUsr,usuario.WinperWeb) > 0)
                 {
                     var list = GetUsuariosCliente().OrderBy(x => x.Id).ToList();
                     return list.ElementAt(list.Count - 1);
@@ -308,7 +308,7 @@ namespace ProcessMsg
             var query = new UpdUsuario();
             try
             {
-                if (query.Execute(usuario.Id, usuario.Persona.Id, usuario.CodPrf, usuario.EstUsr) > 0)
+                if (query.Execute(usuario.Id, usuario.Persona.Id, usuario.CodPrf, usuario.EstUsr,usuario.WinperWeb) > 0)
                 {
                     return GetUsuarios().SingleOrDefault(x => x.Id == usuario.Id);
                 }

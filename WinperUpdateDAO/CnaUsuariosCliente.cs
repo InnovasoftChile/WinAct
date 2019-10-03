@@ -11,7 +11,7 @@ namespace WinperUpdateDAO
     {
         public SqlDataReader Execute(int idCliente)
         {
-            SpName = @"select a1.idUsuarios, a1.idPersonas, a1.CodPrf, a1.EstUsr, a2.Apellidos, a2.Nombres, a2.Mail 
+            SpName = @"select a1.idUsuarios, a1.idPersonas, a1.CodPrf, a1.EstUsr, a2.Apellidos, a2.Nombres, a2.Mail, a1.WinperWeb
                        from   Usuarios a1, Personas a2, Clientes_has_Usuarios a3 
                        Where  a2.idPersonas = a1.idPersonas
                        and    a3.idClientes = @idCliente

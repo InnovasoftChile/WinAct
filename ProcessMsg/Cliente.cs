@@ -736,7 +736,9 @@ namespace ProcessMsg
                             Apellidos = dr["Apellidos"].ToString(),
                             Nombres = dr["Nombres"].ToString(),
                             Mail = dr["Mail"].ToString()
-                        }
+                        },
+                        WinperWeb = int.Parse(dr["WinperWeb"].ToString())
+                        
                     };
 
                     lista.Add(obj);
@@ -802,6 +804,20 @@ namespace ProcessMsg
             }
             
         }
+
+        public static Object AddEmpresa(int idCliente, int Rut, string Dv, string Nombre)
+        {
+
+            try
+            {
+                return new AddClienteEmpresa().Execute(Rut, Dv, Nombre, idCliente);
+
+            }catch (Exception ex)
+            {
+                var msg = "Excepcion Controlada: " + ex.Message;
+                throw new Exception(msg, ex);
+            }
+        }
         public static bool AddClientesHasModulos(int idCliente, int[] idModulos)
         {
             try
@@ -820,6 +836,24 @@ namespace ProcessMsg
             try
             {
                 return query.Execute(idUsuario, idCliente);
+            }
+            catch (Exception ex)
+            {
+                var msg = "Excepcion Controlada: " + ex.Message;
+                throw new Exception(msg, ex);
+            }
+        }
+        public static int AddEmpresaExc(int idUsuario, string rutaExcel)
+        {
+            try
+            {
+                System.Data.DataTable dt = VerificarDatosEmpresa(idUsuario, rutaExcel, 1);
+                var obj = new AddClienteEmpresa();
+                if (obj.ExecuteTrans(dt))
+                {
+                    return 1;
+                }
+                return 0;
             }
             catch (Exception ex)
             {
@@ -880,7 +914,47 @@ namespace ProcessMsg
         }
         #endregion
 
+        #region Otros
+        private static System.Data.DataTable VerificarDatosEmpresa(int idUsuario, string Archivo, int Hoja)
+        {
+            System.Data.DataTable dt = new CnaModulo().SelectExcel(Archivo, Hoja);
+            System.Data.DataTable dtEmpresa = new System.Data.DataTable();
+            dtEmpresa.Columns.Add("IdCliente");
+            dtEmpresa.Columns.Add("Nombre");
+            dtEmpresa.Columns.Add("Rut");
+            dtEmpresa.Columns.Add("DV");
+            int a = 0;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i][1].ToString() == "")
+                {
+                    break;
+                }
+                ProcessMsg.Model.EmpresaBo empresa = new ProcessMsg.Model.EmpresaBo
+                {
+                    IdCliente = int.Parse(dt.Rows[i][0].ToString()),
+                    Nombre = dt.Rows[i][1].ToString(),
+                    Rut = int.Parse(dt.Rows[i][2].ToString()),
+                    Dv = dt.Rows[i][3].ToString()
+                };
+                dtEmpresa.Rows.Add(empresa.IdCliente, empresa.Nombre, empresa.Rut, empresa.Dv);
 
+            }
+            return dtEmpresa;
+        }
+
+        private static bool CheckSuite(int idSuite)
+        {
+            try
+            {
+                return Suites.GetSuites().Exists(s => s.idSuite == idSuite);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ERROR CHECKSUITE: " + ex.Message);
+            }
+        }
+        #endregion
 
 
     }

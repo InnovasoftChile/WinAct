@@ -14,6 +14,8 @@ namespace ProcessMsg.Model
 
         public int CodPrf { get; set; }
 
+        public int WinperWeb { get; set; }
+
         public PersonaBo Persona { get; set; }
 
         public ClienteBo Cliente { get; set; }

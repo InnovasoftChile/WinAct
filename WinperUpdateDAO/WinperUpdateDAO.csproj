@@ -51,6 +51,7 @@
     <Compile Include="AddAmbiente.cs" />
     <Compile Include="AddBitacora.cs" />
     <Compile Include="AddCliente.cs" />
+    <Compile Include="AddClienteEmpresa.cs" />
     <Compile Include="AddComponente.cs" />
     <Compile Include="AddComponenteModulo.cs" />
     <Compile Include="AddControlCambios.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="CnaComponentes.cs" />
     <Compile Include="CnaComuna.cs" />
     <Compile Include="CnaControlCambios.cs" />
+    <Compile Include="CnaEmpresas.cs" />
     <Compile Include="CnaFunes.cs" />
     <Compile Include="CnaModulo.cs" />
     <Compile Include="CnaModuloVersiones.cs" />

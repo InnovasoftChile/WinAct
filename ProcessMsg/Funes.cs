@@ -106,13 +106,116 @@ namespace ProcessMsg
             }
 
         }
+        public static List<Object> GetSolicitudes(string rut)
+        {
+            var lista = new List<Object>();
+            var splitrut = rut.Split('-');
+            var cliente = new CnaClientes().ExecuteRut(int.Parse(splitrut[0]));
+            if (cliente.HasRows)
+            {
+                var r = new CnaFunes().ExecuteSolic(rut);
+                while (r.Read())
+                {
+                    lista.Add(new
+                    {
+                        IdSolicitud = r["idSolicitud"].ToString(),
+                        RutEmpresa = r["rutEmpresa"].ToString(),
+                        FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
+                    });
+                }
+                r.Close();
 
+            }
+            else
+            {
+                var clienten = new CnaEmpresas().ExecuteEmpresas(splitrut[0]);
+                if(clienten.Read())
+                {
+                    var idcliente = new
+                    {
+                        Id = int.Parse(clienten["IdCliente"].ToString())
+                    };
+                    var rempresa = new CnaEmpresas().ExecuteEmpresasClientes(idcliente.Id);
+                    var rutempresas = new List<String>();
+                    while (rempresa.Read())
+                    {
+                        rutempresas.Add(rempresa["Rut"].ToString()+"-"+rempresa["Dv"].ToString());
+                    }
+                    
+                    foreach(var value in rutempresas)
+                    {
+                        var r = new CnaFunes().ExecuteSolic(value);
+                        while (r.Read())
+                        {
+                            lista.Add(new
+                            {
+                                IdSolicitud = r["idSolicitud"].ToString(),
+                                RutEmpresa = r["rutEmpresa"].ToString(),
+                                FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
+                            });
+                        }
+                        r.Close();
+                    }
+                }
+
+            }
+
+            return lista;
+        }
         public static List<Model.FunesTrabajadorBo> GetFunes(int idCliente, string etapa)
         {
             try
             {
                 var lista = new List<Model.FunesTrabajadorBo>();
                 var r = new CnaFunes().Execute(idCliente,etapa);
+
+                while (r.Read())
+                {
+                    var listaTipos = new List<int>();
+                    foreach (var valor in r["tipo_modificacion"].ToString().Split(new Char[] { ',' }))
+                    {
+                        listaTipos.Add(int.Parse(valor));
+                    }
+
+                    lista.Add(new Model.FunesTrabajadorBo
+                    {
+                        rut = r["rutEmpresa"].ToString(),
+                        idSolicitud = r["idSolicitud"].ToString(),
+                        rutEmpleado = r["rut_trabajador"].ToString(),
+                        folioFUN = r["folio_fun"].ToString(),
+                        codigoIsapre = r["codigoIsapre"].ToString(),
+                        ppPeso = decimal.Parse(r["ppPeso"].ToString()),
+                        ppUF = decimal.Parse(r["ppUF"].ToString()),
+                        ppPorcentaje = decimal.Parse(r["ppPorcentaje"].ToString()),
+                        estadoFUN = int.Parse(r["estadoFUN"].ToString()),
+                        motivoRechazo = int.Parse(r["motivoRechazo"].ToString()),
+                        fechaMotivo = r["fechaMotivo"] == DBNull.Value ? (DateTime?)null : DateTime.Parse(r["fechaMotivo"].ToString()),
+                        observacionRechazo = r["observacionRechazo"].ToString(),
+                        mesPrimerDescuento = r["mesPrimerDescuento"].ToString(),
+                        añoPrimerDescuento = r["añoPrimerDescuento"].ToString(),
+                        enviadoFun = int.Parse(r["enviadoFun"].ToString()) == 1,
+                        EtapaFUN = char.Parse(r["EtapaFUN"].ToString()),
+                        fecha = DateTime.Parse(r["fecha"].ToString()),
+                        tipoNotificacion = listaTipos
+                    });
+                }
+
+                r.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                var msg = "Excepcion Controlada: " + ex.Message;
+                throw new Exception(msg, ex);
+            }
+        }
+
+        public static List<Model.FunesTrabajadorBo> GetFunes(int idCliente, int idSolcitud)
+        {
+            try
+            {
+                var lista = new List<Model.FunesTrabajadorBo>();
+                var r = new CnaFunes().Execute(idCliente, idSolcitud);
 
                 while (r.Read())
                 {

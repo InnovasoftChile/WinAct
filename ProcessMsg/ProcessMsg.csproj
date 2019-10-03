@@ -67,6 +67,7 @@
     <Compile Include="Model\ClienteNoVigenteBo.cs" />
     <Compile Include="Model\ComponenteModuloBo.cs" />
     <Compile Include="Model\ControlCambiosBo.cs" />
+    <Compile Include="Model\EmpresaBo.cs" />
     <Compile Include="Model\FunesEmpresaBo.cs" />
     <Compile Include="Model\FunesNotificacionBo.cs" />
     <Compile Include="Model\FunesTrabajadorBo.cs" />

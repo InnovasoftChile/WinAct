@@ -8,16 +8,17 @@ namespace WinperUpdateDAO
 {
     public class AddUsuario : SpDao
     {
-        public int Execute(int idPersona, int codPrf, string clave, char estado)
+        public int Execute(int idPersona, int codPrf, string clave, char estado, int winperweb)
         {
-            SpName = @" insert into Usuarios (idPersonas, CodPrf, Clave, EstUsr) 
-                                      values (@idPersona, @codPrf, @clave, @estado)";
+            SpName = @" insert into Usuarios (idPersonas, CodPrf, Clave, EstUsr,WinperWeb) 
+                                      values (@idPersona, @codPrf, @clave, @estado,@winperweb)";
             try
             {
                 ParmsDictionary.Add("@idPersona", idPersona);
                 ParmsDictionary.Add("@codPrf", codPrf);
                 ParmsDictionary.Add("@clave", clave);
                 ParmsDictionary.Add("@estado", estado);
+                ParmsDictionary.Add("@winperweb", winperweb);
 
                 return Connector.ExecuteQueryNoResult(SpName, ParmsDictionary);
             }
