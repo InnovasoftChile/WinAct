@@ -5,16 +5,8 @@
     {
         if (string.IsNullOrEmpty(item.Submenus))
         {
-            <!--
-            <li class="active">
-                <a href="@item.Link">
-                    <span class="small-nav" data-toggle="tooltip" data-placement="right" title="@item.Descripcion">
-                        <span class="fa @item.Icon"></span>
-                    </span>
-                    <span class="full-nav" style="font-family: Calibri;font-size: medium;"> <span class="fa @item.Icon"></span> @item.Descripcion </span>
-                </a>
-            </li>-->
-            <li class="active"><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Remove(System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Length-1)@item.Link"><i class="fa @item.Icon fa-2x"></i><span>@item.Descripcion</span></a></li>
+
+            <li class="active"><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.Link"><i class="fa @item.Icon fa-2x"></i><span>@item.Descripcion</span></a></li>
         }
         else
         {
@@ -43,7 +35,7 @@
                 <ul class="sub-menu-list">
                     @for (int i = 0; i < item.GetSubMenus.GetLength(0); i++)
                     {
-                        <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Remove(System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Length-1)@item.GetSubMenus[i, 1]">@item.GetSubMenus[i, 0]</a></li>
+                        <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.GetSubMenus[i, 1]">@item.GetSubMenus[i, 0]</a></li>
                     }
                 </ul>
             </li>
@@ -62,7 +54,7 @@
                     <span class="full-nav" style="font-family: Calibri;font-size: medium;"><span class="fa @item.Icon"></span> @item.Descripcion </span>
                 </a>
             </li>-->
-            <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Remove(System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Length-1)@item.Link"><i class="fa @item.Icon fa-2x"></i><span>@item.Descripcion</span></a></li>
+            <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.Link"><i class="fa @item.Icon fa-2x"></i><span>@item.Descripcion</span></a></li>
         }
         else
         {
@@ -82,15 +74,18 @@
 
                 </ul>
             </li>-->
-            <li class="menu-list">
-                <a href="#">
-                    <i class="fa @item.Icon"></i>
+            
+
+            <li>
+                <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.Link">
+                    <i class="fa @item.Icon fa-2x"></i>
                     <span>@item.Descripcion</span>
                 </a>
+
                 <ul class="sub-menu-list">
                     @for (int i = 0; i < item.GetSubMenus.GetLength(0); i++)
                     {
-                        <li><a href= " @System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Remove(System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString().Length-1)@item.GetSubMenus[i, 1]">@item.GetSubMenus[i, 0]</a></li>
+                        <li><a href=" @System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.GetSubMenus[i, 1]">@item.GetSubMenus[i, 0]</a></li>
                     }
                 </ul>
             </li>

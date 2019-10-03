@@ -10,6 +10,7 @@
     function serviceClientes($http, $q, $window,$rootScope) {
         var service = {
             getRegiones: getRegiones,
+            addEmpresa: addEmpresa,
             getComunas: getComunas,
             getClientes: getClientes,
             getCliente: getCliente,
@@ -969,6 +970,50 @@
 
             return promise;
         }
+        function addEmpresa(idCliente,rut, dv, nombre){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            console.log(idCliente);
+            var cliente = {
+                "idCliente": idCliente,
+                "Rut": rut,
+                "Dv": dv,
+                "Nombre": nombre
+                };
+            console.debug(JSON.stringify(cliente));
+
+            $.ajax({
+                url: $rootScope.baseUri + '/api/Clientes/Empresa',
+                type: "POST",
+                dataType: 'Json',
+                data: cliente,
+                beforeSend: function (xhr) { xhr.setRequestHeader("Authorization", "Basic " + $window.sessionStorage.token); }, success: function (data, textStatus, jqXHR) {
+                    if (jqXHR.status == 201) {
+                        //console.log(JSON.stringify(data));
+                        deferred.resolve(data);
+                    }
+                    else {
+                        deferred.reject('No se pudo agregar el cliente');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.error('error = ' + xhr.status + "msg = " + xhr.responseText);
+                    deferred.reject('ERR:No se pudo agregar el cliente');
+                }
+            });
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+
+            return promise;
+        }
 
         function addCliente(rut, dv, nombre, direccion, idCmn, NroLicencia, NumFolio, estmtc, mesini, nrotrbc, nrotrbh, nrousr, mescon, correlativo,funes) {
             var deferred = $q.defer();
@@ -1028,7 +1073,7 @@
             return promise;
         }
 
-        function addUsuario(idCliente, codprf, apellidos, nombres, mail, estado) {
+        function addUsuario(idCliente, codprf, apellidos, nombres, mail, estado,winperweb) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
@@ -1039,7 +1084,8 @@
                     "Nombres": nombres,
                     "Mail": mail
                 },
-                "EstUsr": estado
+                "EstUsr": estado,
+                "WinperWeb":winperweb
             };
             //console.debug(JSON.stringify(usuario));
 
@@ -1135,7 +1181,7 @@
             return promise;
         }
 
-        function updUsuario(id, idUsuario, codprf, idPer, apellidos, nombres, mail, estado) {
+        function updUsuario(id, idUsuario, codprf, idPer, apellidos, nombres, mail, estado,winperweb) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
@@ -1147,7 +1193,8 @@
                     "Nombres": nombres,
                     "Mail": mail
                 },
-                "EstUsr": estado
+                "EstUsr": estado,
+                "WinperWeb": winperweb
             };
             console.debug(JSON.stringify(usuario));
 

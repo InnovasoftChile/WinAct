@@ -125,6 +125,7 @@ namespace WinPerUpdateAdmin
                        //"~/Scripts/smart-table.min.js"
                         "~/Scripts/script.js"
                       , "~/Scripts/pageSelect.directive.js"
+                      , "~/Scripts/angular-file-upload.min.js"
                       , "~/Scripts/smart-table.debug.js"
                       , "~/js/Clientes/app.js"
                       , "~/js/Home/controllerHome.js"

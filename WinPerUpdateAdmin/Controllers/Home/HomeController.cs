@@ -55,6 +55,9 @@ namespace WinPerUpdateAdmin.Controllers.Home
                 {
                     return RedirectToAction("Index", "Soporte");
 
+                }else if(usuario.CodPrf == 15)
+                {
+                    return RedirectToAction("Index", "Clientes");
                 }
                 else if (usuario.CodPrf >= 1 && usuario.CodPrf <= 10 || usuario.CodPrf == 14)
                 {

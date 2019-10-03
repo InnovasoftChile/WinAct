@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using log4net;
@@ -106,10 +108,82 @@ namespace WinPerUpdateAdmin.Controllers.api
         {
             return ProcessMsg.Utils.Encriptar(ConfigurationManager.AppSettings["semilla"].ToString().Trim());
         }
+        public class Respuesta
+        {
+            public string rut { get; set; }
+            public List<int> idSolicitud { get; set; }
+        }
+        public class Envio
+        {
+            public int Total { get; set; }
+            public decimal TotalUF { get; set; }
+            public decimal TotalPorcentaje { get; set; }
+            public decimal TotalPeso { get; set; }
+            public List<ProcessMsg.Model.FunesTrabajadorBo> Funes { get; set; }
+        }
+        static private string digitoVerificador(int rut)
+        {
+            int Digito;
+            int Contador;
+            int Multiplo;
+            int Acumulador;
+            string RutDigito;
+
+            Contador = 2;
+            Acumulador = 0;
+
+            while (rut != 0)
+            {
+                Multiplo = (rut % 10) * Contador;
+                Acumulador = Acumulador + Multiplo;
+                rut = rut / 10;
+                Contador = Contador + 1;
+                if (Contador == 8)
+                {
+                    Contador = 2;
+                }
+
+            }
+
+            Digito = 11 - (Acumulador % 11);
+            RutDigito = Digito.ToString().Trim();
+            if (Digito == 10)
+            {
+                RutDigito = "K";
+            }
+            if (Digito == 11)
+            {
+                RutDigito = "0";
+            }
+            return (RutDigito);
+        }
+
+        [Route("api/GetSolicitudes")]
+        [HttpGet]
+        public Object GetSolicitudes()
+        {
+            string decript = "";
+            var header = Request.Headers;
+            foreach (var head in header)
+            {
+                if (head.Key.ToString() == "Token")
+                {
+                    decript = ProcessMsg.Utils.descifrar(head.Value.ElementAt(0).ToString(), ConfigurationManager.AppSettings["semilla"].ToString().Trim());
+                    break;
+                }
+            }
+
+            var datos = JsonConvert.DeserializeObject<Respuesta>(decript);
+            var funes = ProcessMsg.Funes.GetSolicitudes(int.Parse(datos.rut) + "-" + digitoVerificador(int.Parse(datos.rut)));
+            return funes;
+            
+        }
+
         [Route("api/GetFunes")]
         [HttpGet]
         public Object GetFunes()
         {
+ 
             try
             {
                 string decript = "";
@@ -122,13 +196,32 @@ namespace WinPerUpdateAdmin.Controllers.api
                         break;
                     }
                 }
-                var spliteo = decript.Split('=');
-                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(spliteo[1]));
+
+                var datos = JsonConvert.DeserializeObject<Respuesta>(decript);
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(datos.rut));
                 if (cliente != null)
                 {
-                    var funes = ProcessMsg.Funes.GetFunes(cliente.Id, "R");
-                    ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'E');
-                    return funes;
+                    var retorno = new List<Envio>();
+                    foreach (var id in datos.idSolicitud)
+                    {
+                        var funes = ProcessMsg.Funes.GetFunes(cliente.Id, id);
+                        var Total = funes.Count;
+                        var TotalUF = funes.Sum(x => x.ppUF);
+                        var TotalPorcentaje = funes.Sum(x => x.ppPorcentaje);
+                        var TotalPeso = funes.Sum(x => x.ppPeso);
+
+                        retorno.Add( new Envio
+                        {
+                            Total = Total,
+                            TotalUF = TotalUF,
+                            TotalPorcentaje = TotalPorcentaje,
+                            TotalPeso = TotalPeso,
+                            Funes = funes
+                        });
+                    }
+
+                    return retorno;
+
                 }
                 else
                 {
@@ -160,7 +253,7 @@ namespace WinPerUpdateAdmin.Controllers.api
                 var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(spliteo[1]));
                 if (cliente != null)
                 {
-                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'E', 'T') > 0)
+                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'T') > 0)
                     {
                         return HttpStatusCode.OK;
                     }

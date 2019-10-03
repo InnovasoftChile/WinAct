@@ -18,6 +18,7 @@
             $scope.clientes = [];
             $scope.all = false;
             $scope.clienteNoVigente = null;
+            $scope.idUsuario = $("#idToken").val();
 
 
             serviceClientes.getClientes().success(function (data) {

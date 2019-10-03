@@ -9,6 +9,7 @@
 
         // 3rd Party Modules
         , 'smart-table'
+        , 'angularFileUpload'
         , 'ui.select'
         , 'smart-pagination'
     ])
@@ -16,27 +17,30 @@
     .config(function ($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: Uri() +'/Clientes/Inicio',
+            templateUrl: '/Clientes/Inicio',
             controller: 'inicio'
         }).
         when('/CrearCliente', {
-            templateUrl: Uri() +'/Clientes/Crear',
+            templateUrl:'/Clientes/Crear',
+            controller: 'clientes'
+        }).when('/Empresas/', {
+            templateUrl: '/Clientes/Empresas',
             controller: 'clientes'
         }).
         when('/EditCliente/:idCliente/Usuario', {
-            templateUrl: Uri() +'/Clientes/Usuario',
+            templateUrl: '/Clientes/Usuario',
             controller: 'usuarios'
         }).
         when('/EditCliente/:idCliente', {
-            templateUrl: Uri() +'/Clientes/Crear',
+            templateUrl: '/Clientes/Crear',
             controller: 'clientes'
         }).
         when('/EditCliente/:idCliente/Usuario/:idUsuario', {
-            templateUrl: Uri() +'/Clientes/Usuario',
+            templateUrl: '/Clientes/Usuario',
             controller: 'usuarios'
         }).
         otherwise({
-            redirectTo: Uri() +'/'
+            redirectTo: '/'
         });
 
     })

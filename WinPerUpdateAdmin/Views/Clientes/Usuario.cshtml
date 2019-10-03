@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <h1>Detalles Usuario Cliente</h1>
             <ol class="breadcrumb autoscroll">
-                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/">Clientes</a></li>
-                <li><a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()Clientes#/EditCliente/{{idCliente}}">{{cliente.Nombre}}</a></li>
+                <li><a href="Clientes#/">Clientes</a></li>
+                <li><a href="Clientes#/EditCliente/{{idCliente}}">{{cliente.Nombre}}</a></li>
                 <li class="active">Un Usuario</li>
             </ol>
         </div>
@@ -130,6 +130,10 @@
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Campo requerido.
                             </span>
                         </div>
+                            <div class="form-group">
+                                <input type="checkbox" id="checkbox1" ng-model="formData.WinperWeb" ng-true-value="'true'" ng-false-value="'false'"> Usuario WinperWeb
+                            </div>
+                        
 
                         <input type="hidden" ng-model="formData.idPersona" />
                         <input type="hidden" ng-model="formData.estado" />

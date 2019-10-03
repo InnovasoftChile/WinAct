@@ -34,6 +34,37 @@ namespace WinPerUpdateAdmin.Controllers.api
         #endregion
 
         #region get
+        [Route("api/EmpresasXLSX/Planilla")]
+        [HttpGet]
+        public Object GetPlanillaEmpresasXLSX()
+        {
+            try
+            {
+                if (HttpContext.Current.Session["token"] == null) return Redirect(Request.RequestUri.GetLeftPart(UriPartial.Authority));
+                string dirfmt = string.Format("{0}", ProcessMsg.Utils.GetPathSetting(HttpContext.Current.Server.MapPath("~/Fuentes/")) + "PlanillaEmpresas.xlsx");
+
+                Byte[] objByte = System.IO.File.ReadAllBytes(dirfmt);
+                if (objByte == null)
+                {
+                    return Content(HttpStatusCode.BadRequest, (ByteArrayContent)null);
+                }
+                HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.Created);
+
+                message.Content = new ByteArrayContent(objByte);
+                message.Content.Headers.ContentLength = objByte.Length;
+                message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                message.Content.Headers.Add("Content-Disposition", "attachment; filename=PlanillaEmpresas.xlsx");
+                message.StatusCode = HttpStatusCode.OK;
+
+                return message;
+
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+            }
+        }
+
 
         [Route("api/ClientesMobile")]
         [HttpGet]
@@ -777,7 +808,40 @@ namespace WinPerUpdateAdmin.Controllers.api
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
             }
         }
-        
+
+        [Route("api/Clientes/Empresa")]
+        [HttpPost]
+        [Authorize]
+        public Object PostEmpresa([FromBody]ProcessMsg.Model.EmpresaBo empresa)
+        {
+            try
+            {
+                if (HttpContext.Current.Session["token"] == null) return Redirect(Request.RequestUri.GetLeftPart(UriPartial.Authority));
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created);
+
+                if (empresa.Rut == 0 || empresa.Dv == "" || empresa.Nombre == null)
+                {
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                }
+                else
+                {
+
+                    var res = ProcessMsg.Cliente.AddEmpresa(empresa.IdCliente,empresa.Rut,empresa.Dv,empresa.Nombre);
+                    if (res == null)
+                    {
+                        return Content(HttpStatusCode.Accepted, (ProcessMsg.Model.VersionBo)null);
+                    }
+
+                    return Content(HttpStatusCode.Created, res);
+                }
+
+                return Content(HttpStatusCode.Accepted, (ProcessMsg.Model.VersionBo)null);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+            }
+        }
         [Route("api/Clientes/{idCliente:int}/Usuarios")]
         [HttpPost][Authorize]
         public Object PostUsuario(int idCliente, [FromBody]ProcessMsg.Model.UsuarioBo usuario)

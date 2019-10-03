@@ -39,7 +39,7 @@ namespace WinPerUpdateAdmin.Controllers.api
             public decimal TopeAFP { get; set; }
             public decimal TopeAFC { get; set; }
             public decimal IngresoMinimo { get; set; }
-            public decimal BaseMutual { get; set; }
+            public decimal TopeIPS { get; set; }
         }
 
         [Route("api/getParam")]
@@ -69,7 +69,7 @@ namespace WinPerUpdateAdmin.Controllers.api
                         TopeAFP = decimal.Parse(tabla["valor_tope_afp"].ToString()),
                         TopeAFC = decimal.Parse(tabla["valor_tope_afc"].ToString()),
                         IngresoMinimo = decimal.Parse(tabla["mto_ing_minimo"].ToString()),  
-                        BaseMutual = decimal.Parse(tabla["mto_base_mutual"].ToString())
+                        TopeIPS = decimal.Parse(tabla["mto_base_mutual"].ToString())
                     };
                 }
                 return lista;

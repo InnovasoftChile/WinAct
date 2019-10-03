@@ -7,12 +7,13 @@
         .module('app')
         .controller('clientes', clientes);
 
-    clientes.$inject = ['$scope', '$window', '$routeParams', 'serviceClientes'];
+    clientes.$inject = ['$scope', '$window', '$routeParams','FileUploader', 'serviceClientes'];
 
-    function clientes($scope, $window, $routeParams, serviceClientes) {
+    function clientes($scope, $window, $routeParams, FileUploader, serviceClientes) {
         $scope.title = 'clientes';
         $scope.regiones = [];
         $scope.comunas = [];
+        $scope.lclientes = [];
 
         activate();
 
@@ -21,6 +22,8 @@
             $scope.msgSuccess = "";
             $scope.msgAdvertencia = "";
             serviceClientes.seturi(Uri());
+            $scope.idUsuario = $("#idToken").val();
+
 
             $scope.msgSeleccionSuite = "";
 
@@ -61,6 +64,65 @@
 
             $scope.suites = [];
 
+
+            //Proceso de upload
+            var uploadOptions = {
+                url: '/Clientes/Upload?idUsuario=' + $scope.idUsuario,
+                filters: []
+            };
+
+            uploadOptions.filters.push({
+                name: 'maxlenQueue',
+                fn: function (item, options) {
+                    return this.queue.length < 1;
+                }
+            });
+            // File must not be larger then some size
+            uploadOptions.filters.push({
+                name: 'sizeFilter',
+                fn: function (item) {
+                    return item.size < 52428800; // 50 Mbytes
+                }
+            });
+
+            $scope.uploadOptions = uploadOptions;
+
+
+
+            $scope.downloadFile = function () {
+                window.location = '/api/EmpresasXLSX/Planilla';
+            }
+
+            var uploader = $scope.uploader = new FileUploader();
+
+            // CALLBACKS
+            uploader.onSuccessItem = function (fileItem, response, status, headers) {
+                $scope.msgSuccess = "";
+                if (response.CodErr == 0) {
+                    $scope.uploader.clearQueue();
+                    $('#import-modal').modal('toggle');
+                    if (response.sModulo == "OK") {
+                            $scope.msgError = "";
+                            $scope.msgSuccess = "Empresas agregadas correctamente.";
+                    } else {
+                        $scope.modxlsxwarn = true;
+                    }
+                } else {
+                    console.error(response.MsgErr); $scope.msgError = response.MsgErr; window.scrollTo(0, 0);
+                }
+
+            };
+            uploader.onErrorItem = function (fileItem, response, status, headers) {
+                //console.info('onErrorItem', fileItem, response, status, headers);
+            };
+            uploader.onCancelItem = function (fileItem, response, status, headers) {
+                //console.info('onCancelItem', fileItem, response, status, headers);
+            };
+            uploader.onCompleteItem = function (fileItem, response, status, headers) {
+                //console.info('onCompleteItem', fileItem, response, status, headers);
+            };
+
+
             serviceClientes.getAnios().success(function (data) {
                 $scope.aniosInicioContrato = data;
                 $scope.msgError = "";
@@ -73,7 +135,17 @@
                 $scope.msgError = "";
             }).error(function (err) {
                 console.error(err); $scope.msgError = "Ocurrió un error durante la petición, contacte al administrador del sitio.";window.scrollTo(0,0);
-            });
+                });
+
+            serviceClientes.getClientes().success(function (clientes) {
+                console.log(clientes);
+                $scope.lclientes = clientes;
+                $scope.msgError = "";
+            }).error(function (err) {
+                console.error(err);
+                $scope.msgError = "Ocurrio un error al intentar obtener los clientes, contacte al administrador del sitio."; window.scrollTo(0, 0); 
+            })
+
 
             $scope.GenerarPDFCliente = function (idCliente) {
                 $window.location.href = Uri() +'/api/Clientes/'+idCliente+'/PDF';
@@ -235,6 +307,8 @@
                 });
             }
 
+           
+
             $scope.ShowConfirm = function () {
                 $("#delete-modal").modal('show');
             }
@@ -262,6 +336,23 @@
                 }
                 var v = (s > 0) ? (s - 1) + '' : 'K';
                 $scope.rutok = (v === _value.slice(-1));
+            }
+
+            $scope.SaveEmpresa = function (formData, formValid, rutOk) {
+                if (formValid) {
+                    if (rutOk) {
+                        var arrRut = formData.rut.split('-');
+                        console.log(formData.clientes);
+                        serviceClientes.addEmpresa(formData.clientes, arrRut[0], arrRut[1], formData.nombre).success(function (data) {
+                            $scope.msgError = "";
+                            $scope.msgSuccess = "Empresa agregada exitosamente!";
+                            window.scrollTo(0, 0);
+                        }).error(function (err) {
+                            console.error(err); $scope.msgError = "Ocurrio un error durante la creación de una empresa, contacte al administrador del sitio.";
+                            window.scrollTo(0, 0);
+                        })
+                    }
+                }
             }
 
             $scope.SaveCliente = function (formData, formValid, rutOk) {
