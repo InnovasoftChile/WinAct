@@ -116,12 +116,17 @@ namespace ProcessMsg
                 var r = new CnaFunes().ExecuteSolic(rut);
                 while (r.Read())
                 {
-                    lista.Add(new
+                    var exist = new CnaFunes().ExecutebyRut(splitrut[0],int.Parse(r["idSolicitud"].ToString()));
+                    if (exist.HasRows)
                     {
-                        IdSolicitud = r["idSolicitud"].ToString(),
-                        RutEmpresa = r["rutEmpresa"].ToString(),
-                        FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
-                    });
+                        lista.Add(new
+                        {
+                            IdSolicitud = r["idSolicitud"].ToString(),
+                            RutEmpresa = r["rutEmpresa"].ToString(),
+                            FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
+                        });
+                    }
+
                 }
                 r.Close();
 
@@ -147,12 +152,16 @@ namespace ProcessMsg
                         var r = new CnaFunes().ExecuteSolic(value);
                         while (r.Read())
                         {
-                            lista.Add(new
+                            var exist = new CnaFunes().ExecutebyRut(splitrut[0], int.Parse(r["idSolicitud"].ToString()));
+                            if (exist.HasRows)
                             {
-                                IdSolicitud = r["idSolicitud"].ToString(),
-                                RutEmpresa = r["rutEmpresa"].ToString(),
-                                FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
-                            });
+                                lista.Add(new
+                                {
+                                    IdSolicitud = r["idSolicitud"].ToString(),
+                                    RutEmpresa = r["rutEmpresa"].ToString(),
+                                    FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
+                                });
+                            }
                         }
                         r.Close();
                     }
