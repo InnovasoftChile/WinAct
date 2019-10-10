@@ -66,8 +66,8 @@ namespace ProcessMsg
                                     funes.IdSolicitud.ToString(), fecha, empresa.rutEmpresa.ToString(), trabajador.rut.ToString(),
                                     trabajador.folioFUN.ToString(), tipoNotificacion.ToString(), trabajador.codigoIsapre.ToString(), trabajador.ppPeso.ToString(),
                                     trabajador.ppUF.ToString(), trabajador.ppPorcentaje.ToString(), trabajador.estadoFUN.ToString(), trabajador.motivoRechazo.ToString(),
-                                    trabajador.fechaMotivo.ToString(), trabajador.observacionRechazo.ToString(),mes[0],
-                                    mes[1], trabajador.enviadoFun ? '1' : '0', 'R');
+                                    trabajador.fechaMotivo.ToString(), trabajador.observacionRechazo.ToString(),mes[1],
+                                    mes[0], trabajador.enviadoFun ? '1' : '0', 'R');
                                 /*
                                 query.Execute(funes.IdSolicitud, funes.FechaSolicitud, empresa.rutEmpresa, trabajador.rut,
                                     trabajador.folioFUN, tipoNotificacion, trabajador.codigoIsapre, trabajador.ppPeso,
