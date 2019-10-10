@@ -1,0 +1,234 @@
+14-06-2019 16:59:29 | System.Data.SqlClient.SqlException (0x80131904): Sintaxis incorrecta cerca de la palabra clave 'AND'.
+   en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   en Instalador.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\testgit\WinAct\WindowsFormsApp1\Form1.cs:línea 151
+ClientConnectionId:df74c7ee-5a24-49b5-bab0-1c826501ca8e
+Error Number:156,State:1,Class:15 Fallo en : 
+DECLARE @nro_trabajador INT, @dv_trabajador CHAR(1), @cod_empresa INT, @cod_planta INT
+DECLARE @nCantEncontrada INT
+DECLARE cs_retenciones_nulas CURSOR FOR
+SELECT	nro_trabajador,
+		dv_trabajador
+FROM	reten
+AND		cod_planta is null
+ORDER BY nro_trabajador
+FOR READ only
+OPEN cs_retenciones_nulas
+FETCH cs_retenciones_nulas INTO @nro_trabajador, @dv_trabajador
+WHILE @@FETCH_STATUS = 0
+	BEGIN
+	DECLARE cs_empresa_plantas_vigentes CURSOR FOR
+	SELECT	cod_empresa, 
+			cod_planta
+	FROM	planta
+	WHERE	cod_vigente = 'S'
+	ORDER BY cod_empresa, cod_planta
+	FOR READ only
+	OPEN cs_empresa_plantas_vigentes 
+	FETCH cs_empresa_plantas_vigentes INTO @cod_empresa, @cod_planta
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+		SELECT	@nCantEncontrada = COUNT(*)
+		FROM	personal
+		WHERE	cod_empresa = @cod_empresa
+		AND		cod_planta = @cod_planta
+		AND		nro_trabajador = @nro_trabajador
+		AND		dv_trabajador = @dv_trabajador
+		AND		cod_vigen_trabajad = 'S'
+		IF @nCantEncontrada > 0
+			UPDATE	retencion_judicial SET
+					cod_empresa = @cod_empresa,
+					cod_planta = @cod_planta
+			WHERE	nro_trabajador = @nro_trabajador
+			AND		dv_trabajador = @dv_trabajador
+		FETCH cs_empresa_plantas_vigentes INTO @cod_empresa, @cod_planta
+		END
+	CLOSE cs_empresa_plantas_vigentes
+	DEALLOCATE cs_empresa_plantas_vigentes
+	FETCH cs_retenciones_nulas INTO @nro_trabajador, @dv_trabajador
+	END
+CLOSE cs_retenciones_nulas
+DEALLOCATE cs_retenciones_nulas
+
+delete from wp_conceptos
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sdo_base_contractu','Sueldo Base Contractual',1)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sdos_adic_acumulad','Acumulado adicional al sueldo base',2)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_cargas_normale','Nro Cargas Familiares Normales',3)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_cargas_materna','Nro Cargas Familiares Maternales',4)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_cargas_duplo','Nro Cargas Familiares Duplo',5)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_tramo_carga','Valor Tramo de Cargas Familiares',6)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sueldo_ganado_mes','Sueldo base proporcional a dias trabajados',8)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_adic_ganado','Valor Adicional Ganado',9)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sobretiempo_mes','Horas Extras del Mes',10)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'asignacion_familia','Asignacion Familiar',11)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'asig_famil_retroac','Asignacion Familiar Retroactiva',12)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_total_habere','Total de Haberes',13)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'hab_no_imp_no_trib','Haberes No imponibles y No tributables',14)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'afecto_dl3501','Afecto Decreto de Ley 3501',15)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_alcance_liquid','Valor pagado por conceptos de alcance liquido',16)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_anticipo','Anticipos',17)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_desc_cta_cte','Descuentos Cuentas Corrientes',18)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'ret_judic_resconta','Retencion Judicial',19)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_dctos_no_legal','Descuentos No Legales',20)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_dctos_legales','Descuentos Legales',21)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_liquido_pago','Liquido a Pago',22)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sobregiros_mes','Sobregiros',23)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_impon_sin_tope','Imponible Sin Tope',24)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_imponible','Imponible',25)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_cancela_previs','Monto AFP',26)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_prev_voluntari','Monto Previsional Voluntario',27)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_ahorro_volunta','Monto Ahorro Voluntario',28)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_salud','Monto pagado por Salud',29)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_salud_legal','Monto del 7% legal pagado por Salud',30)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_pactado_isap','Valor pactado de isapre',31)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_volunt_isapre','Valor voluntario de isapre',32)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_dl18566','Decreto Ley 18566',33)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_pagado_ccaf','Monto pagado por CCAF',34)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_antig_previsio','Monto Caja de Prevision',35)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_cotzado_caja','Porcentaje Cotizacion Caja de Prevision',36)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_leyes_sociales','Valor de Leyes Sociales',37)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'afecto_impto','Monto Afecto a Impuesto',38)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'asignacion_zona','Asignacion Zona Extrema',39)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tasa_mto_impto','Tasa de Impuesto',40)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'rebaja_impuesto','Monto Rebaja Impuesto',41)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_cancel_impto','Impuesto',42)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patron_mutu','Aporte Patronal Mutual',43)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patron_ccaf','Aporte Patronal CCAF',44)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patronal_1','Aporte Patronal 1',45)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patronal_2','Aporte Patronal 2',46)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_asistidos','Nro Dias Asistidos',48)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_enfermo','Nro Dias Enfermo',49)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_vacacione','Nro Dias Vacaciones',50)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_ausente','Nro Dias Ausentes',51)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'gratif_mens_antici','Gratificacion',52)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'haberes_gratificac','Monto de Haberes entregados por Gratificacion',53)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'prev_y_seg_gratifi','Monto de gratificacion entregada por Seguros',54)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'salud_gratificacio','Monto de gratificacion entregada por Salud',55)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'asig_zona_gratific','Monto de gratificacion entregada por Zonas',56)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'impuesto_gratifica','Monto de gratificacion entregada por Impuesto',57)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'abonos_manuales','Monto de Abonos en Cuenta Corriente',58)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'saldo_cta_cte','Saldo de la cuenta corriente',59)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_tributable','Total Tributable',60)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'hab_x_adm_delegada','Monto Haberes por Administracion Delegada',61)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_cargas_escolar','Nro de Cargas Escolares',62)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_cal_base_sobre','Valor Base de calculo de sobretiempo',63)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_imponible','Imponible',64)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_tot_tope_impon','Tope Imponible',65)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_total_desctos','Total de descuentos',66)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'valor_desahucio','Valor de Desahucio',67)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_desahucio','Porcentaje de Desahucio',68)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_imp_no_prop','Imponible a 30 dias',69)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_tope60_dfl44','Monto Imponible DFL44',70)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_dfl44','Monto DFL44',71)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'afecto_cotizacion','Monto Afecto a Cotizacion',72)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'total_imponi_ley','Imponible',73)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'adicional_isapre','Adicional Isapre',74)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patronal_3','Aporte Patronal 3',75)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_patronal_4','Aporte Patronal 4',76)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'asig_reintegro','Asignacion de Reintegro',77)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sdo_base_no_prop','Sueldo Base Liquidado',78)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_ley_15386','Afecto ley 15386',79)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_dscto_leg_ret','Descuento legal por retenciones',80)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sueldo_diario','Sueldo diario',81)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_cotiz_previs','Porcentaje Cotizacion Previsional',82)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_cotiz_salud','Porcentaje Cotizacion Salud',83)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'descuento_caja','Descuento de Caja',84)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'no_tributable_impo','Haberes que no son imponibles ni tributables',85)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_aus_habil','Nro Dias Habiles Ausentes',86)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'sueldo_mensual','Sueldo Mensual',87)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'haberes_exentos','Haberes Exentos',88)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_hora_atraso','Nro Horas Atraso',89)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_horas_permiso','Nro Horas Permiso',90)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_min_atraso','Nro Minutos Atraso',91)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_min_permiso','Nro Minutos Permiso',92)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'inventario','Inventario Libre Disposicion',93)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'haberes_varios','Haberes Varios Libre Disposicion',94)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'movilizacion','Movilizacion Libre Disposicion',95)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'haber_asignado','Haber Asignado Libre Disposicion',96)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'bienestar','Bienestar Libre Disposicion',97)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'val_rebaja_atrasos','Valor que rebajan los atrasos',98)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_horas_extras','Nro Horas Extras',99)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_diasnocubi','Nro dias de licencia no cubiertos',100)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'tot_impto_reliq','Monto por reliquidacion de impuesto',101)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'impto_voluntario','Impuesto Voluntario',102)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_horas_atraso','Nro Horas de Atraso',103)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_salud_real','Monto de Salud Real',104)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_convenido','Aporte Convenido',105)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_seg_inv_sobrev','Monto Seguro Invalidez',107)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_cotiz_obligato','Monto Cotizacion Obligatoria',108)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_seg_inv_sobrev','Porcentaje Seguro Invalidez',109)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_cotiz_obligato','Porcentaje Cotizacion Obligatoria',110)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aportes_inp_caja','Aportes INP',111)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'convenios_caja','Convenio Caja',112)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'leasing_caja','Leasing Caja',113)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'seguros_caja','Seguros Caja',114)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'otros_caja','Otros Caja',115)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'adicional_real','Adicional Real',116)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_seguro_des','Monto Seguro Desempleo',120)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_ahorro_prev','Monto Ahorro Previsional',121)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_seg_cta_indidu','Monto Seguro Desempleo Cuenta Individual',122)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_seg_cta_fondos','Monto Seguro Desempleo Cuenta Fondos',123)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'nro_dias_ausen_con','Nro de dias de ausencia de contrato',124)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_impon_seguro','Monto Imponible Seguro de Desempleo',125)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_trab_tr_pesado','Monto Descuento Trabajador Trabajado Pesado',126)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_apor_tr_pesado','Monto Aporte Empresa Trabajo Pesado',127)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'porc_apl_tr_pesado','Porcentaje Aplicado Trabajo Pesado',128)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'mto_imp_aporte_afc','Monto Imponible Aporte AFC',130)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'aporte_indemniza','Aporte de Indeminzacion',131)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'max_afecto_cotiz','Maximo Afecto Cotizacion',132)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'max_imponi_ley','Maximo Imponible Legal',133)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'max_impon_seguro','Maximo Imponible Seguro',134)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'codigo_tipo_contra','Codigo Tipo de Contrato',135)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_aporte_sis','Monto Aporte SIS',139)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'pje_aporte_sis','Porcentaje Aporte SIS',140)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'provision_1','Valor Provision 1',141)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'provision_2','Valor Provision 2',142)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'provision_3','Valor Provision 3',143)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'afecto_mto_sis','Monto Afecto SIS',144)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_apv_topado','Monto APV Topado',145)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'monto_apv_sin_reb','Monto APV Sin Rebaja',146)
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('afp.sigla_afp','Institucion AFP',147,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('area_perten.area_perten','Area de Pertenencia',148,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cargo_trabajador.cargo_trabajador','Cargo Trabajador', 149,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('centro_costo','Sigla Centro Costo',150,'P') 
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_centro_costo','Codigo Centro Costo',151,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_sexo','Sexo Trabajador',152,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_sucursal','Numero Sucursal',153,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('sucursal.sucursal','Sucursal',154,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('fec_antiguedad','Fecha Antiguedad',155,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('fec_fin_contr_vige','Termino Contrato',156,'P') 
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('fec_ini_contrato','Inicio Contrato',157,'P') 
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('fec_nacimiento','Fecha Nacimiento',158,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('horas_asis','Horas Asistencia',159,'P') 
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('jornada','Jornada Trabajador',160,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('lugar_prestacion.representan_legal','Prestacion de Servicios',161,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('mto_pactado_isapre','Monto Pactado ISAPRE',162,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('sigla_isapre','Sigla ISAPRE',163,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('sindicato.sindicato','Sindicato',164,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('tipo_contrato','Tipo Contrato',165,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('tipo_finiquito.codigo_tipo_contra','Tipo Finiquito',166,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('tipo_finiquito.tipo_contrato','Causal Finiquito',167,'P') 
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('tramo_carga_famili','Tramo Carga Trabajador',168,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('unid_cob_mto_pacta','Unidad Monto Pactado',169,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('unidad_administrat.unidad_administrat','Unidad Administrativa',170,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('sueldo_mensual','Sueldo Mensual',171,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('rut_trabajador','Rut Trabajador',172,'P')
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'afecto_mutual','Afecto Mutual',173)
+insert into wp_conceptos ( concepto, descripcion, orden) values ( 'max_afecto_mutu','Maximo Afecto Mutual',174)
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_lugar_pago','Codigo Lugar de Pago',175,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('lugar_pago.lugar_pago','Lugar de Pago',176,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_linea_prod','Codigo Linea de Produccion',177,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('linea_produccion.descripcion','Linea de Produccion',178,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('tipo_contabilizaci','Codigo Contabilizacion',179,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('multiples_concepto.descripcion','Contabilizacion',180,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_empresa','Codigo Empresa',181,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('empresa.empresa','Empresa',182,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('cod_planta','Codigo Planta',183,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('planta.planta','Planta',184,'P')
+insert into wp_conceptos ( concepto, descripcion, orden, flg_personal) values ('convenio.nombre_convenio','Convenio',185,'P')
+ En el Script the nombre : 2-WPBase_DATOS.sql

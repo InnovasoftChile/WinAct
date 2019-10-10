@@ -1,0 +1,41 @@
+﻿z23-05-2019 10:21:43 | System.Data.SqlClient.SqlException (0x80131904): Falta la marca de fin de comentario '*/'.
+   en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   en Instalador.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\winup\winperupdate\WindowsFormsApp1\Form1.cs:línea 134
+ClientConnectionId:9fee0607-98dd-4721-b14c-01013081fb35
+Error Number:113,State:1,Class:15 Fallo en : 
+/****** Object:  Index [_265_141]    Script Date: 07/02/2018 16:25:50 ******/
+/*IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[cursos]') AND name = N'_265_141')
+CREATE UNIQUE NONCLUSTERED INDEX [_265_141] ON [dbo].[cursos]
+(
+	[cod_tipo_curso] ASC,
+	[cod_subtipo_curso] ASC,
+	[cod_curso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+GO*/
+/****** Object:  Index [_254_132]    Script Date: 07/02/2018 16:25:50 ******/
+/*IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[cursos_x_cargo]') AND name = N'_254_132')
+CREATE UNIQUE NONCLUSTERED INDEX [_254_132] ON [dbo].[cursos_x_cargo]
+(
+	[cod_empresa] ASC,
+	[cod_cargo] ASC,
+	[cod_tipo_curso] ASC,
+	[cod_subtipo_curso] ASC,
+	[cod_curso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+GO*/
+/****** Object:  Index [_255_133]    Script Date: 07/02/2018 16:25:50 ******/
+/*IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[cursos_x_objetivos]') AND name = N'_255_133')
+CREATE UNIQUE NONCLUSTERED INDEX [_255_133] ON [dbo].[cursos_x_objetivos]
+(
+	[cod_obj_estrat] ASC,
+	[cod_tipo_curso] ASC,
+	[cod_subtipo_curso] ASC,
+	[cod_curso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+ En el Script the nombre : 2-WPBase_DATOS.sql

@@ -1,0 +1,47 @@
+17-05-2019 09:57:50 | System.Data.SqlClient.SqlException (0x80131904): No se puede abrir la base de datos "qa_ucm_ngl" solicitada por el inicio de sesión. Error de inicio de sesión.
+Error de inicio de sesión del usuario 'admwinpe'.
+   en System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   en System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.Open()
+   en WindowsFormsApp1.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\winup\winperupdate\WindowsFormsApp1\Form1.cs:línea 108
+ClientConnectionId:9e613e4f-5fab-431b-b480-6114e7811272
+Error Number:4060,State:1,Class:11 Script Ejecutado : 
+17-05-2019 10:15:00 | System.IndexOutOfRangeException: Índice fuera de los límites de la matriz.
+   en WindowsFormsApp1.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\winup\winperupdate\WindowsFormsApp1\Form1.cs:línea 137 Script Ejecutado : 
+-- FIN
+
+17-05-2019 10:27:43 | System.IndexOutOfRangeException: Índice fuera de los límites de la matriz.
+   en WindowsFormsApp1.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\winup\winperupdate\WindowsFormsApp1\Form1.cs:línea 137 Script Ejecutado : 
+IF EXISTS( SELECT 1 FROM sysobjects WHERE type = 'P' AND name = 'sp_gen_diccionario' )
+begin
+	exec sp_gen_diccionario 'wf_nomina_pago'
+	exec sp_gen_diccionario 'wf_nomina_pagodet'
+	exec sp_gen_diccionario 'wf_nomina_pago_elim' 
+	exec sp_gen_diccionario 'wf_conf_general' 
+end
+
+17-05-2019 12:41:41 | System.Data.SqlClient.SqlException (0x80131904): SHUTDOWN en curso.
+   en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   en Instalador.Form1.BwProgress_DoWork(Object sender, DoWorkEventArgs e) en C:\Users\Martin\Desktop\winup\winperupdate\WindowsFormsApp1\Form1.cs:línea 130
+ClientConnectionId:122e70f9-d6bd-452b-9861-af9dc5e0f5cc
+Error Number:6005,State:2,Class:14 Script Ejecutado : 
+if not exists( select 1 from funciones_menu where modulo_funcion = 'PERSONAL' and funcion = 'dlgTodos' )
+insert into funciones_menu(modulo_funcion,nro_menu,menu,orden_funcion,funcion,descripcion_funcio,vigencia_funcion,desc_boton_1,tit_boton_1)
+values('PERSONAL',2,'INGRESO NUEVO',450,'dlgTodos','Selección Trabajador','S','PBSELECCION','Seleccionar') 
+
