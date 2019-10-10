@@ -28,7 +28,7 @@
             </li>-->
 
             <li class="menu-list act">
-                <a href="#">
+                <a href="@System.Configuration.ConfigurationManager.AppSettings["baseUri"].ToString()@item.Link">
                     <i class="fa @item.Icon"></i>
                     <span>@item.Descripcion</span>
                 </a>
