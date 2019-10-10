@@ -90,7 +90,7 @@
 
 
             $scope.downloadFile = function () {
-                window.location = '/api/EmpresasXLSX/Planilla';
+                window.location = Uri() +'/api/EmpresasXLSX/Planilla';
             }
 
             var uploader = $scope.uploader = new FileUploader();
