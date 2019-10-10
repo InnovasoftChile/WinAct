@@ -270,7 +270,10 @@ namespace WinPerUpdateAdmin.Controllers.api
                 {
                     return HttpStatusCode.InternalServerError;
                 }
-            } catch ( Exception ex)
+                return HttpStatusCode.InternalServerError;
+
+            }
+            catch ( Exception ex)
             {
                 return ex.Message;
             }

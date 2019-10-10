@@ -319,5 +319,18 @@ namespace ProcessMsg
                 throw new Exception(msg, ex);
             }
         }
+        public static int Actualizar(int idCliente, int idSolicitud, char etapaini, char etapafin)
+        {
+            var query = new UpdFunes();
+            try
+            {
+                return query.Execute(idCliente, idSolicitud, etapaini, etapafin);
+            }
+            catch (Exception ex)
+            {
+                var msg = "Excepcion Controlada: " + ex.Message;
+                throw new Exception(msg, ex);
+            }
+        }
     }
 }
