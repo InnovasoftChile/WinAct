@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using log4net;
@@ -50,7 +51,8 @@ namespace WinPerUpdateAdmin.Controllers.api
         {
             try
             {
-                string[] lines = System.IO.File.ReadAllLines(@"C:\inetpub\wwwroot\portal_winact\Controllers\api\ruts10k.txt");
+                var dir = string.Format("{0}", ProcessMsg.Utils.GetPathSetting(HttpContext.Current.Server.MapPath("~/Controllers/api/")) + "ruts10k.txt");
+                string[] lines = System.IO.File.ReadAllLines(dir);
                 var trabajadores = new List<object>();
                 int i = 0;
 
@@ -270,10 +272,9 @@ namespace WinPerUpdateAdmin.Controllers.api
                 {
                     return HttpStatusCode.InternalServerError;
                 }
-                return HttpStatusCode.InternalServerError;
+                                    return HttpStatusCode.InternalServerError;
 
-            }
-            catch ( Exception ex)
+            } catch ( Exception ex)
             {
                 return ex.Message;
             }
