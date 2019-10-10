@@ -249,17 +249,21 @@ namespace WinPerUpdateAdmin.Controllers.api
                         break;
                     }
                 }
-                var spliteo = decript.Split('=');
-                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(spliteo[1]));
+
+                var datos = JsonConvert.DeserializeObject<Respuesta>(decript);
+                var cliente = ProcessMsg.Cliente.GetClientes().SingleOrDefault(x => x.Rut == int.Parse(datos.rut));
                 if (cliente != null)
                 {
-                    if (ProcessMsg.Funes.Actualizar(cliente.Id, 'R', 'T') > 0)
+                    foreach (var sol in datos.idSolicitud)
                     {
-                        return HttpStatusCode.OK;
-                    }
-                    else
-                    {
-                        return HttpStatusCode.Accepted;
+                        if (ProcessMsg.Funes.Actualizar(cliente.Id,sol, 'R', 'T') > 0)
+                        {
+                            return HttpStatusCode.OK;
+                        }
+                        else
+                        {
+                            return HttpStatusCode.Accepted;
+                        }
                     }
                 }
                 else

@@ -67,7 +67,7 @@
 
             //Proceso de upload
             var uploadOptions = {
-                url: '/Clientes/Upload?idUsuario=' + $scope.idUsuario,
+                url: Uri() +'/Clientes/Upload?idUsuario=' + $scope.idUsuario,
                 filters: []
             };
 
