@@ -47,7 +47,7 @@ namespace WinPerUpdateAdmin.Controllers.api
 
         [Route("api/TestFunes")]
         [HttpGet]
-        public object TestFunes(string idSolicitud)
+        public object TestFunes(string idSolicitud,string RutEmpresa, int cantidad)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace WinPerUpdateAdmin.Controllers.api
                         enviadoFun = true
                     });
                     i++;
-                    if (i== int.Parse(ConfigurationManager.AppSettings["cantidadruts"]))
+                    if (i== cantidad)
                     {
                         break;
                     }
@@ -85,7 +85,7 @@ namespace WinPerUpdateAdmin.Controllers.api
 
                 var resultado = new
                 {
-                    rutEmpresa = "93281000-K",
+                    rutEmpresa = RutEmpresa,
                     unidadGestion = new
                     {
                         codigo = "01",
