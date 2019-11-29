@@ -47,7 +47,7 @@ namespace WinPerUpdateAdmin.Controllers.api
 
         [Route("api/TestFunes")]
         [HttpGet]
-        public object TestFunes(string idSolicitud,string RutEmpresa, int cantidad)
+        public object TestFunes(string idSolicitud,string RutEmpresa, int cantidad, int EstadoFun)
         {
             try
             {
@@ -58,8 +58,7 @@ namespace WinPerUpdateAdmin.Controllers.api
 
                 foreach(var trabajador in lines)
                 {
-                    Random estado = new Random();
-                    var valor = estado.Next(1, 4);
+
                     trabajadores.Add(new
                     {
                         rut = trabajador,
@@ -69,7 +68,7 @@ namespace WinPerUpdateAdmin.Controllers.api
                         ppPesos = 0,
                         ppUF = 5.123,
                         ppPorcentaje = 0,
-                        estadoFUN = valor,
+                        estadoFUN = EstadoFun,
                         motivoRechazo = 28,
                         fechaMotivo = DateTime.Now,
                         observacionRechazo = "Trabajador afiliado a Isapre Cruz Blanca",
