@@ -108,6 +108,7 @@ namespace WinPerUpdateAdmin.Controllers.api
         [HttpGet]
         public string GetSemilla()
         {
+            Log.Info("Entre en Semilla");
             return ProcessMsg.Utils.Encriptar(ConfigurationManager.AppSettings["semilla"].ToString().Trim());
         }
         public class Respuesta

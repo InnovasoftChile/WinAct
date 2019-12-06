@@ -108,31 +108,39 @@ namespace ProcessMsg
         }
         public static List<Object> GetSolicitudes(string rut)
         {
+            Log.Info("Entre a Get Solicitudes");
             var lista = new List<Object>();
             var splitrut = rut.Split('-');
             var cliente = new CnaClientes().ExecuteRut(int.Parse(splitrut[0]));
+            Log.Info("Buscando a cliente, y tiene rows: " + cliente.HasRows);
             if (cliente.HasRows)
             {
-                var r = new CnaFunes().ExecuteSolic(rut);
+                var r = new CnaFunes().ExecutebyRut(splitrut[0]);
+                Log.Info("r ejecutado con exito");
+                string sol = "";
                 while (r.Read())
                 {
-                    var exist = new CnaFunes().ExecutebyRut(splitrut[0],int.Parse(r["idSolicitud"].ToString()));
-                    if (exist.HasRows)
+                    Log.Info("En while");
+                    if (sol != r["idSolicitud"].ToString())
                     {
+                        Log.Info("Una id solicitud agregada a la lista");
                         lista.Add(new
                         {
                             IdSolicitud = r["idSolicitud"].ToString(),
                             RutEmpresa = r["rutEmpresa"].ToString(),
                             FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
                         });
+                        sol = r["idSolicitud"].ToString();
                     }
+                    
 
                 }
                 r.Close();
-
+                Log.Info("Encontre solicitudes y cerre r");
             }
             else
             {
+                Log.Info("El cliente no tenia rows");
                 var clienten = new CnaEmpresas().ExecuteEmpresas(splitrut[0]);
                 if(clienten.Read())
                 {
@@ -149,11 +157,11 @@ namespace ProcessMsg
                     
                     foreach(var value in rutempresas)
                     {
-                        var r = new CnaFunes().ExecuteSolic(value);
+                        var r = new CnaFunes().ExecutebyRut(splitrut[0]);
+                        string sol2 = "";
                         while (r.Read())
                         {
-                            var exist = new CnaFunes().ExecutebyRut(splitrut[0], int.Parse(r["idSolicitud"].ToString()));
-                            if (exist.HasRows)
+                            if (sol2 != r["idSolicitud"].ToString())
                             {
                                 lista.Add(new
                                 {
@@ -161,6 +169,7 @@ namespace ProcessMsg
                                     RutEmpresa = r["rutEmpresa"].ToString(),
                                     FechaSolicitud = Convert.ToDateTime(r["fecha"].ToString())
                                 });
+                                sol2 = r["idSolicitud"].ToString();
                             }
                         }
                         r.Close();
@@ -177,7 +186,7 @@ namespace ProcessMsg
             {
                 var lista = new List<Model.FunesTrabajadorBo>();
                 var r = new CnaFunes().Execute(idCliente,etapa);
-
+                Log.Info("r Obtenido");
                 while (r.Read())
                 {
                     var listaTipos = new List<int>();
@@ -208,6 +217,8 @@ namespace ProcessMsg
                         tipoNotificacion = listaTipos
                     });
                 }
+                Log.Info("Lei todo");
+
 
                 r.Close();
                 return lista;

@@ -34,7 +34,7 @@ namespace WinperUpdateDAO
                 throw new Exception(msg, ex);
             }
         }
-        public SqlDataReader ExecutebyRut(string rut,int sol)
+        public SqlDataReader ExecutebyRut(string rut)
         {
             try
             {
@@ -44,13 +44,11 @@ namespace WinperUpdateDAO
 		                            Funes a2		
                             where	a3.Rut = @id
                             and     a1.rutEmpresa = convert(varchar(10), a3.rut) + '-' + a3.Dv
-                            and		a2.idSolicitud = @Solicitud
                             and		a2.fecha = a1.fecha
                             and		a2.estado = 1
                             and		a1.EtapaFun = 'R'";
 
                 ParmsDictionary.Add("@id", rut);
-                ParmsDictionary.Add("@Solicitud", sol);
 
                 return Connector.ExecuteQuery(SpName, ParmsDictionary);
             }
